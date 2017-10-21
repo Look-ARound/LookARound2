@@ -50,6 +50,7 @@ DEPENDENCIES:
   - MapboxARKit (from `https://github.com/mapbox/mapbox-arkit-ios.git`)
   - MapboxDirections.swift (~> 0.11)
   - MBProgressHUD
+  - Polyline (~> 4.0)
   - SwiftyJSON
 
 EXTERNAL SOURCES:
@@ -76,6 +77,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
   Turf: 2089d59d12488de9cfa656634cce2c4e2dcbc691
 
-PODFILE CHECKSUM: 66612096e4488651ccf69a5f1cb96308b0b99782
+PODFILE CHECKSUM: 43446120f1ed8c0ac05d80d0b7b624cb7d6a23aa
 
 COCOAPODS: 1.3.1
