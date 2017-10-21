@@ -121,7 +121,6 @@
 				7747FF0B1F9B415800366D54 /* Storyboards */,
 				7747FEDB1F9B409300366D54 /* AppDelegate.swift */,
 				7747FEDD1F9B409300366D54 /* ViewController.swift */,
-				7747FEDF1F9B409300366D54 /* Main.storyboard */,
 				7747FEE21F9B409300366D54 /* Assets.xcassets */,
 				7747FEE41F9B409300366D54 /* LaunchScreen.storyboard */,
 				7747FEE71F9B409300366D54 /* Info.plist */,
@@ -158,6 +157,7 @@
 		7747FF0B1F9B415800366D54 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
+				7747FEDF1F9B409300366D54 /* Main.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
