@@ -80,7 +80,7 @@ class AugmentedViewController: UIViewController {
         // Set up the UI elements as per the app theme
         prepButtonsWithARTheme(buttons: [filterButton, mapButton])
         
-        performFirstSearch()
+        initMap()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -108,6 +108,7 @@ class AugmentedViewController: UIViewController {
             print("no logged in user")
             return
         }
+        print(currentCoordinates)
         PlaceSearch().fetchPlaces(with: categories, location: currentCoordinates, success: { [weak self] (places: [Place]?) in
             if let places = places {
                 print("got places, adding")
@@ -148,6 +149,7 @@ class AugmentedViewController: UIViewController {
         removeExistingPins()
         
         // Add new pins
+        print(currentCoordinates)
         PlaceSearch().fetchPlaces(with: categories, location: currentCoordinates, success: { [weak self] (places: [Place]?) in
             if let places = places {
                 print("got places, adding")
@@ -173,16 +175,20 @@ class AugmentedViewController: UIViewController {
     {
         mapView.alpha = 0.9
         
-        mapView.translatesAutoresizingMaskIntoConstraints = false
-        mapTop = mapView.topAnchor.constraint(equalTo: view.centerYAnchor)
+        controlsContainerView.translatesAutoresizingMaskIntoConstraints = false
+        mapTop = controlsContainerView.topAnchor.constraint(equalTo: view.centerYAnchor, constant: 42.0)
         mapTop.isActive = true
-        mapBottom = mapView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        mapBottom = controlsContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         mapBottom.isActive = true
         
         // Move mapView offscreen (below view)
         self.view.layoutIfNeeded() // Do this, otherwise frame.height will be incorrect
         mapTop.constant = mapView.frame.height
         mapBottom.constant = mapView.frame.height
+    }
+    
+    func isMapHidden() -> Bool {
+        return !(self.mapBottom?.constant == 0)
     }
     
     // MARK: - Actions
@@ -230,10 +236,6 @@ class AugmentedViewController: UIViewController {
     
     @IBAction func onMapButton(_ sender: Any) {
         slideMap()
-    }
-    
-    func isMapHidden() -> Bool {
-        return !(self.mapBottom?.constant == 0)
     }
     
     func slideMap() {
@@ -346,6 +348,7 @@ class AugmentedViewController: UIViewController {
         }
         
         // Run the view's session
+        sceneView.delegate = annotationManager
         sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
     }
     
@@ -507,6 +510,12 @@ extension AugmentedViewController: MGLMapViewDelegate {
     }
     
     // MARK: - Utility methods for MGLMapViewDelegate
+    
+    func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
+        annotationManager.originLocation = currentLocation
+        performFirstSearch()
+        mapView.styleURL = MGLStyle.streetsStyleURL()
+    }
     
     private func updateSource(identifer: String, shape: MGLShape?) {
         guard let shape = shape else {

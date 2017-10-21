@@ -51,7 +51,6 @@ struct PlaceSearch {
         }
         request.parameters?["type"] = "place"
         request.parameters?["center"] = "\(location.latitude), \(location.longitude)"
-        print(location.latitude)
         request.parameters?["distance"] = distance
         request.parameters?["limit"] = 50
         
@@ -197,7 +196,6 @@ struct MyProfileRequest: GraphRequestProtocol {
         init(rawResponse: Any?) {
             // Decode JSON from rawResponse into other properties here.
             let json = JSON(rawResponse!)
-            print(json)
             id = json["id"].stringValue
             name = json["name"].stringValue
             photoURL = json["picture"]["data"]["url"].stringValue

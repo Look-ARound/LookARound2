@@ -54,9 +54,9 @@ class Place: NSObject {
     
     var userLocation: CLLocation? {
         didSet {
-            if let userLocation = userLocation {
-                distance = location.distance(from: userLocation)
-            }
+            //if let userLocation = userLocation {
+                distance = location.distance(from: userLocation!)
+           // }
         }
     }
     
