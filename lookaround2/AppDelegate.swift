@@ -15,9 +15,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-
+        let storyboard = UIStoryboard(name: "Login", bundle: nil)
+        
         SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
 
         return true

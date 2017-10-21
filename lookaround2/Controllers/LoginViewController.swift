@@ -11,6 +11,7 @@ import FacebookLogin
 import FacebookCore
 import AFNetworking
 import CoreLocation
+import Mapbox
 
 class LoginViewController: UIViewController, LoginButtonDelegate {
     @IBOutlet private var nameLabel: UILabel!

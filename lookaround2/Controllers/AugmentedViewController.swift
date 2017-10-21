@@ -12,6 +12,9 @@ import ARKit
 import SceneKit
 import CoreLocation
 
+import FacebookCore
+import FacebookLogin
+
 import Mapbox
 import MapboxDirections
 import MapboxARKit
@@ -22,6 +25,11 @@ class AugmentedViewController: UIViewController {
     @IBOutlet weak var controlsContainerView: UIView!
     @IBOutlet weak var cameraInfoStateLabel: UILabel!
     @IBOutlet weak var mapView: MGLMapView!
+    var mapTop: NSLayoutConstraint!
+    var mapBottom: NSLayoutConstraint!
+    
+    @IBOutlet weak var mapButton: UIButton!
+    @IBOutlet weak var filterButton: UIButton!
     
     // Use this to control how ARKit aligns itself to the world
     // Often ARKit can determine the direction of North well enough for
@@ -37,6 +45,22 @@ class AugmentedViewController: UIViewController {
     // Define a shape collection that will be used to hold the point geometries that define the
     // directions routeline
     var waypointShapeCollectionFeature: MGLShapeCollectionFeature?
+    
+    var currentLocation: CLLocation {
+        get {
+            guard let userLocation = mapView.userLocation, let coreLocation = userLocation.location else {
+                print("no location")
+                return CLLocation(latitude: -180.0, longitude: -180.0)
+            }
+            return coreLocation
+        }
+    }
+    
+    var currentCoordinates: CLLocationCoordinate2D {
+        get {
+            return currentLocation.coordinate
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,6 +76,11 @@ class AugmentedViewController: UIViewController {
         // Create an AR annotation manager and give it a reference to the AR scene view
         annotationManager = AnnotationManager(sceneView: sceneView)
         annotationManager.delegate = self
+        
+        // Set up the UI elements as per the app theme
+        prepButtonsWithARTheme(buttons: [filterButton, mapButton])
+        
+        performFirstSearch()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -68,9 +97,98 @@ class AugmentedViewController: UIViewController {
         sceneView.session.pause()
     }
     
+    // MARK: - AR scene setup
+    func performFirstSearch() {
+        print("first search starting...")
+        let categories = [FilterCategory.Food_Beverage, FilterCategory.Shopping_Retail,
+                          FilterCategory.Arts_Entertainment, FilterCategory.Travel_Transportation,
+                          FilterCategory.Fitness_Recreation]
+        
+        guard AccessToken.current != nil else {
+            print("no logged in user")
+            return
+        }
+        PlaceSearch().fetchPlaces(with: categories, location: currentCoordinates, success: { [weak self] (places: [Place]?) in
+            if let places = places {
+                print("got places, adding")
+                self?.addPlaces(places: places)
+            }
+        }) { (error: Error) in
+            print("Error fetching places with updated filters. Error: \(error)")
+        }
+    }
+    
+    func addPlaces( places: [Place] ) {
+        print( "* places.count=\(places.count)")
+        for index in 0..<places.count {
+            let place = places[index]
+            
+            let name = place.name
+            let coordinate = place.coordinate
+            // set user's current location to get the distance
+            place.userLocation = currentLocation
+            guard let distance = place.distance else {
+                return
+            }
+            let distanceStr = "\(distance) meters"
+            
+            let annotation2D = MGLPointAnnotation()
+            annotation2D.coordinate = coordinate
+            annotation2D.title = name
+            annotation2D.subtitle = distanceStr
+            mapView.addAnnotation(annotation2D)
+            
+            let annotation = Annotation(location: place.location, calloutImage: nil, place: place)
+            self.annotationManager.addAnnotation(annotation: annotation)
+        }
+    }
+    
+    func refreshPins(withCategories categories: [FilterCategory]) {
+        
+        removeExistingPins()
+        
+        // Add new pins
+        PlaceSearch().fetchPlaces(with: categories, location: currentCoordinates, success: { [weak self] (places: [Place]?) in
+            if let places = places {
+                print("got places, adding")
+                self?.addPlaces(places: places)
+            }
+        }) { (error: Error) in
+            print("Error fetching places with updated filters. Error: \(error)")
+        }
+    }
+    
+    func removeExistingPins() {
+        // Remove existing pins from 3D AR view
+        self.annotationManager.removeAllAnnotations()
+        
+        // Remove pins from 2D map
+        if let existingAnnotations = mapView.annotations {
+            mapView.removeAnnotations(existingAnnotations)
+        }
+    }
+    
+    // MARK: - 2D Map setup
+    func initMap()
+    {
+        mapView.alpha = 0.9
+        
+        mapView.translatesAutoresizingMaskIntoConstraints = false
+        mapTop = mapView.topAnchor.constraint(equalTo: view.centerYAnchor)
+        mapTop.isActive = true
+        mapBottom = mapView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        mapBottom.isActive = true
+        
+        // Move mapView offscreen (below view)
+        self.view.layoutIfNeeded() // Do this, otherwise frame.height will be incorrect
+        mapTop.constant = mapView.frame.height
+        mapBottom.constant = mapView.frame.height
+    }
+    
     // MARK: - Actions
     
     // Handle a long press on the Mapbox map view
+    // Adds an annotation where the long press happened and routes directions to that place from current locatin
     @IBAction func didLongPress(_ recognizer: UILongPressGestureRecognizer) {
 
         // Find the geographic coordinate of the point pressed in the map view
@@ -104,9 +222,41 @@ class AugmentedViewController: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
         let result = sceneView.hitTest(touch.location(in: sceneView), options: [SCNHitTestOption.firstFoundOnly : true]).first
-        if let node = result?.node, let annotation = annotationManager.annotationsByNode[node] {
-            annotationManager.removeAnnotation(annotation: annotation)
+        if let node = result?.node, let annotation = annotationManager.annotationsByNode[node],
+            let tappedPlace = annotation.place {
+            showDetailVC(forPlace: tappedPlace)
         }
+    }
+    
+    @IBAction func onMapButton(_ sender: Any) {
+        slideMap()
+    }
+    
+    func isMapHidden() -> Bool {
+        return !(self.mapBottom?.constant == 0)
+    }
+    
+    func slideMap() {
+        // Slide map up/down from bottom
+        let distance = self.mapBottom?.constant == 0 ? mapView.frame.height : 0
+        self.mapBottom?.constant = distance
+        self.mapTop?.constant = distance
+        
+        UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseOut], animations: {
+            self.view.layoutIfNeeded()
+        }, completion: nil)
+    }
+    
+    @IBAction func onFilterButton(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Filter", bundle: nil)
+        let filterNVC = storyboard.instantiateViewController(withIdentifier: "FilterNavigationControllerID") as! UINavigationController
+        
+        let filterVC = filterNVC.topViewController as! FilterViewController
+        filterVC.delegate = self
+        
+        filterVC.coordinates = currentCoordinates
+        
+        present(filterNVC, animated: true, completion: nil)
     }
     
     // MARK: - Directions
@@ -199,6 +349,15 @@ class AugmentedViewController: UIViewController {
         sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
     }
     
+    private func prepButtonsWithARTheme(buttons : [UIButton]) {
+        for button in buttons {
+            button.setTitleColor(UIColor.LABrand.primary, for: .normal)
+            button.layer.cornerRadius = button.frame.size.height * 0.5
+            button.clipsToBounds = true
+            button.alpha = 0.6
+        }
+    }
+    
     private func styleControlViewContainer() {
         let blurEffect = UIBlurEffect(style: .prominent)
         let blurView = UIVisualEffectView(effect: blurEffect)
@@ -232,15 +391,19 @@ class AugmentedViewController: UIViewController {
         return image
     }
 
-    /*
+
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func showDetailVC(forPlace place: Place) {
+        let storyboard = UIStoryboard(name: "Detail", bundle: nil)
+        let detailNVC = storyboard.instantiateViewController(withIdentifier: "DetailNavigationController") as! UINavigationController
+        
+        let detailVC = detailNVC.topViewController as! PlaceDetailTableViewController
+        detailVC.place = place
+        detailVC.delegate = self
+        
+        present(detailNVC, animated: true, completion: nil)
     }
-    */
 
 }
 
@@ -376,6 +539,25 @@ extension AugmentedViewController: MGLMapViewDelegate {
     }
     
 }
+
+extension AugmentedViewController: PlaceDetailTableViewControllerDelegate {
+    func getDirections(destLat: Double, destLong: Double) {
+        if isMapHidden() {
+            slideMap()
+        }
+        //mapView.getDirections( source: (LocationService.shared.getCurrentLocation()?.coordinate)!, dest: CLLocationCoordinate2D(latitude: destLat, longitude: destLong))
+    }
+}
+
+// MARK: - FilterViewControllerDelegate
+extension AugmentedViewController: FilterViewControllerDelegate {
+    func filterViewController(_filterViewController: FilterViewController, didSelectCategories categories: [FilterCategory]) {
+        
+        refreshPins(withCategories: categories)
+    }
+}
+
+// MARK: - Extensions
 
 extension SCNNode {
     

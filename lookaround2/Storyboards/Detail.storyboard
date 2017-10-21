@@ -11,7 +11,7 @@
         <!--Place Detail Table View Controller-->
         <scene sceneID="cs3-aV-73S">
             <objects>
-                <tableViewController storyboardIdentifier="detailViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="l8l-GF-g8m" customClass="PlaceDetailTableViewController" customModule="LookARound" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="detailViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="l8l-GF-g8m" customClass="PlaceDetailTableViewController" customModule="lookaround2" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="fbu-2x-Y4t">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -35,7 +35,6 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="227"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="250" id="fm3-dx-Njk"/>
-                                                        <constraint firstAttribute="width" constant="375" id="lam-HB-hfS"/>
                                                     </constraints>
                                                 </imageView>
                                             </subviews>

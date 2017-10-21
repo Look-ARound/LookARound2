@@ -16,21 +16,22 @@
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>fb527786687576087</string>
-			</array>
-		</dict>
-	</array>
+    
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>fb165035650754339</string>
+            </array>
+        </dict>
+    </array>
+    <key>FacebookAppID</key>
+    <string>165035650754339</string>
+    <key>FacebookDisplayName</key>
+    <string>LookARound2</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
-	<key>FacebookAppID</key>
-	<string>527786687576087</string>
-	<key>FacebookDisplayName</key>
-	<string>LookARound</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
@@ -69,6 +70,6 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
     <key>MGLMapboxAccessToken</key>
- <string>pk.eyJ1Ijoid2FuZ2VsYSIsImEiOiJjajkweXhjZDIzNXhqMzRtcnVpcmczMnJ0In0.S7BYjtwr_K-gXPZeXSrzZA</string>
+    <string>pk.eyJ1Ijoid2FuZ2VsYSIsImEiOiJjajkweXhjZDIzNXhqMzRtcnVpcmczMnJ0In0.S7BYjtwr_K-gXPZeXSrzZA</string>
 </dict>
 </plist>

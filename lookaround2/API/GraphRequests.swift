@@ -51,6 +51,7 @@ struct PlaceSearch {
         }
         request.parameters?["type"] = "place"
         request.parameters?["center"] = "\(location.latitude), \(location.longitude)"
+        print(location.latitude)
         request.parameters?["distance"] = distance
         request.parameters?["limit"] = 50
         

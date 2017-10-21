@@ -9,6 +9,7 @@
 import UIKit
 import CoreLocation
 import SwiftyJSON
+import Mapbox
 
 enum Categories: String {
     case artsEntertainment = "ARTS_ENTERTAINMENT"
@@ -39,18 +40,23 @@ class Place: NSObject {
     var rating: Int?
     var distance: CLLocationDistance?
     
+    var coordinate: CLLocationCoordinate2D {
+        get {
+            return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        }
+    }
+    
     var location: CLLocation {
         get {
             return CLLocation(latitude: latitude, longitude: longitude)
         }
-//        didSet {
-//            distance = location.distance(from: locationManager.sharedInstance.currentLocation())
-//        }
     }
     
-    var coordinate: CLLocationCoordinate2D {
-        get {
-            return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    var userLocation: CLLocation? {
+        didSet {
+            if let userLocation = userLocation {
+                distance = location.distance(from: userLocation)
+            }
         }
     }
     

@@ -25,6 +25,7 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     weak var delegate : FilterViewControllerDelegate?
     var coordinates: CLLocationCoordinate2D!
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
