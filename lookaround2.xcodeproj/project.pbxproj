@@ -35,8 +35,6 @@
 		778949A11F9B628C00910FD1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7747FF091F9B413400366D54 /* GoogleService-Info.plist */; };
 		778949A21F9B629000910FD1 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7747FEE71F9B409300366D54 /* Info.plist */; };
 		778949A31F9B629800910FD1 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 77972BB11F9B5A2500CAEB1F /* art.scnassets */; };
-		77A138F61F9BF036000AFE09 /* MapboxARAnnotationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77A138F41F9BF035000AFE09 /* MapboxARAnnotationManager.swift */; };
-		77A138F71F9BF036000AFE09 /* MapboxARAnchor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77A138F51F9BF035000AFE09 /* MapboxARAnchor.swift */; };
 		94C5D99B7D4A23F860998772 /* Pods_lookaround2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E5AFF4092DEDBCD196BF743 /* Pods_lookaround2.framework */; };
 /* End PBXBuildFile section */
 
@@ -93,8 +91,6 @@
 		77972BAF1F9B591800CAEB1F /* MBARAnchor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBARAnchor.swift; sourceTree = "<group>"; };
 		77972BB01F9B591800CAEB1F /* AnnotationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationManager.swift; sourceTree = "<group>"; };
 		77972BB11F9B5A2500CAEB1F /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
-		77A138F41F9BF035000AFE09 /* MapboxARAnnotationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapboxARAnnotationManager.swift; sourceTree = "<group>"; };
-		77A138F51F9BF035000AFE09 /* MapboxARAnchor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapboxARAnchor.swift; sourceTree = "<group>"; };
 		AE0506F8C58D1DD1A3AFC610 /* Pods-lookaround2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lookaround2.release.xcconfig"; path = "Pods/Target Support Files/Pods-lookaround2/Pods-lookaround2.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -239,8 +235,6 @@
 			children = (
 				77972BAE1F9B591800CAEB1F /* Annotation.swift */,
 				77972BB01F9B591800CAEB1F /* AnnotationManager.swift */,
-				77A138F51F9BF035000AFE09 /* MapboxARAnchor.swift */,
-				77A138F41F9BF035000AFE09 /* MapboxARAnnotationManager.swift */,
 				77972BAF1F9B591800CAEB1F /* MBARAnchor.swift */,
 				778949811F9B603C00910FD1 /* LABrand.swift */,
 				778949821F9B603C00910FD1 /* Place.swift */,
@@ -485,12 +479,10 @@
 				778949921F9B618300910FD1 /* LoginViewController.swift in Sources */,
 				7789499B1F9B624E00910FD1 /* FilterCell.swift in Sources */,
 				778949961F9B623E00910FD1 /* AnnotationManager.swift in Sources */,
-				77A138F71F9BF036000AFE09 /* MapboxARAnchor.swift in Sources */,
 				778949911F9B618300910FD1 /* FilterViewController.swift in Sources */,
 				7747FEDE1F9B409300366D54 /* ViewController.swift in Sources */,
 				778949981F9B624400910FD1 /* FilterUtilities.swift in Sources */,
 				778949931F9B623100910FD1 /* Place.swift in Sources */,
-				77A138F61F9BF036000AFE09 /* MapboxARAnnotationManager.swift in Sources */,
 				778949991F9B624700910FD1 /* GraphRequests.swift in Sources */,
 				7761D2C31F9B471C004FDB15 /* AugmentedViewController.swift in Sources */,
 				778949941F9B623500910FD1 /* LABrand.swift in Sources */,

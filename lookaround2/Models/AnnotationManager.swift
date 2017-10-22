@@ -85,7 +85,6 @@ extension AnnotationManager: ARSCNViewDelegate {
     }
     
     public func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-        print("adding node to AR scene")
         // Handle MBARAnchor
         if let anchor = anchor as? MBARAnchor {
             let annotation = annotationsByAnchor[anchor]!
@@ -126,11 +125,11 @@ extension AnnotationManager: ARSCNViewDelegate {
         var height: CGFloat = 0.0
         
         if image.size.width >= image.size.height {
-            width = image.size.width / image.size.height
-            height = 1.0
+            width = 5.0 * (image.size.width / image.size.height)
+            height = 5.0
         } else {
-            width = 1.0
-            height = image.size.height / image.size.width
+            width = 5.0
+            height = 5.0 * (image.size.height / image.size.width)
         }
         
         let calloutGeometry = SCNPlane(width: width, height: height)

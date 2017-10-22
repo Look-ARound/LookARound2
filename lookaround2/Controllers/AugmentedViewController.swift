@@ -51,7 +51,7 @@ class AugmentedViewController: UIViewController {
                 print("no location")
                 return CLLocation(latitude: -180.0, longitude: -180.0)
             }
-            return coreLocation
+            return CLLocation(latitude: 37.7837851, longitude: -122.4334173) // SF
         }
     }
     
@@ -98,6 +98,9 @@ class AugmentedViewController: UIViewController {
     
     // MARK: - AR scene setup
     func performFirstSearch() {
+        // Add our own gesture recognizer to handle taps on our custom map features.
+        sceneView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onMapTap(recognizer:))))
+        
         print("first search starting...")
         let categories = [FilterCategory.Food_Beverage, FilterCategory.Shopping_Retail,
                           FilterCategory.Arts_Entertainment, FilterCategory.Travel_Transportation,
@@ -120,11 +123,11 @@ class AugmentedViewController: UIViewController {
     
     func addPlaces( places: [Place] ) {
         print( "* places.count=\(places.count)")
+        
         for index in 0..<places.count {
             let place = places[index]
             
-            let name = place.name
-            let location = place.location
+            var location = CLLocation(coordinate: place.coordinate, altitude: 10, horizontalAccuracy: 5, verticalAccuracy: 5, timestamp: Date())
             // set user's current location to get the distance
             place.userLocation = currentLocation
             guard let distance = place.distance else {
@@ -136,6 +139,10 @@ class AugmentedViewController: UIViewController {
             annotation2D.subtitle = distanceStr
             mapView.addAnnotation(annotation2D)
             self.annotationManager.addAnnotation(annotation: annotation2D)
+            guard let placename = annotation2D.place?.name else {
+                return
+            }
+            print(placename)
         }
     }
     
@@ -144,7 +151,6 @@ class AugmentedViewController: UIViewController {
         removeExistingPins()
         
         // Add new pins
-        print(currentCoordinates)
         PlaceSearch().fetchPlaces(with: categories, location: currentCoordinates, success: { [weak self] (places: [Place]?) in
             if let places = places {
                 print("got places, adding")
@@ -186,11 +192,6 @@ class AugmentedViewController: UIViewController {
         return !(self.mapBottom?.constant == 0)
     }
     
-    // Use the default marker. See also: our view annotation or custom marker examples.
-    func mapView(_ mapView: MGLMapView, viewFor annotation: MGLAnnotation) -> MGLAnnotationView? {
-        return nil
-    }
-    
     // MARK: - Actions
     
     // Handle a long press on the Mapbox map view
@@ -225,17 +226,48 @@ class AugmentedViewController: UIViewController {
         }
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let touch = touches.first else { return }
-        let result = sceneView.hitTest(touch.location(in: sceneView), options: [SCNHitTestOption.firstFoundOnly : true]).first
-        if let node = result?.node, let annotation = annotationManager.annotationsByNode[node],
-            let tappedPlace = annotation.place {
-            showDetailVC(forPlace: tappedPlace)
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        print("touches began")
+//        guard let touch = touches.first else { return }
+//        let result = sceneView.hitTest(touch.location(in: sceneView), options: [SCNHitTestOption.firstFoundOnly : true]).first
+//        print("got one?")
+//        if let node = result?.node, let annotation = annotationManager.annotationsByNode[node] {
+//            print("annotation")
+//            if let tappedPlace = annotation.place {
+//                print("place")
+//                showDetailVC(forPlace: tappedPlace)
+//            } else { print("no place in annotation") }
+//        } else { print("no annotation for node")}
+//    }
+    
+    @objc func onMapTap(recognizer: UITapGestureRecognizer) {
+        print("tapped")
+        let location = recognizer.location(in: sceneView)
+        
+        let hitResults = sceneView.hitTest(location, options: nil)
+        if hitResults.count > 0 {
+            print("hit")
+            let result = hitResults[0]
+            let node = result.node
+            print(node)
+            if let annotation = annotationManager.annotationsByNode[node] {
+                print("hit annotation")
+                if let tappedPlace = annotation.place {
+                print("found place")
+                showDetailVC(forPlace: tappedPlace)
+            } else { print("no place") }
+            } else { print("no annotation") }
         }
     }
     
-    func onMapTap() {
+    func showCallout(feature: MGLPointFeature) {
+        let point = MGLPointFeature()
+        point.title = feature.attributes["name"] as? String
+        point.coordinate = feature.coordinate
         
+        // Selecting an feature that doesn’t already exist on the map will add a new annotation view.
+        // We’ll need to use the map’s delegate methods to add an empty annotation view and remove it when we’re done selecting it.
+        mapView.selectAnnotation(point, animated: true)
     }
     
     @IBAction func onMapButton(_ sender: Any) {
@@ -352,8 +384,7 @@ class AugmentedViewController: UIViewController {
         }
         
         // Run the view's session
-        sceneView.delegate = annotationManager
-        sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
+        sceneView.session.run(configuration, options: [.resetTracking])
     }
     
     private func prepButtonsWithARTheme(buttons : [UIButton]) {
@@ -378,6 +409,8 @@ class AugmentedViewController: UIViewController {
         mapView.styleURL = MGLStyle.streetsStyleURL()
         mapView.userTrackingMode = .followWithHeading
         mapView.layer.cornerRadius = 10
+        
+        mapView.setCenter(CLLocationCoordinate2DMake(37.7837851, -122.4334173), zoomLevel: 12, animated: true)
     }
     
     private func calloutImage(for stepDescription: String) -> UIImage? {
@@ -482,7 +515,6 @@ extension AugmentedViewController: MGLMapViewDelegate {
         performFirstSearch()
     }
     
-    
     func mapView(_ mapView: MGLMapView, didFinishLoading style: MGLStyle) {
         // Set up Mapbox iOS Maps SDK "runtime styling" source and style layers to style the directions route line
         waypointShapeCollectionFeature = MGLShapeCollectionFeature()
@@ -517,10 +549,16 @@ extension AugmentedViewController: MGLMapViewDelegate {
         }
         showDetailVC(forPlace: place)
     }
+    
     func generateFeature(centerCoordinate: CLLocationCoordinate2D) -> MGLPointFeature {
         let feature = MGLPointFeature()
         feature.coordinate = centerCoordinate
         return feature
+    }
+    
+    // Use the default marker.
+    func mapView(_ mapView: MGLMapView, viewFor annotation: MGLAnnotation) -> MGLAnnotationView? {
+        return nil
     }
     
     internal func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
@@ -578,7 +616,7 @@ extension AugmentedViewController: FilterViewControllerDelegate {
     }
 }
 
-// MARK: - Extensions
+// MARK: - Appearance Extensions
 
 extension SCNNode {
     
