@@ -1,3 +1,12 @@
+//
+//  AugmentedViewController.swift
+//  lookaround2
+//
+//  Created by Angela Yu on 10/20/17.
+//  Copyright © 2017 Angela Yu. All rights reserved.
+//  Forked from MapBox + ARKit by MapBox at https://github.com/mapbox/mapbox-arkit-ios
+//
+
 import ARKit
 import CoreLocation
 
@@ -97,7 +106,13 @@ extension AnnotationManager: ARSCNViewDelegate {
             } else {
                 newNode = createDefaultNode()
             }
-                        
+//            if let annotationPlace = annotation.place {
+//                if let placeID = annotationPlace.id {
+//                    let idName = placeID.uuidString
+//                    newNode.name = idName
+//                }
+//            }
+            
             if let calloutImage = annotation.calloutImage {
                 let calloutNode = createCalloutNode(with: calloutImage, node: newNode)
                 newNode.addChildNode(calloutNode)
