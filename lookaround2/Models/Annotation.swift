@@ -1,3 +1,12 @@
+//
+//  AugmentedViewController.swift
+//  lookaround2
+//
+//  Created by Angela Yu on 10/20/17.
+//  Copyright © 2017 Angela Yu. All rights reserved.
+//  Forked from MapBox + ARKit by MapBox at https://github.com/mapbox/mapbox-arkit-ios
+//
+
 import UIKit
 import CoreLocation
 import Mapbox
