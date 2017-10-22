@@ -15,6 +15,10 @@ class DatabaseRequests {
     var allLists = [List]()
     var listsPath = "lists"
     
+    static let shared = DatabaseRequests()
+    
+    private init () {} // avoid creating object for this class
+    
     // Use this method to create/edit a list
     func createOrUpdateList(list: List) -> Void {
         self.ref.child(listsPath).setValue([list.id.uuidString : list.firebaseRepresentation()])
