@@ -32,6 +32,7 @@ PODS:
     - Bolts (~> 1.7)
   - FBSDKLoginKit (4.27.1):
     - FBSDKCoreKit
+  - FLEX (2.4.0)
   - Mapbox-iOS-SDK (3.6.4)
   - MapboxARKit (0.0.1):
     - Turf
@@ -46,11 +47,11 @@ DEPENDENCIES:
   - AFNetworking
   - FacebookCore
   - FacebookLogin
+  - FLEX (~> 2.0)
   - Mapbox-iOS-SDK (~> 3.6)
   - MapboxARKit (from `https://github.com/mapbox/mapbox-arkit-ios.git`)
   - MapboxDirections.swift (~> 0.11)
   - MBProgressHUD
-  - Polyline (~> 4.0)
   - SwiftyJSON
 
 EXTERNAL SOURCES:
@@ -69,6 +70,7 @@ SPEC CHECKSUMS:
   FacebookLogin: 0af839ea858faef99550d16596b87b4a8e8906e6
   FBSDKCoreKit: 03365dad5d790249196ffad8be4f6d8a2d98f932
   FBSDKLoginKit: 66ff53b73cffd967ab773e32fac39e90a60e6d46
+  FLEX: bd1a39e55b56bb413b6f1b34b3c10a0dc44ef079
   Mapbox-iOS-SDK: 47847dd44285477e0dfffd0130f65c8a52823ada
   MapboxARKit: 12a4d1ff584b22feb62f44eed86f9e4522b1da70
   MapboxDirections.swift: b957048cb12bf0bfddcad53ce706f1b9d25488dc
@@ -77,6 +79,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
   Turf: 2089d59d12488de9cfa656634cce2c4e2dcbc691
 
-PODFILE CHECKSUM: 43446120f1ed8c0ac05d80d0b7b624cb7d6a23aa
+PODFILE CHECKSUM: a669ec3d9c23ec8853838221d7ea760ff9474c74
 
 COCOAPODS: 1.3.1

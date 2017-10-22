@@ -17,6 +17,6 @@ target 'lookaround2' do
   # pod 'Polyline', '4.2.0'
   pod 'MapboxARKit', :git => 'https://github.com/mapbox/mapbox-arkit-ios.git'
   # pod 'ARCL'
-  # pod 'FLEX', '~> 2.0', :configurations => ['Debug']
+  pod 'FLEX', '~> 2.0', :configurations => ['Debug']
 
 end
