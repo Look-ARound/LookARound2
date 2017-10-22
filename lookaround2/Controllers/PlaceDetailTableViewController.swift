@@ -27,7 +27,7 @@ internal class PlaceDetailTableViewController: UITableViewController {
     @IBOutlet private var placeMapView: MKMapView!
     @IBOutlet private var directionsButton: UIButton!
     
-    internal var place: Place? = Place(id: UUID(), name: "Some Cool Place!!!", latitude: 224.232, longitude: 222.22)
+    internal var place: Place?
 
     var delegate: PlaceDetailTableViewControllerDelegate?
     
