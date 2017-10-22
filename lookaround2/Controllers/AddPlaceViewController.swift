@@ -10,13 +10,24 @@ import UIKit
 
 internal class AddPlaceViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    // MARK: - Outlets
+    
     @IBOutlet private var tableView: UITableView!
+    
+    // MARK: - Stored Properties
+    
     private var lists = [List]()
+    internal var place: Place!
+    
+    
+    // MARK: - Lifecycles
     
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchUserLists()
     }
+    
+    // MARK: - TableView Delegate/DataSource
     
     internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return lists.count
@@ -29,18 +40,29 @@ internal class AddPlaceViewController: UIViewController, UITableViewDelegate, UI
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        updateListOnDatabase(list: lists[indexPath.row])
+    }
+    
     // MARK: - Helpers
     
     private func fetchUserLists() {
         DatabaseRequests.shared.fetchCurrentUserLists(success: {
             lists in
-            self.lists = lists
-            tableView.reloadData()
+            if let lists = lists {
+                self.lists = lists
+                self.tableView.reloadData()
+            }
         }, failure: {
             error in
             // FIXME: - Needs better error handling!
             print(error.localizedDescription)
         })
+    }
+    
+    private func updateListOnDatabase(list: List) {
+        list.placeIDs.append(place.id)
+        DatabaseRequests.shared.createOrUpdateList(list: list)
     }
     
 }

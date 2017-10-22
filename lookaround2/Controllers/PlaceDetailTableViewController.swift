@@ -24,10 +24,11 @@ internal class PlaceDetailTableViewController: UITableViewController {
     @IBOutlet private var checkinsCountLabel: UILabel!
     @IBOutlet private var likesCountLabel: UILabel!
     @IBOutlet private var addressLabel: UILabel!
-    @IBOutlet weak var placeMapView: MKMapView!
-    @IBOutlet private weak var directionsButton: UIButton!
+    @IBOutlet private var placeMapView: MKMapView!
+    @IBOutlet private var directionsButton: UIButton!
     
     internal var place: Place?
+
     var delegate: PlaceDetailTableViewControllerDelegate?
     
     // MARK: - Lifecycles
@@ -86,6 +87,8 @@ internal class PlaceDetailTableViewController: UITableViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    // MARK: - TableView Delegate/DataSource
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
@@ -94,4 +97,12 @@ internal class PlaceDetailTableViewController: UITableViewController {
         return 44
     }
     
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "addPlaceVC" {
+            let addPlaceVC = segue.destination as! AddPlaceViewController
+            addPlaceVC.place = self.place
+        }
+    }
 }

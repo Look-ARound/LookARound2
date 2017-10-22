@@ -176,7 +176,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="1MN-gk-c4z">
                             <connections>
-                                <segue destination="7TG-jw-AJm" kind="show" id="J69-4x-qOJ"/>
+                                <segue destination="7TG-jw-AJm" kind="show" identifier="addPlaceVC" id="J69-4x-qOJ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
