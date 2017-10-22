@@ -10,7 +10,7 @@ import UIKit
 
 class User: NSObject {
     // MARK: - Properties
-    var id: UUID!
+    var id: String!
     var name: String!
     var username: String!
     var profileImageURL: String?

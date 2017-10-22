@@ -161,9 +161,9 @@ private struct PlaceSearchResponse: GraphResponseProtocol {
 var LAFBUserIDKey : String = "FBUserIDKey"
 
 class ProfileRequest {
-    func fetchCurrentUserID(success: @escaping (UUID)->(), failure: @escaping (Error)->()) -> Void {
-        if let defaultsUserID = UserDefaults.standard.object(forKey: LAFBUserIDKey) {
-            success(defaultsUserID as! UUID)
+    func fetchCurrentUserID(success: @escaping (String!)->(), failure: @escaping (Error)->()) -> Void {
+        if let defaultsUserID = UserDefaults.standard.string(forKey: LAFBUserIDKey) {
+            success(defaultsUserID)
         } else {
             // Fetch user profile first, then get the ID
             fetchCurrentUser(success: { (user: User) in
@@ -203,16 +203,16 @@ fileprivate struct MyProfileResponse : GraphResponseProtocol {
         // Decode JSON from rawResponse into other properties here.
         let json = JSON(rawResponse!)
         print(json)
-        let idStr = json["id"].stringValue
+        let id = json["id"].stringValue
         let name = json["name"].stringValue
         let photoURL = json["picture"]["data"]["url"].stringValue
         
         user = User()
-        user.id = UUID(uuidString: idStr)
+        user.id = id
         user.name = name
         user.profileImageURL = photoURL
         
-        print(idStr)
+        print(id)
         print(name)
         print(photoURL)
     }
