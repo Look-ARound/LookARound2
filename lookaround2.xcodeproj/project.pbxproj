@@ -11,6 +11,7 @@
 		7478B9C71F9D2BA100EB62F5 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478B9C61F9D2BA100EB62F5 /* List.swift */; };
 		7478B9C91F9D2BB400EB62F5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478B9C81F9D2BB400EB62F5 /* User.swift */; };
 		7478B9CB1F9D2BEF00EB62F5 /* DatabaseRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478B9CA1F9D2BEF00EB62F5 /* DatabaseRequests.swift */; };
+		7478B9CF1F9D3F2100EB62F5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 49E1E2221F9D322E004F972C /* GoogleService-Info.plist */; };
 		7747FEDC1F9B409300366D54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7747FEDB1F9B409300366D54 /* AppDelegate.swift */; };
 		7747FEDE1F9B409300366D54 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7747FEDD1F9B409300366D54 /* ViewController.swift */; };
 		7747FEE11F9B409300366D54 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7747FEDF1F9B409300366D54 /* Main.storyboard */; };
@@ -373,6 +374,7 @@
 			files = (
 				778949A21F9B629000910FD1 /* Info.plist in Resources */,
 				778949A31F9B629800910FD1 /* art.scnassets in Resources */,
+				7478B9CF1F9D3F2100EB62F5 /* GoogleService-Info.plist in Resources */,
 				7747FEE61F9B409300366D54 /* LaunchScreen.storyboard in Resources */,
 				7747FEE31F9B409300366D54 /* Assets.xcassets in Resources */,
 				778949A01F9B626700910FD1 /* Login.storyboard in Resources */,
