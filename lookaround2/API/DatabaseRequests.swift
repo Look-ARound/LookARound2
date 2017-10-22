@@ -23,7 +23,6 @@ class DatabaseRequests {
     // Use this method to create/edit a list
     func createOrUpdateList(list: List) -> Void {
         self.ref.child(listsPath).updateChildValues([list.id : list.firebaseRepresentation()])
-        //setValue([list.id : list.firebaseRepresentation()])
     }
     
     func deleteList(list: List) -> Void {
