@@ -20,6 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
        
         FirebaseApp.configure()
         SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+        
+        window?.rootViewController = UIStoryboard(name: "Detail", bundle: nil).instantiateViewController(withIdentifier: "DetailNavigationController")
 
         return true
     }

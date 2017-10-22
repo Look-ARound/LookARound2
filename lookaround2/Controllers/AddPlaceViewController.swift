@@ -18,7 +18,7 @@ internal class AddPlaceViewController: UIViewController, UITableViewDelegate, UI
     
     private var lists = [List]()
     internal var place: Place!
-    private var newListName = ""
+    private var alertVC: UIAlertController!
     
     // MARK: - Lifecycles
     
@@ -51,22 +51,26 @@ internal class AddPlaceViewController: UIViewController, UITableViewDelegate, UI
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == 0 {
             updateListOnDatabase(list: lists[indexPath.row])
         } else {
-            let alert = UIAlertController(title: "New List", message: nil, preferredStyle: .alert)
-            alert.addTextField {
+            alertVC = UIAlertController(title: "Name", message: nil, preferredStyle: .alert)
+            alertVC.addTextField {
                 textField in
-                textField.placeholder = "Name of the list"
-                textField.addTarget(self, action: #selector(self.saveListName), for: .valueChanged)
-                textField.delegate = self
+                textField.placeholder = "Name of the new list"
             }
             let saveAction = UIAlertAction(title: "Save", style: .default) {
                 _ in
-                self.createAndSaveNewList()
+                if let listName =  self.alertVC.textFields?[0].text, !listName.isEmpty {
+                    self.createAndSaveNewList(with: listName)
+                } else {
+                    print("NO NAME")
+                }
             }
-            alert.addAction(saveAction)
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            alertVC.addAction(saveAction)
+            alertVC.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            present(alertVC, animated: true, completion: nil)
         }
     }
     
@@ -86,20 +90,14 @@ internal class AddPlaceViewController: UIViewController, UITableViewDelegate, UI
         })
     }
     
-    private func createAndSaveNewList() {
-        let list = List(name: newListName, placeID: place.id)
+    private func createAndSaveNewList(with name: String) {
+        let list = List(name: name, placeID: place.id)
         DatabaseRequests.shared.createOrUpdateList(list: list)
     }
     
     private func updateListOnDatabase(list: List) {
         list.placeIDs.append(place.id)
         DatabaseRequests.shared.createOrUpdateList(list: list)
-    }
-    
-    // MARK: - TextField
-    
-    @objc func saveListName(_ sender: UITextField) {
-        newListName = sender.text ?? ""
     }
     
     

@@ -203,7 +203,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="guB-TW-lfn">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="guB-TW-lfn">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
@@ -231,18 +231,18 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KJG-oL-5Iz">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                                    <state key="normal" title="New List">
-                                                        <color key="titleColor" red="0.90588235289999997" green="0.29803921570000003" blue="0.23529411759999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    </state>
-                                                </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add New List" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ecH-xJ-bb5">
+                                                    <rect key="frame" x="8" y="8" width="359" height="27.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.90588235289999997" green="0.29803921570000003" blue="0.23529411759999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="KJG-oL-5Iz" secondAttribute="bottom" id="0w0-JW-j8x"/>
-                                                <constraint firstItem="KJG-oL-5Iz" firstAttribute="leading" secondItem="IeA-Jq-Uq5" secondAttribute="leading" id="6E0-HI-jCx"/>
-                                                <constraint firstItem="KJG-oL-5Iz" firstAttribute="top" secondItem="IeA-Jq-Uq5" secondAttribute="top" id="LDa-UD-sRN"/>
-                                                <constraint firstAttribute="trailing" secondItem="KJG-oL-5Iz" secondAttribute="trailing" id="dzT-54-J9v"/>
+                                                <constraint firstAttribute="trailing" secondItem="ecH-xJ-bb5" secondAttribute="trailing" constant="8" id="04k-me-JDO"/>
+                                                <constraint firstItem="ecH-xJ-bb5" firstAttribute="top" secondItem="IeA-Jq-Uq5" secondAttribute="top" constant="8" id="76d-f1-K31"/>
+                                                <constraint firstItem="ecH-xJ-bb5" firstAttribute="leading" secondItem="IeA-Jq-Uq5" secondAttribute="leading" constant="8" id="9Ah-Gy-Jod"/>
+                                                <constraint firstAttribute="bottom" secondItem="ecH-xJ-bb5" secondAttribute="bottom" constant="8" id="qIp-r7-bQu"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
