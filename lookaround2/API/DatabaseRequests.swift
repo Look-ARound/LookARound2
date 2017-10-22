@@ -13,7 +13,7 @@ import FacebookCore
 class DatabaseRequests {
     var ref: DatabaseReference = Database.database().reference()
     var fetchedOnce : Bool = false
-    var allLists = [List]()
+    var allListsByListID = [String: List]()
     var listsPath = "lists"
     
     static let shared = DatabaseRequests()
@@ -22,7 +22,8 @@ class DatabaseRequests {
     
     // Use this method to create/edit a list
     func createOrUpdateList(list: List) -> Void {
-        self.ref.child(listsPath).setValue([list.id : list.firebaseRepresentation()])
+        self.ref.child(listsPath).updateChildValues([list.id : list.firebaseRepresentation()])
+        //setValue([list.id : list.firebaseRepresentation()])
     }
     
     func deleteList(list: List) -> Void {
@@ -30,12 +31,11 @@ class DatabaseRequests {
     }
     
     func fetchCurrentUserLists(success: @escaping ([List]?)->(), failure: @escaping (Error?)->()) -> Void {
-        var currentUserLists = [List]()
-        
         if let currentUserID = AccessToken.current?.userId {
             // Get all lists
             // Filter by those created by userID
             self.fetchAllLists(completion: { (lists: [List]) in
+                var currentUserLists = [List]()
                 for list in lists {
                     if list.createdByUserID == currentUserID {
                         currentUserLists.append(list)
@@ -54,19 +54,21 @@ class DatabaseRequests {
     
     func fetchAllLists(completion: (([List])->())!) -> Void {
         if fetchedOnce {
-            completion(self.allLists)
+            completion(Array(self.allListsByListID.values))
             return
         }
         
+        fetchedOnce = true
         ref.child(listsPath).observe(DataEventType.value) { (dataSnapshot: DataSnapshot) in
             if let listDicts = dataSnapshot.value as? [String : AnyObject?] {
                 for (listIDStr, listDict) in listDicts {
+                    // Update existing list, only add new elements if it isn't already in it
                     let newList = List(listID: listIDStr, dictionary: listDict as! [String : AnyObject?])
-                    self.allLists.append(newList)
+                    self.allListsByListID[listIDStr] = newList
                 }
             }
             
-            completion(self.allLists)
+            completion(Array(self.allListsByListID.values))
         }
     }
 }
