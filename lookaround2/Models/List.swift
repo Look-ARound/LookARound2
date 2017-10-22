@@ -7,21 +7,35 @@
 //
 
 import Foundation
+import FacebookCore
 
 var firebaseListIDKey = "listID"
 var firebaseListNameKey = "listName"
 var firebaseCreatedByUserIDKey = "createdByUserID"
 var firebasePlaceIDArrayKey = "placeIDs"
 
-
-class List: NSObject {
+class List {
     var id: String!
     var name: String!
     var createdByUserID: String!
     var placeIDs = [String]()
     
-    init(name: String, placeID: String) {
-        // TODO: fill this in
+    init() {
+        id = ""
+        name = ""
+        createdByUserID = ""
+        placeIDs = []
+    }
+    
+    init?(name: String, placeID: String) {
+        guard let userID = AccessToken.current?.userId else {
+            return nil
+        }
+        
+        self.id = UUID().uuidString
+        self.name = name
+        self.createdByUserID = userID
+        self.placeIDs = [placeID]
     }
     
     init(listID : String!, dictionary: [String : AnyObject?]!) {
