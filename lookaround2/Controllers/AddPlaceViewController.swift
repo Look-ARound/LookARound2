@@ -87,8 +87,9 @@ internal class AddPlaceViewController: UIViewController, UITableViewDelegate, UI
     }
     
     private func createAndSaveNewList() {
-        let list = List(name: newListName, placeID: place.id)
-        DatabaseRequests.shared.createOrUpdateList(list: list)
+        if let list = List(name: newListName, placeID: place.id) {
+            DatabaseRequests.shared.createOrUpdateList(list: list)
+        }
     }
     
     private func updateListOnDatabase(list: List) {
