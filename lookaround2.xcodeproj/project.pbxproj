@@ -10,6 +10,7 @@
 		7478B9C71F9D2BA100EB62F5 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478B9C61F9D2BA100EB62F5 /* List.swift */; };
 		7478B9C91F9D2BB400EB62F5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478B9C81F9D2BB400EB62F5 /* User.swift */; };
 		7478B9CB1F9D2BEF00EB62F5 /* DatabaseRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478B9CA1F9D2BEF00EB62F5 /* DatabaseRequests.swift */; };
+		7478B9CD1F9D2E0700EB62F5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7478B9CC1F9D2E0700EB62F5 /* GoogleService-Info.plist */; };
 		7747FEDC1F9B409300366D54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7747FEDB1F9B409300366D54 /* AppDelegate.swift */; };
 		7747FEDE1F9B409300366D54 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7747FEDD1F9B409300366D54 /* ViewController.swift */; };
 		7747FEE11F9B409300366D54 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7747FEDF1F9B409300366D54 /* Main.storyboard */; };
@@ -62,6 +63,7 @@
 		7478B9C61F9D2BA100EB62F5 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		7478B9C81F9D2BB400EB62F5 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		7478B9CA1F9D2BEF00EB62F5 /* DatabaseRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseRequests.swift; sourceTree = "<group>"; };
+		7478B9CC1F9D2E0700EB62F5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		75C23D866F9CF839D25CBACE /* Pods-lookaround2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lookaround2.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lookaround2/Pods-lookaround2.debug.xcconfig"; sourceTree = "<group>"; };
 		7747FED81F9B409300366D54 /* lookaround2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lookaround2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7747FEDB1F9B409300366D54 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 		7747FEDA1F9B409300366D54 /* lookaround2 */ = {
 			isa = PBXGroup;
 			children = (
+				7478B9CC1F9D2E0700EB62F5 /* GoogleService-Info.plist */,
 				7747FF0A1F9B415100366D54 /* API */,
 				7747FF0E1F9B416A00366D54 /* Models */,
 				7747FF0D1F9B416500366D54 /* Views */,
@@ -368,6 +371,7 @@
 			files = (
 				778949A21F9B629000910FD1 /* Info.plist in Resources */,
 				778949A31F9B629800910FD1 /* art.scnassets in Resources */,
+				7478B9CD1F9D2E0700EB62F5 /* GoogleService-Info.plist in Resources */,
 				7747FEE61F9B409300366D54 /* LaunchScreen.storyboard in Resources */,
 				7747FEE31F9B409300366D54 /* Assets.xcassets in Resources */,
 				778949A01F9B626700910FD1 /* Login.storyboard in Resources */,
