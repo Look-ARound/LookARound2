@@ -8,6 +8,7 @@
 
 import Foundation
 import Firebase
+import FacebookCore
 
 class DatabaseRequests {
     var ref: DatabaseReference = Database.database().reference()
@@ -28,23 +29,27 @@ class DatabaseRequests {
         self.ref.child(listsPath).child(list.id).removeValue()
     }
     
-    func fetchCurrentUserLists(success: @escaping ([List]?)->(), failure: @escaping (Error)->()) -> Void {
+    func fetchCurrentUserLists(success: @escaping ([List]?)->(), failure: @escaping (Error?)->()) -> Void {
         var currentUserLists = [List]()
         
-        ProfileRequest().fetchCurrentUserID(success: { (userID: String!) in
+        if let currentUserID = AccessToken.current?.userId {
             // Get all lists
             // Filter by those created by userID
-            self.fetchAllLists(completion: { (lists: [List]) -> () in
+            self.fetchAllLists(completion: { (lists: [List]) in
                 for list in lists {
-                    if list.createdByUserID == userID {
+                    if list.createdByUserID == currentUserID {
                         currentUserLists.append(list)
                     }
                 }
                 success(currentUserLists)
             })
-        }, failure: { (error: Error) in
-            print("Could not get UserID. Error: \(error)")
-        })
+        }
+        // User not logged in
+        else {
+            // TODO: better error handling
+            print("User not logged in!")
+            failure(nil)
+        }
     }
     
     func fetchAllLists(completion: (([List])->())!) -> Void {
