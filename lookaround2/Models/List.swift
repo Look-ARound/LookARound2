@@ -20,6 +20,10 @@ class List: NSObject {
     var createdByUserID: UUID!
     var placeIDs = [UUID]()
     
+    init(name: String, placeID: UUID) {
+        
+    }
+    
     init(listID : String!, dictionary: [String : AnyObject?]!) {
         self.id = UUID(uuidString: listID)
         self.name = dictionary[firebaseListNameKey] as! String
