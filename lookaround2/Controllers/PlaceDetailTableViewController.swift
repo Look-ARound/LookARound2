@@ -24,6 +24,7 @@ internal class PlaceDetailTableViewController: UITableViewController {
     @IBOutlet private var checkinsCountLabel: UILabel!
     @IBOutlet private var likesCountLabel: UILabel!
     @IBOutlet private var addressLabel: UILabel!
+    @IBOutlet weak var placeMapView: MKMapView!
     @IBOutlet private weak var directionsButton: UIButton!
     
     internal var place: Place?
@@ -62,7 +63,7 @@ internal class PlaceDetailTableViewController: UITableViewController {
         directionsButton.layer.cornerRadius = directionsButton.frame.size.height * 0.5
         directionsButton.clipsToBounds = true
         
-        // setupMapView()
+        setupMapView()
     }
     
     private func setupMapView() {
@@ -71,8 +72,8 @@ internal class PlaceDetailTableViewController: UITableViewController {
             return
         }
         annotation.coordinate = place.coordinate
-        // placeMapView.addAnnotation(annotation)
-        // placeMapView.showAnnotations([annotation], animated: true)
+        placeMapView.addAnnotation(annotation)
+       placeMapView.showAnnotations([annotation], animated: true)
     }
     
     @IBAction func onDirectionsButton(_ sender: Any) {

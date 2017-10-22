@@ -20,16 +20,10 @@
                             <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Ma-8d-EH7">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                             </arscnView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M78-Zw-ca0">
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="M78-Zw-ca0">
                                 <rect key="frame" x="0.0" y="301.5" width="375" height="365"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Move the Camera" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Wp-Kb-Tk3">
-                                        <rect key="frame" x="105" y="11.5" width="165" height="26.5"/>
-                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="22"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yzd-SX-HSI" customClass="MGLMapView">
+                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yzd-SX-HSI" customClass="MGLMapView">
                                         <rect key="frame" x="0.0" y="42" width="375" height="323"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <gestureRecognizers/>
@@ -45,9 +39,7 @@
                                 <constraints>
                                     <constraint firstItem="yzd-SX-HSI" firstAttribute="leading" secondItem="M78-Zw-ca0" secondAttribute="leading" id="AaS-xV-oQL"/>
                                     <constraint firstAttribute="bottom" secondItem="yzd-SX-HSI" secondAttribute="bottom" id="Gup-rE-7hQ"/>
-                                    <constraint firstItem="0Wp-Kb-Tk3" firstAttribute="centerX" secondItem="M78-Zw-ca0" secondAttribute="centerX" id="KTg-Mg-s4W"/>
-                                    <constraint firstItem="yzd-SX-HSI" firstAttribute="top" secondItem="M78-Zw-ca0" secondAttribute="top" constant="42" id="Vgg-DV-gA2"/>
-                                    <constraint firstItem="0Wp-Kb-Tk3" firstAttribute="top" secondItem="M78-Zw-ca0" secondAttribute="top" constant="12" id="ajr-f0-ujQ"/>
+                                    <constraint firstItem="yzd-SX-HSI" firstAttribute="top" secondItem="M78-Zw-ca0" secondAttribute="top" id="Vgg-DV-gA2"/>
                                     <constraint firstAttribute="trailing" secondItem="yzd-SX-HSI" secondAttribute="trailing" id="wzW-nL-wWA"/>
                                 </constraints>
                             </view>
@@ -98,7 +90,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="5S8-AB-CEg"/>
                     <connections>
-                        <outlet property="cameraInfoStateLabel" destination="0Wp-Kb-Tk3" id="zSQ-9H-2OK"/>
                         <outlet property="controlsContainerView" destination="M78-Zw-ca0" id="L7R-tt-xs4"/>
                         <outlet property="filterButton" destination="AB3-rY-gO6" id="wsq-Jb-goH"/>
                         <outlet property="mapButton" destination="NWZ-Be-KzA" id="Xs3-07-BCc"/>

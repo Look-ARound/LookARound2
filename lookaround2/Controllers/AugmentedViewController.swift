@@ -23,7 +23,6 @@ import Turf
 class AugmentedViewController: UIViewController {
     @IBOutlet weak var sceneView: ARSCNView!
     @IBOutlet weak var controlsContainerView: UIView!
-    @IBOutlet weak var cameraInfoStateLabel: UILabel!
     @IBOutlet weak var mapView: MGLMapView!
     var mapTop: NSLayoutConstraint!
     var mapBottom: NSLayoutConstraint!
@@ -125,7 +124,7 @@ class AugmentedViewController: UIViewController {
             let place = places[index]
             
             let name = place.name
-            let coordinate = place.coordinate
+            let location = place.location
             // set user's current location to get the distance
             place.userLocation = currentLocation
             guard let distance = place.distance else {
@@ -133,14 +132,10 @@ class AugmentedViewController: UIViewController {
             }
             let distanceStr = "\(distance) meters"
             
-            let annotation2D = MGLPointAnnotation()
-            annotation2D.coordinate = coordinate
-            annotation2D.title = name
+            let annotation2D = Annotation(location: location, calloutImage: #imageLiteral(resourceName: "pin"), place: place)
             annotation2D.subtitle = distanceStr
             mapView.addAnnotation(annotation2D)
-            
-            let annotation = Annotation(location: place.location, calloutImage: nil, place: place)
-            self.annotationManager.addAnnotation(annotation: annotation)
+            self.annotationManager.addAnnotation(annotation: annotation2D)
         }
     }
     
@@ -176,7 +171,7 @@ class AugmentedViewController: UIViewController {
         mapView.alpha = 0.9
         
         controlsContainerView.translatesAutoresizingMaskIntoConstraints = false
-        mapTop = controlsContainerView.topAnchor.constraint(equalTo: view.centerYAnchor, constant: 42.0)
+        mapTop = controlsContainerView.topAnchor.constraint(equalTo: view.centerYAnchor)
         mapTop.isActive = true
         mapBottom = controlsContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         mapBottom.isActive = true
@@ -189,6 +184,11 @@ class AugmentedViewController: UIViewController {
     
     func isMapHidden() -> Bool {
         return !(self.mapBottom?.constant == 0)
+    }
+    
+    // Use the default marker. See also: our view annotation or custom marker examples.
+    func mapView(_ mapView: MGLMapView, viewFor annotation: MGLAnnotation) -> MGLAnnotationView? {
+        return nil
     }
     
     // MARK: - Actions
@@ -232,6 +232,10 @@ class AugmentedViewController: UIViewController {
             let tappedPlace = annotation.place {
             showDetailVC(forPlace: tappedPlace)
         }
+    }
+    
+    func onMapTap() {
+        
     }
     
     @IBAction func onMapButton(_ sender: Any) {
@@ -301,7 +305,7 @@ class AugmentedViewController: UIViewController {
                     self.updateShapeCollectionFeature(&self.waypointShapeCollectionFeature, with: stepLocation, typeKey: "waypoint-type", typeAttribute: "big")
                     
                     // Add an AR node
-                    let annotation = Annotation(location: stepLocation, calloutImage: self.calloutImage(for: step.description))
+                    let annotation = Annotation(location: stepLocation, calloutImage: self.calloutImage(for: step.description), place: nil)
                     annotationsToAdd.append(annotation)
                 }
                 
@@ -318,7 +322,7 @@ class AugmentedViewController: UIViewController {
                         self.updateShapeCollectionFeature(&self.waypointShapeCollectionFeature, with: interpolatedStepLocation, typeKey: "waypoint-type", typeAttribute: "small")
                         
                         // Add an AR node
-                        let annotation = Annotation(location: interpolatedStepLocation, calloutImage: nil)
+                        let annotation = Annotation(location: interpolatedStepLocation, calloutImage: nil, place: nil)
                         annotationsToAdd.append(annotation)
                     }
                 }
@@ -371,7 +375,7 @@ class AugmentedViewController: UIViewController {
     
     private func configureMapboxMapView() {
         mapView.delegate = self
-        mapView.styleURL = URL(string: "mapbox://styles/mapbox/cj3kbeqzo00022smj7akz3o1e") // "Moonlight" style
+        mapView.styleURL = MGLStyle.streetsStyleURL()
         mapView.userTrackingMode = .followWithHeading
         mapView.layer.cornerRadius = 10
     }
@@ -419,13 +423,9 @@ extension AugmentedViewController: AnnotationManagerDelegate {
         
         switch camera.trackingState {
         case .normal:
-            cameraInfoStateLabel.text = "Ready!"
-            UIView.animate(withDuration: 1, delay: 1, options: [], animations: {
-                self.cameraInfoStateLabel.alpha = 0
-            }, completion: nil)
+            print("Ready!")
         default:
-            cameraInfoStateLabel.alpha = 1
-            cameraInfoStateLabel.text = "Move the camera"
+            print("Move the camera")
         }
     }
     
@@ -433,7 +433,8 @@ extension AugmentedViewController: AnnotationManagerDelegate {
         
         if annotation.calloutImage == nil {
             // Comment `createLightBulbNode` and add `return nil` to use the default node
-            return createLightBulbNode()
+            //return createLightBulbNode()
+            return nil
         } else {
             let firstColor = UIColor(red: 0.0, green: 99/255.0, blue: 175/255.0, alpha: 1.0)
             return createSphereNode(with: 0.5, firstColor: firstColor, secondColor: UIColor.green)
@@ -476,13 +477,20 @@ extension AugmentedViewController: AnnotationManagerDelegate {
 
 extension AugmentedViewController: MGLMapViewDelegate {
     
+    func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
+        annotationManager.originLocation = currentLocation
+        performFirstSearch()
+    }
+    
+    
     func mapView(_ mapView: MGLMapView, didFinishLoading style: MGLStyle) {
         // Set up Mapbox iOS Maps SDK "runtime styling" source and style layers to style the directions route line
         waypointShapeCollectionFeature = MGLShapeCollectionFeature()
         let annotationSource = MGLShapeSource(identifier: "annotationSource", shape: waypointShapeCollectionFeature, options: nil)
         mapView.style?.addSource(annotationSource)
+
         let circleStyleLayer = MGLCircleStyleLayer(identifier: "circleStyleLayer", source: annotationSource)
-        
+
         let color = UIColor(red: 147/255.0, green: 230/255.0, blue: 249/255.0, alpha: 1.0)
         let colorStops = ["small": MGLStyleValue<UIColor>(rawValue: color.withAlphaComponent(0.75)),
                           "big": MGLStyleValue<UIColor>(rawValue: color)]
@@ -503,19 +511,23 @@ extension AugmentedViewController: MGLMapViewDelegate {
         mapView.style?.addLayer(circleStyleLayer)
     }
     
+    func mapView(_ mapView: MGLMapView, didSelect annotation: MGLAnnotation) {
+        guard let augmentedAnnotation = annotation as? Annotation, let place = augmentedAnnotation.place else {
+            return
+        }
+        showDetailVC(forPlace: place)
+    }
     func generateFeature(centerCoordinate: CLLocationCoordinate2D) -> MGLPointFeature {
         let feature = MGLPointFeature()
         feature.coordinate = centerCoordinate
         return feature
     }
     
-    // MARK: - Utility methods for MGLMapViewDelegate
-    
-    func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
-        annotationManager.originLocation = currentLocation
-        performFirstSearch()
-        mapView.styleURL = MGLStyle.streetsStyleURL()
+    internal func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
+        return true
     }
+    
+    // MARK: - Utility methods for MGLMapViewDelegate
     
     private func updateSource(identifer: String, shape: MGLShape?) {
         guard let shape = shape else {
