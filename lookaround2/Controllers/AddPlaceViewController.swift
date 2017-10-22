@@ -8,26 +8,39 @@
 
 import UIKit
 
-class AddPlaceViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+internal class AddPlaceViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    @IBOutlet var tableView: UITableView!
+    @IBOutlet private var tableView: UITableView!
+    private var lists = [List]()
     
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        fetchUserLists()
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
+    internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return lists.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "listNameCell", for: indexPath)
-        
+        let list = lists[indexPath.row]
+        cell.textLabel?.text = list.name
+        return cell
     }
     
+    // MARK: - Helpers
     
+    private func fetchUserLists() {
+        DatabaseRequests.shared.fetchCurrentUserLists(success: {
+            lists in
+            self.lists = lists
+            tableView.reloadData()
+        }, failure: {
+            error in
+            // FIXME: - Needs better error handling!
+            print(error.localizedDescription)
+        })
+    }
     
 }
