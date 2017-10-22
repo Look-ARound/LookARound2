@@ -85,7 +85,7 @@ extension AnnotationManager: ARSCNViewDelegate {
     }
     
     public func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-        
+        print("adding node to AR scene")
         // Handle MBARAnchor
         if let anchor = anchor as? MBARAnchor {
             let annotation = annotationsByAnchor[anchor]!

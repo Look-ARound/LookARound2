@@ -1,22 +1,42 @@
 import UIKit
 import CoreLocation
+import Mapbox
 
-public class Annotation: NSObject {
+public class Annotation: NSObject, MGLAnnotation {
     
     public var location: CLLocation
     public var calloutImage: UIImage?
     public var anchor: MBARAnchor?
     var place: Place?
     
-    public init(location: CLLocation, calloutImage: UIImage?) {
-        self.location = location
-        self.calloutImage = calloutImage
+    public var coordinate: CLLocationCoordinate2D
+    public var title: String?
+    public var subtitle: String?
+    
+    // Custom properties that we will use to customize the annotation's image.
+    var image: UIImage?
+    var reuseIdentifier: String?
+    
+    init(coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?) {
+        self.coordinate = coordinate
+        self.title = title
+        self.subtitle = subtitle
+        self.location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
     }
     
     init(location: CLLocation, calloutImage: UIImage?, place: Place?) {
         self.location = location
-        self.calloutImage = calloutImage
-        self.place = place
+        self.coordinate = location.coordinate
+        if let myPlace = place {
+            self.place = myPlace
+            self.title = myPlace.name
+            if let friendCount = myPlace.contextCount {
+                self.subtitle = "\(friendCount) friends like this"
+            }
+        }
+        if let image = calloutImage {
+            self.calloutImage = image
+        }
     }
     
 }

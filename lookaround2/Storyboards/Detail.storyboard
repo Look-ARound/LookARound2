@@ -57,13 +57,13 @@
                                                     <rect key="frame" x="0.0" y="8" width="375" height="233.5"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Some Cool Place" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TYi-kW-PVw">
-                                                            <rect key="frame" x="8" y="0.0" width="359" height="99.5"/>
+                                                            <rect key="frame" x="8" y="0.0" width="359" height="138.5"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
                                                             <color key="textColor" red="0.20984135841836737" green="0.20984135841836737" blue="0.20984135841836737" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="tzo-jC-9sZ">
-                                                            <rect key="frame" x="95.5" y="107.5" width="184.5" height="20.5"/>
+                                                            <rect key="frame" x="95.5" y="146.5" width="184.5" height="20.5"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="10 checkins" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xaR-Fp-1Oi">
                                                                     <rect key="frame" x="0.0" y="0.0" width="90.5" height="20.5"/>
@@ -80,32 +80,11 @@
                                                             </subviews>
                                                         </stackView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Context" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oqi-wq-l9j">
-                                                            <rect key="frame" x="157.5" y="136" width="60" height="20.5"/>
+                                                            <rect key="frame" x="157.5" y="175" width="60" height="20.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="stL-cT-CjZ" customClass="HCSStarRatingView">
-                                                            <rect key="frame" x="117" y="164.5" width="141" height="31"/>
-                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <color key="tintColor" red="0.90588235289999997" green="0.29803921570000003" blue="0.23529411759999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="31" id="BxX-ow-5KZ"/>
-                                                                <constraint firstAttribute="width" constant="141" id="FXq-O1-006"/>
-                                                            </constraints>
-                                                            <userDefinedRuntimeAttributes>
-                                                                <userDefinedRuntimeAttribute type="boolean" keyPath="allowsHalfStars" value="YES"/>
-                                                                <userDefinedRuntimeAttribute type="number" keyPath="starBorderWidth">
-                                                                    <real key="value" value="0.0"/>
-                                                                </userDefinedRuntimeAttribute>
-                                                                <userDefinedRuntimeAttribute type="image" keyPath="halfStarImage" value="heart-half"/>
-                                                                <userDefinedRuntimeAttribute type="image" keyPath="filledStarImage" value="heart-full"/>
-                                                                <userDefinedRuntimeAttribute type="image" keyPath="emptyStarImage" value="heart-empty"/>
-                                                                <userDefinedRuntimeAttribute type="number" keyPath="value">
-                                                                    <real key="value" value="4"/>
-                                                                </userDefinedRuntimeAttribute>
-                                                            </userDefinedRuntimeAttributes>
-                                                        </view>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7hV-WD-kn3">
                                                             <rect key="frame" x="127.5" y="203.5" width="120" height="30"/>
                                                             <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -203,8 +182,7 @@
                         <outlet property="likesCountLabel" destination="sLz-w2-POd" id="xsC-hD-sA0"/>
                         <outlet property="nameLabel" destination="TYi-kW-PVw" id="jN7-wL-9go"/>
                         <outlet property="placeImageView" destination="z9B-hJ-RqJ" id="5Fj-7w-xEd"/>
-                        <outlet property="placeMapView" destination="EOn-Em-kMt" id="hNY-vL-Dll"/>
-                        <outlet property="ratingView" destination="stL-cT-CjZ" id="ihy-Cc-ew5"/>
+                        <outlet property="placeMapView" destination="EOn-Em-kMt" id="Iax-SO-LTJ"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eif-93-ASx" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -230,9 +208,4 @@
             <point key="canvasLocation" x="-118" y="755"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="heart-empty" width="40" height="40"/>
-        <image name="heart-full" width="40" height="40"/>
-        <image name="heart-half" width="40" height="40"/>
-    </resources>
 </document>
