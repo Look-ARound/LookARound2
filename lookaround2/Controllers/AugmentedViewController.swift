@@ -51,7 +51,8 @@ class AugmentedViewController: UIViewController {
                 print("no location")
                 return CLLocation(latitude: -180.0, longitude: -180.0)
             }
-            return CLLocation(latitude: 37.7837851, longitude: -122.4334173) // SF
+            // return coreLocation // SETLOCATION(1/2) uncomment this line to use actual current location
+            return CLLocation(latitude: 37.7837851, longitude: -122.4334173) // SETLOCATION (1/2) uncomment this line to use SF location
         }
     }
     
@@ -69,7 +70,7 @@ class AugmentedViewController: UIViewController {
         configureMapboxMapView()
         
         // SceneKit
-        sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWorldOrigin]
+        // sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWorldOrigin]
         sceneView.scene = SCNScene()
         
         // Create an AR annotation manager and give it a reference to the AR scene view
@@ -127,7 +128,7 @@ class AugmentedViewController: UIViewController {
         for index in 0..<places.count {
             let place = places[index]
             
-            var location = CLLocation(coordinate: place.coordinate, altitude: 10, horizontalAccuracy: 5, verticalAccuracy: 5, timestamp: Date())
+            var location = CLLocation(coordinate: place.coordinate, altitude: 30, horizontalAccuracy: 5, verticalAccuracy: 5, timestamp: Date())
             // set user's current location to get the distance
             place.userLocation = currentLocation
             guard let distance = place.distance else {
@@ -250,25 +251,37 @@ class AugmentedViewController: UIViewController {
             let result = hitResults[0]
             let node = result.node
             print(node)
-            if let annotation = annotationManager.annotationsByNode[node] {
-                print("hit annotation")
-                if let tappedPlace = annotation.place {
-                print("found place")
-                showDetailVC(forPlace: tappedPlace)
-            } else { print("no place") }
-            } else { print("no annotation") }
+            showDetail(from: node)
         }
     }
     
-    func showCallout(feature: MGLPointFeature) {
-        let point = MGLPointFeature()
-        point.title = feature.attributes["name"] as? String
-        point.coordinate = feature.coordinate
-        
-        // Selecting an feature that doesn’t already exist on the map will add a new annotation view.
-        // We’ll need to use the map’s delegate methods to add an empty annotation view and remove it when we’re done selecting it.
-        mapView.selectAnnotation(point, animated: true)
+    func showDetail(from node: SCNNode) {
+        guard let annotation = annotationManager.annotationsByNode[node] else {
+            guard let parentNode = node.parent else {
+                print("no parent")
+                return
+            }
+            print("trying parent")
+            return showDetail(from: parentNode)
+        }
+        print("hit annotation")
+        guard let tappedPlace = annotation.place else {
+            print("no place")
+            return
+        }
+        print("found place")
+        showDetailVC(forPlace: tappedPlace)
     }
+    
+//    func showCallout(feature: MGLPointFeature) {
+//        let point = MGLPointFeature()
+//        point.title = feature.attributes["name"] as? String
+//        point.coordinate = feature.coordinate
+//
+//        // Selecting an feature that doesn’t already exist on the map will add a new annotation view.
+//        // We’ll need to use the map’s delegate methods to add an empty annotation view and remove it when we’re done selecting it.
+//        mapView.selectAnnotation(point, animated: true)
+//    }
     
     @IBAction func onMapButton(_ sender: Any) {
         slideMap()
@@ -410,6 +423,8 @@ class AugmentedViewController: UIViewController {
         mapView.userTrackingMode = .followWithHeading
         mapView.layer.cornerRadius = 10
         
+        // SETLOCATION(2/2) Comment this line out to use actual current location
+        // Uncomment this line to use SF location
         mapView.setCenter(CLLocationCoordinate2DMake(37.7837851, -122.4334173), zoomLevel: 12, animated: true)
     }
     

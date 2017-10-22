@@ -7,49 +7,52 @@
 //
 
 import Foundation
+import FacebookCore
 
 var firebaseListIDKey = "listID"
 var firebaseListNameKey = "listName"
 var firebaseCreatedByUserIDKey = "createdByUserID"
 var firebasePlaceIDArrayKey = "placeIDs"
 
-
-class List: NSObject {
-    var id: UUID!
+class List {
+    var id: String!
     var name: String!
-    var createdByUserID: UUID!
-    var placeIDs = [UUID]()
+    var createdByUserID: String!
+    var placeIDs = [String]()
     
-    init(name: String, placeID: UUID) {
+    init() {
+        id = ""
+        name = ""
+        createdByUserID = ""
+        placeIDs = []
+    }
+    
+    init?(name: String, placeID: String) {
+        guard let userID = AccessToken.current?.userId else {
+            return nil
+        }
         
+        self.id = UUID().uuidString
+        self.name = name
+        self.createdByUserID = userID
+        self.placeIDs = [placeID]
     }
     
     init(listID : String!, dictionary: [String : AnyObject?]!) {
-        self.id = UUID(uuidString: listID)
+        self.id = listID
         self.name = dictionary[firebaseListNameKey] as! String
-        
-        let userIDString = dictionary[firebaseCreatedByUserIDKey] as! String
-        self.createdByUserID = UUID(uuidString: userIDString)
+        self.createdByUserID = dictionary[firebaseCreatedByUserIDKey] as! String
         
         if let placeIDStrings = dictionary[firebasePlaceIDArrayKey] as? [String] {
-            for placeStr in placeIDStrings {
-                self.placeIDs.append(UUID(uuidString: placeStr)!)
-            }
+            self.placeIDs = placeIDStrings
         }
     }
     
     func firebaseRepresentation() -> NSDictionary {
         let dict = NSMutableDictionary()
         dict[firebaseListNameKey] = self.name
-        dict[firebaseCreatedByUserIDKey] = self.id.uuidString
-        
-        // Change placeIDs to UUID strings
-        var placeIDStrings = [String]()
-        for placeID in self.placeIDs {
-            placeIDStrings.append(placeID.uuidString)
-        }
-        
-        dict[firebasePlaceIDArrayKey] = placeIDStrings
+        dict[firebaseCreatedByUserIDKey] = self.id                
+        dict[firebasePlaceIDArrayKey] = self.placeIDs
         
         return dict as NSDictionary
     }

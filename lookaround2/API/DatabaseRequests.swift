@@ -21,17 +21,17 @@ class DatabaseRequests {
     
     // Use this method to create/edit a list
     func createOrUpdateList(list: List) -> Void {
-        self.ref.child(listsPath).setValue([list.id.uuidString : list.firebaseRepresentation()])
+        self.ref.child(listsPath).setValue([list.id : list.firebaseRepresentation()])
     }
     
     func deleteList(list: List) -> Void {
-        self.ref.child(listsPath).child(list.id.uuidString).removeValue()
+        self.ref.child(listsPath).child(list.id).removeValue()
     }
     
     func fetchCurrentUserLists(success: @escaping ([List]?)->(), failure: @escaping (Error)->()) -> Void {
         var currentUserLists = [List]()
         
-        ProfileRequest().fetchCurrentUserID(success: { (userID: UUID) in
+        ProfileRequest().fetchCurrentUserID(success: { (userID: String!) in
             // Get all lists
             // Filter by those created by userID
             self.fetchAllLists(completion: { (lists: [List]) -> () in
