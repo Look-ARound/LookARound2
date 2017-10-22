@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		49E1E2211F9D2E1D004F972C /* AddPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E1E2201F9D2E1D004F972C /* AddPlaceViewController.swift */; };
+		7478B9C71F9D2BA100EB62F5 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478B9C61F9D2BA100EB62F5 /* List.swift */; };
+		7478B9C91F9D2BB400EB62F5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478B9C81F9D2BB400EB62F5 /* User.swift */; };
+		7478B9CB1F9D2BEF00EB62F5 /* DatabaseRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478B9CA1F9D2BEF00EB62F5 /* DatabaseRequests.swift */; };
+		7478B9CD1F9D2E0700EB62F5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7478B9CC1F9D2E0700EB62F5 /* GoogleService-Info.plist */; };
 		7747FEDC1F9B409300366D54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7747FEDB1F9B409300366D54 /* AppDelegate.swift */; };
 		7747FEDE1F9B409300366D54 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7747FEDD1F9B409300366D54 /* ViewController.swift */; };
 		7747FEE11F9B409300366D54 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7747FEDF1F9B409300366D54 /* Main.storyboard */; };
@@ -33,7 +37,6 @@
 		7789499E1F9B626100910FD1 /* Detail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7789498A1F9B60EA00910FD1 /* Detail.storyboard */; };
 		7789499F1F9B626400910FD1 /* Filter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 778949891F9B60EA00910FD1 /* Filter.storyboard */; };
 		778949A01F9B626700910FD1 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 778949881F9B60EA00910FD1 /* Login.storyboard */; };
-		778949A11F9B628C00910FD1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7747FF091F9B413400366D54 /* GoogleService-Info.plist */; };
 		778949A21F9B629000910FD1 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7747FEE71F9B409300366D54 /* Info.plist */; };
 		778949A31F9B629800910FD1 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 77972BB11F9B5A2500CAEB1F /* art.scnassets */; };
 		94C5D99B7D4A23F860998772 /* Pods_lookaround2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E5AFF4092DEDBCD196BF743 /* Pods_lookaround2.framework */; };
@@ -59,6 +62,10 @@
 /* Begin PBXFileReference section */
 		0E5AFF4092DEDBCD196BF743 /* Pods_lookaround2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_lookaround2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		49E1E2201F9D2E1D004F972C /* AddPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlaceViewController.swift; sourceTree = "<group>"; };
+		7478B9C61F9D2BA100EB62F5 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
+		7478B9C81F9D2BB400EB62F5 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		7478B9CA1F9D2BEF00EB62F5 /* DatabaseRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseRequests.swift; sourceTree = "<group>"; };
+		7478B9CC1F9D2E0700EB62F5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		75C23D866F9CF839D25CBACE /* Pods-lookaround2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lookaround2.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lookaround2/Pods-lookaround2.debug.xcconfig"; sourceTree = "<group>"; };
 		7747FED81F9B409300366D54 /* lookaround2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lookaround2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7747FEDB1F9B409300366D54 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -73,7 +80,6 @@
 		7747FEF71F9B409300366D54 /* lookaround2UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = lookaround2UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7747FEFB1F9B409300366D54 /* lookaround2UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = lookaround2UITests.swift; sourceTree = "<group>"; };
 		7747FEFD1F9B409300366D54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7747FF091F9B413400366D54 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7761D2C21F9B471C004FDB15 /* AugmentedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AugmentedViewController.swift; sourceTree = "<group>"; };
 		7761D2C41F9B4844004FDB15 /* FilterUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterUtilities.swift; sourceTree = "<group>"; };
 		7761D2C51F9B4844004FDB15 /* GraphRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphRequests.swift; sourceTree = "<group>"; };
@@ -156,6 +162,7 @@
 		7747FEDA1F9B409300366D54 /* lookaround2 */ = {
 			isa = PBXGroup;
 			children = (
+				7478B9CC1F9D2E0700EB62F5 /* GoogleService-Info.plist */,
 				7747FF0A1F9B415100366D54 /* API */,
 				7747FF0E1F9B416A00366D54 /* Models */,
 				7747FF0D1F9B416500366D54 /* Views */,
@@ -167,7 +174,6 @@
 				7747FEE21F9B409300366D54 /* Assets.xcassets */,
 				7747FEE41F9B409300366D54 /* LaunchScreen.storyboard */,
 				7747FEE71F9B409300366D54 /* Info.plist */,
-				7747FF091F9B413400366D54 /* GoogleService-Info.plist */,
 			);
 			path = lookaround2;
 			sourceTree = "<group>";
@@ -193,6 +199,7 @@
 		7747FF0A1F9B415100366D54 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				7478B9CA1F9D2BEF00EB62F5 /* DatabaseRequests.swift */,
 				7761D2C51F9B4844004FDB15 /* GraphRequests.swift */,
 				7761D2C41F9B4844004FDB15 /* FilterUtilities.swift */,
 			);
@@ -236,6 +243,8 @@
 		7747FF0E1F9B416A00366D54 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				7478B9C81F9D2BB400EB62F5 /* User.swift */,
+				7478B9C61F9D2BA100EB62F5 /* List.swift */,
 				77972BAE1F9B591800CAEB1F /* Annotation.swift */,
 				77972BB01F9B591800CAEB1F /* AnnotationManager.swift */,
 				77972BAF1F9B591800CAEB1F /* MBARAnchor.swift */,
@@ -365,13 +374,13 @@
 			files = (
 				778949A21F9B629000910FD1 /* Info.plist in Resources */,
 				778949A31F9B629800910FD1 /* art.scnassets in Resources */,
+				7478B9CD1F9D2E0700EB62F5 /* GoogleService-Info.plist in Resources */,
 				7747FEE61F9B409300366D54 /* LaunchScreen.storyboard in Resources */,
 				7747FEE31F9B409300366D54 /* Assets.xcassets in Resources */,
 				778949A01F9B626700910FD1 /* Login.storyboard in Resources */,
 				7789499F1F9B626400910FD1 /* Filter.storyboard in Resources */,
 				7747FEE11F9B409300366D54 /* Main.storyboard in Resources */,
 				7789499E1F9B626100910FD1 /* Detail.storyboard in Resources */,
-				778949A11F9B628C00910FD1 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -439,6 +448,7 @@
 				"${BUILT_PRODUCTS_DIR}/FLEX/FLEX.framework",
 				"${BUILT_PRODUCTS_DIR}/FacebookCore/FacebookCore.framework",
 				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework",
 				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework.dSYM",
@@ -447,6 +457,8 @@
 				"${BUILT_PRODUCTS_DIR}/Polyline/Polyline.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/Turf/Turf.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -457,6 +469,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLEX.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mapbox.framework",
 				"${DWARF_DSYM_FOLDER_PATH}/Mapbox.framework.dSYM",
@@ -465,6 +478,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Polyline.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Turf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -496,6 +511,9 @@
 				778949951F9B623A00910FD1 /* MBARAnchor.swift in Sources */,
 				778949971F9B624100910FD1 /* Annotation.swift in Sources */,
 				778949901F9B618300910FD1 /* SearchResultsViewController.swift in Sources */,
+				7478B9C71F9D2BA100EB62F5 /* List.swift in Sources */,
+				7478B9CB1F9D2BEF00EB62F5 /* DatabaseRequests.swift in Sources */,
+				7478B9C91F9D2BB400EB62F5 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

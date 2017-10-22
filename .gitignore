@@ -6,6 +6,9 @@
 build/
 DerivedData/
 
+## Firebase
+GoogleService-Info.plist
+
 ## Various settings
 *.pbxuser
 !default.pbxuser

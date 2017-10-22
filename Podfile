@@ -9,7 +9,8 @@ target 'lookaround2' do
   pod 'AFNetworking'
   pod 'MBProgressHUD'
   pod 'SwiftyJSON'
-  # pod 'Firebase/Core'
+  pod 'FirebaseCore’
+  pod 'Firebase/Database'
   pod 'FacebookCore'
   pod 'FacebookLogin'
   pod 'Mapbox-iOS-SDK', '~> 3.6'
