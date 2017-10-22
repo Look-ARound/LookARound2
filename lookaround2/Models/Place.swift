@@ -23,7 +23,7 @@ enum Categories: String {
 }
 
 class Place: NSObject {
-    var id: Int64
+    var id: UUID!
     var name: String
     var latitude: Double
     var longitude: Double
@@ -62,7 +62,7 @@ class Place: NSObject {
     
     init?(json: JSON) {
         // TODO Guard against json not having required values
-        id = Int64(json["id"].intValue)
+        id = UUID(uuidString: (json["id"].stringValue))
         name = json["name"].stringValue
         latitude = json["location"]["latitude"].doubleValue
         longitude = json["location"]["longitude"].doubleValue
@@ -78,7 +78,7 @@ class Place: NSObject {
     }
     
     // MANUAL INIT for debugging and testing
-    init(id: Int64, name: String, latitude: Double, longitude: Double) {
+    init(id: UUID, name: String, latitude: Double, longitude: Double) {
         self.id = id
         self.name = name
         self.latitude = latitude
