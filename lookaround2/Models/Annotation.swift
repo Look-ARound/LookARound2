@@ -14,6 +14,7 @@ import Mapbox
 public class Annotation: NSObject, MGLAnnotation {
     
     public var location: CLLocation
+    public var nodeImage: UIImage?
     public var calloutImage: UIImage?
     public var anchor: MBARAnchor?
     var place: Place?
@@ -45,6 +46,24 @@ public class Annotation: NSObject, MGLAnnotation {
         }
         if let image = calloutImage {
             self.calloutImage = image
+        }
+    }
+    
+    init(location: CLLocation, nodeImage: UIImage?, calloutImage: UIImage?, place: Place?) {
+        self.location = location
+        self.coordinate = location.coordinate
+        if let myPlace = place {
+            self.place = myPlace
+            self.title = myPlace.name
+            if let friendCount = myPlace.contextCount {
+                self.subtitle = "\(friendCount) friends like this"
+            }
+        }
+        if let nodeImage = nodeImage {
+            self.nodeImage = nodeImage
+        }
+        if let calloutImage = calloutImage {
+            self.calloutImage = calloutImage
         }
     }
     
