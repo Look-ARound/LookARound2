@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		497B925A1F9DAD9500052A77 /* SweetAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497B92591F9DAD9500052A77 /* SweetAlert.swift */; };
 		49E1E2211F9D2E1D004F972C /* AddPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E1E2201F9D2E1D004F972C /* AddPlaceViewController.swift */; };
 		7478B9C71F9D2BA100EB62F5 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478B9C61F9D2BA100EB62F5 /* List.swift */; };
 		7478B9C91F9D2BB400EB62F5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478B9C81F9D2BB400EB62F5 /* User.swift */; };
@@ -61,6 +62,7 @@
 
 /* Begin PBXFileReference section */
 		0E5AFF4092DEDBCD196BF743 /* Pods_lookaround2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_lookaround2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		497B92591F9DAD9500052A77 /* SweetAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SweetAlert.swift; sourceTree = "<group>"; };
 		49E1E2201F9D2E1D004F972C /* AddPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlaceViewController.swift; sourceTree = "<group>"; };
 		49E1E2221F9D322E004F972C /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7478B9C61F9D2BA100EB62F5 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
@@ -137,6 +139,14 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		497B925B1F9DADA200052A77 /* 3rd Party Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				497B92591F9DAD9500052A77 /* SweetAlert.swift */,
+			);
+			path = "3rd Party Libraries";
+			sourceTree = "<group>";
+		};
 		7747FECF1F9B409300366D54 = {
 			isa = PBXGroup;
 			children = (
@@ -162,6 +172,7 @@
 		7747FEDA1F9B409300366D54 /* lookaround2 */ = {
 			isa = PBXGroup;
 			children = (
+				497B925B1F9DADA200052A77 /* 3rd Party Libraries */,
 				49E1E2221F9D322E004F972C /* GoogleService-Info.plist */,
 				7747FF0A1F9B415100366D54 /* API */,
 				7747FF0E1F9B416A00366D54 /* Models */,
@@ -506,6 +517,7 @@
 				778949941F9B623500910FD1 /* LABrand.swift in Sources */,
 				7789498F1F9B618300910FD1 /* PlaceDetailTableViewController.swift in Sources */,
 				49E1E2211F9D2E1D004F972C /* AddPlaceViewController.swift in Sources */,
+				497B925A1F9DAD9500052A77 /* SweetAlert.swift in Sources */,
 				7747FEDC1F9B409300366D54 /* AppDelegate.swift in Sources */,
 				7789499C1F9B625100910FD1 /* DefaultCell.swift in Sources */,
 				778949951F9B623A00910FD1 /* MBARAnchor.swift in Sources */,
@@ -682,7 +694,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = PUQ8TNP3W4;
+				DEVELOPMENT_TEAM = 396S2E45WK;
 				INFOPLIST_FILE = lookaround2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codepath.lookaround2;
@@ -700,7 +712,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = PUQ8TNP3W4;
+				DEVELOPMENT_TEAM = 396S2E45WK;
 				INFOPLIST_FILE = lookaround2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codepath.lookaround2;
