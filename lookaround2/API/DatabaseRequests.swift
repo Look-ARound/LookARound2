@@ -12,7 +12,6 @@ import FacebookCore
 
 class DatabaseRequests {
     var ref: DatabaseReference = Database.database().reference()
-    var fetchedOnce : Bool = false
     var allListsByListID = [String: List]()
     var listsPath = "lists"
     
@@ -34,6 +33,7 @@ class DatabaseRequests {
             (error, _) in
             completionHandler?(error)
         }
+        self.allListsByListID.removeValue(forKey: list.id)
     }
     
     func fetchCurrentUserLists(success: @escaping ([List]?)->(), failure: @escaping (Error?)->()) -> Void {
@@ -59,13 +59,8 @@ class DatabaseRequests {
     }
     
     func fetchAllLists(completion: (([List])->())!) -> Void {
-        if fetchedOnce {
-            completion(Array(self.allListsByListID.values))
-            return
-        }
-        
-        fetchedOnce = true
-        ref.child(listsPath).observe(DataEventType.value) { (dataSnapshot: DataSnapshot) in
+        ref.child(listsPath).observeSingleEvent(of: .value) {
+            dataSnapshot in
             if let listDicts = dataSnapshot.value as? [String : AnyObject?] {
                 for (listIDStr, listDict) in listDicts {
                     // Update existing list, only add new elements if it isn't already in it

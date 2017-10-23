@@ -15,9 +15,9 @@ var firebaseCreatedByUserIDKey = "createdByUserID"
 var firebasePlaceIDArrayKey = "placeIDs"
 
 class List {
-    var id: String!
-    var name: String!
-    var createdByUserID: String!
+    var id: String
+    var name: String
+    var createdByUserID: String
     var placeIDs = [String]()
     
     init() {
@@ -38,7 +38,7 @@ class List {
         self.placeIDs = [placeID]
     }
     
-    init(listID : String!, dictionary: [String : AnyObject?]!) {
+    init(listID : String, dictionary: [String : AnyObject?]) {
         self.id = listID
         self.name = dictionary[firebaseListNameKey] as! String
         self.createdByUserID = dictionary[firebaseCreatedByUserIDKey] as! String
