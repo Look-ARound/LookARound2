@@ -51,8 +51,8 @@ class AugmentedViewController: UIViewController {
                 print("no location")
                 return CLLocation(latitude: -180.0, longitude: -180.0)
             }
-            return coreLocation // SETLOCATION(1/2) uncomment this line to use actual current location
-            // return CLLocation(latitude: 37.7837851, longitude: -122.4334173) // SETLOCATION (1/2) uncomment this line to use SF location
+            //return coreLocation // SETLOCATION(1/2) uncomment this line to use actual current location
+            return CLLocation(latitude: 37.7837851, longitude: -122.4334173) // SETLOCATION (1/2) uncomment this line to use SF location
         }
     }
     
@@ -128,7 +128,7 @@ class AugmentedViewController: UIViewController {
         for index in 0..<places.count {
             let place = places[index]
             
-            var location = CLLocation(coordinate: place.coordinate, altitude: 30, horizontalAccuracy: 5, verticalAccuracy: 5, timestamp: Date())
+            let location = CLLocation(coordinate: place.coordinate, altitude: 30, horizontalAccuracy: 5, verticalAccuracy: 5, timestamp: Date())
             // set user's current location to get the distance
             place.userLocation = currentLocation
             guard let distance = place.distance else {
@@ -136,7 +136,7 @@ class AugmentedViewController: UIViewController {
             }
             let distanceStr = "\(distance) meters"
             
-            let annotation2D = Annotation(location: location, calloutImage: #imageLiteral(resourceName: "pin"), place: place)
+            let annotation2D = Annotation(location: location, calloutImage: nil, place: place)
             annotation2D.subtitle = distanceStr
             mapView.addAnnotation(annotation2D)
             self.annotationManager.addAnnotation(annotation: annotation2D)
@@ -280,7 +280,7 @@ class AugmentedViewController: UIViewController {
             return
         }
         print("found place")
-        showDetailVC(forPlace: tappedPlace)
+        //showDetailVC(forPlace: tappedPlace)
     }
     
 //    func showCallout(feature: MGLPointFeature) {
@@ -435,7 +435,7 @@ class AugmentedViewController: UIViewController {
         
         // SETLOCATION(2/2) Comment this line out to use actual current location
         // Uncomment this line to use SF location
-        // mapView.setCenter(CLLocationCoordinate2DMake(37.7837851, -122.4334173), zoomLevel: 12, animated: true)
+        mapView.setCenter(CLLocationCoordinate2DMake(37.7837851, -122.4334173), zoomLevel: 12, animated: true)
     }
     
     private func calloutImage(for stepDescription: String) -> UIImage? {
@@ -487,17 +487,17 @@ extension AugmentedViewController: AnnotationManagerDelegate {
         }
     }
     
-    func node(for annotation: Annotation) -> SCNNode? {
-        
-        if annotation.calloutImage == nil {
-            // Comment `createLightBulbNode` and add `return nil` to use the default node
-            //return createLightBulbNode()
-            return nil
-        } else {
-            let firstColor = UIColor(red: 0.0, green: 99/255.0, blue: 175/255.0, alpha: 1.0)
-            return createSphereNode(with: 0.5, firstColor: firstColor, secondColor: UIColor.green)
-        }
-    }
+//    func node(for annotation: Annotation) -> SCNNode? {
+//        
+//        if annotation.calloutImage == nil {
+//            // Comment `createLightBulbNode` and add `return nil` to use the default node
+//            return createLightBulbNode()
+//            // return nil
+//        } else {
+//            let firstColor = UIColor(red: 0.0, green: 99/255.0, blue: 175/255.0, alpha: 1.0)
+//            return createSphereNode(with: 0.5, firstColor: firstColor, secondColor: UIColor.green)
+//        }
+//    }
     
     // MARK: - Utility methods for AnnotationManagerDelegate
     

@@ -116,6 +116,8 @@ extension AnnotationManager: ARSCNViewDelegate {
             if let calloutImage = annotation.calloutImage {
                 let calloutNode = createCalloutNode(with: calloutImage, node: newNode)
                 newNode.addChildNode(calloutNode)
+            } else {
+                
             }
             
             node.addChildNode(newNode)
