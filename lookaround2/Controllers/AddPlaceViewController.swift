@@ -26,7 +26,6 @@ internal class AddPlaceViewController: UIViewController, UITableViewDelegate, UI
         super.viewDidLoad()
         fetchUserLists()
         self.tableView.allowsMultipleSelectionDuringEditing = false
-        self.navigationItem.rightBarButtonItem = editButtonItem
     }
     
     // MARK: - TableView Delegate/DataSource
@@ -67,26 +66,30 @@ internal class AddPlaceViewController: UIViewController, UITableViewDelegate, UI
         if indexPath.section == 0 {
             updateListOnDatabase(list: lists[indexPath.row])
         } else {
-            alertVC = UIAlertController(title: "Name", message: nil, preferredStyle: .alert)
-            alertVC.addTextField {
-                textField in
-                textField.placeholder = "Name of the new list"
-            }
-            let saveAction = UIAlertAction(title: "Save", style: .default) {
-                _ in
-                if let listName =  self.alertVC.textFields?[0].text, !listName.isEmpty {
-                    self.createAndSaveNewList(with: listName)
-                } else {
-                    print("NO NAME")
-                }
-            }
-            alertVC.addAction(saveAction)
-            alertVC.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            present(alertVC, animated: true, completion: nil)
+            addNewList()
         }
     }
     
     // MARK: - Helpers
+    
+    private func addNewList() {
+        alertVC = UIAlertController(title: "Name", message: nil, preferredStyle: .alert)
+        alertVC.addTextField {
+            textField in
+            textField.placeholder = "Name of the new list"
+        }
+        let saveAction = UIAlertAction(title: "Save", style: .default) {
+            _ in
+            if let listName =  self.alertVC.textFields?[0].text, !listName.isEmpty {
+                self.createAndSaveNewList(with: listName)
+            } else {
+                print("NO NAME")
+            }
+        }
+        alertVC.addAction(saveAction)
+        alertVC.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alertVC, animated: true, completion: nil)
+    }
     
     private func removeList(at indexPath: IndexPath) {
         DatabaseRequests.shared.deleteList(list: lists[indexPath.row]) {
