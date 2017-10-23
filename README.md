@@ -56,17 +56,11 @@ Backend
 
 Here's a walkthrough of implemented user stories:
 
-<img src='lookaround-sprint1-1.gif' title='Sprint 1 Walkthrough' width='' alt='Sprint 1 Walkthrough Video' /> <img src='lookaround-sprint2-1.gif' title='Sprint 2 Walkthrough' width='' alt='Sprint 2 Walkthrough Video' />
+| Sprint 1 walkthrough | Sprint 2 walkthrough |
+|:----:|:----:|
+| <img src='lookaround-sprint1-1.gif' title='Sprint 1 Walkthrough' width='' alt='Sprint 1 Walkthrough Video' /> | <img src='lookaround-sprint2-1.gif' title='Sprint 2 Walkthrough' width='' alt='Sprint 2 Walkthrough Video' /> |
 
 GIFs created with [LiceCap](http://www.cockos.com/licecap/).
-
-## Acknowledgements
-
-Thanks to MapBox for their pre-release of the [MapBox + ARKit](https://github.com/mapbox/mapbox-arkit-ios) utilities. This accelerated our development and polished visuals for many of our mapping graphics.
-
-Icons used from IconMonstr:
-- [Location 3](https://iconmonstr.com/location-3/) for AR pins
-- [Bookmark 1](https://iconmonstr.com/bookmark-1/) and [Bookmark 2](https://iconmonstr.com/bookmark-2/) for bookmark indicator
 
 ## License
   Copyright 2017 Ali Mir, Angela Yu, John Nguyen, and Siji Rachel Tom
