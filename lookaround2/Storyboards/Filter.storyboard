@@ -12,7 +12,7 @@
         <!--Filters-->
         <scene sceneID="pNM-HC-HDx">
             <objects>
-                <viewController storyboardIdentifier="FilterViewControllerID" id="yTT-a3-4EU" customClass="FilterViewController" customModule="LookARound" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FilterViewControllerID" id="yTT-a3-4EU" customClass="FilterViewController" customModule="lookaround2" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hEv-uP-0JX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -22,7 +22,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="FilterCell" rowHeight="85" id="W1N-TP-xYd" customClass="FilterCell" customModule="LookARound" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="FilterCell" rowHeight="85" id="W1N-TP-xYd" customClass="FilterCell" customModule="lookaround2" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="85"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="W1N-TP-xYd" id="ZQA-sB-zw7">
@@ -47,15 +47,15 @@
                                             <outlet property="filterNameLabel" destination="e4g-Hd-vDh" id="e5j-Ql-q8u"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="LoginCell" rowHeight="84" id="vod-uw-lrV" customClass="LoginCell" customModule="LookARound" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="DefaultCell" rowHeight="84" id="vod-uw-lrV" customClass="DefaultCell" customModule="lookaround2" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="113" width="375" height="84"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="vod-uw-lrV" id="Eaf-Wd-8vD">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="83.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login to Facebook" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n4P-s4-Zho">
-                                                    <rect key="frame" x="16" y="20" width="164" height="24"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n4P-s4-Zho">
+                                                    <rect key="frame" x="16" y="20" width="50" height="24"/>
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -68,6 +68,9 @@
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="n4P-s4-Zho" secondAttribute="trailing" constant="16" id="cef-rL-gMa"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="titleLabel" destination="n4P-s4-Zho" id="8rW-i5-eR6"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>

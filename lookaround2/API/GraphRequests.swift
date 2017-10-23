@@ -66,6 +66,30 @@ struct PlaceSearch {
         searchConnection.start()
     }
     
+    func fetchPlaces(with placeIDs:[String], success: @escaping ([Place])->(), failure: @escaping (Error)->()) -> Void {
+        let placeIDSearchConnection = GraphRequestConnection()
+        
+        for placeID in placeIDs {
+            var placeIDRequest = PlaceSearchRequest()
+            placeIDRequest.graphPath = "/\(placeID)"
+            
+            placeIDSearchConnection.add(placeIDRequest,
+                                        batchParameters: nil,
+                                        completion: { (response, result : GraphRequestResult) in
+                                            switch result {
+                                            case .success(let response):
+                                                if response.places.count > 0 {
+                                                    success(response.places)
+                                                }
+                                            case .failed(let error):
+                                                print("Failed to fetch place with id \(placeID)")
+                                                failure(error)
+                                            }
+            })
+        }
+        
+        placeIDSearchConnection.start()
+    }
 }
 
 // Passing categories as an array in Parameters doesn't seem to be working so we need to construct a query string.
@@ -145,7 +169,15 @@ private struct PlaceSearchResponse: GraphResponseProtocol {
         let json = JSON(rawResponse!)
         // print(json)
         var rawPlaces: [Place] = []
-        for spot in json["data"].arrayValue {
+        var spots = json["data"].arrayValue
+        if spots.count == 0 {
+            // When we do a place search based on just the ID (from lists), we get back the data in a different format.
+            // In the category search case the root node is 'data', in the ID search case the data is present in the node directly.
+            // TODO: make this code easier to understand. Maybe create a new GraphResponseProtocol struct?
+            spots = [json]
+        }
+        
+        for spot in spots {
             if let thisPlace = Place(json: spot) {
                 rawPlaces.append(thisPlace)
             }

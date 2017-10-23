@@ -1,5 +1,5 @@
 //
-//  LoginCell.swift
+//  DefaultCell.swift
 //  LookARound
 //
 //  Created by Siji Rachel Tom on 10/15/17.
@@ -8,8 +8,10 @@
 
 import UIKit
 
-class LoginCell: UITableViewCell {
+class DefaultCell: UITableViewCell {
 
+    @IBOutlet weak var titleLabel: UILabel!    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code                

@@ -147,8 +147,18 @@ class AugmentedViewController: UIViewController {
         }
     }
     
-    func refreshPins(withCategories categories: [FilterCategory]) {
+    func refreshPins(withList list: List) {
+        removeExistingPins()
         
+        let placeIDs = list.placeIDs
+        PlaceSearch().fetchPlaces(with: placeIDs, success: { (places: [Place]) in
+            self.addPlaces(places: places)
+        }) { (error: Error) in
+            print("error fetching places")
+        }
+    }
+    
+    func refreshPins(withCategories categories: [FilterCategory]) {
         removeExistingPins()
         
         // Add new pins
@@ -634,8 +644,11 @@ extension AugmentedViewController: PlaceDetailTableViewControllerDelegate {
 // MARK: - FilterViewControllerDelegate
 extension AugmentedViewController: FilterViewControllerDelegate {
     func filterViewController(_filterViewController: FilterViewController, didSelectCategories categories: [FilterCategory]) {
-        
         refreshPins(withCategories: categories)
+    }
+    
+    func filterViewController(_filterViewController: FilterViewController, didSelectList list: List) {
+        refreshPins(withList : list)
     }
 }
 

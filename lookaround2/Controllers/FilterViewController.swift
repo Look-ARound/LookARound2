@@ -12,6 +12,7 @@ import CoreLocation
 
 protocol FilterViewControllerDelegate : NSObjectProtocol {
     func filterViewController(_filterViewController: FilterViewController, didSelectCategories categories: [FilterCategory])
+    func filterViewController(_filterViewController: FilterViewController, didSelectList list:List)
 }
 
 class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -19,11 +20,13 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     enum SectionType : Int {
         case filters = 0
         case login
+        case discoverLists
     }
     
     @IBOutlet weak var filterTableView: UITableView!
     weak var delegate : FilterViewControllerDelegate?
     var coordinates: CLLocationCoordinate2D!
+    var lists = [List]()
     
     
     override func viewDidLoad() {
@@ -37,6 +40,11 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         filterTableView.rowHeight = UITableViewAutomaticDimension
         
         filterTableView.tableFooterView = UIView()
+        
+        DatabaseRequests.shared.fetchAllLists { (lists : [List]) in
+            self.lists = lists
+            self.filterTableView.reloadData()
+        }
         
         // TODO: Can we directly go to search results VC from here without going through the login page? I (Angela)
         // tried instantiating a SearchResultsViewController directly but it's not that easy.
@@ -59,7 +67,7 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
          */
         
         // Forcing to always show 2 for debugging since we want to be able to access the login screen and logout button
-        let numSections = 2
+        let numSections = 3
         
         return numSections
     }
@@ -70,6 +78,8 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
             return FilterCategory.Categories_Total_Count.rawValue
         case .login:
             return 1
+        case .discoverLists:
+            return lists.count
         }
     }
     
@@ -79,12 +89,19 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : UITableViewCell
+        let section = SectionType(rawValue: indexPath.section)!
         
-        if (indexPath.section == SectionType.filters.rawValue) {
+        switch section {
+        case .filters:
             cell = tableView.dequeueReusableCell(withIdentifier: "FilterCell", for: indexPath)
             (cell as! FilterCell).filterNameLabel.text = FilterCategoryDisplayString(category: FilterCategory(rawValue: indexPath.row)!)
-        } else {
-            cell = tableView.dequeueReusableCell(withIdentifier: "LoginCell", for: indexPath)
+        case .login:
+            cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
+            (cell as! DefaultCell).titleLabel.text = "Login to Facebook"
+        case .discoverLists:
+            cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
+            (cell as! DefaultCell).titleLabel.text  = lists[indexPath.row].name
+            cell.accessoryType = .none
         }
         
         return cell
@@ -93,15 +110,24 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if indexPath.section == SectionType.filters.rawValue {
+        let section = SectionType(rawValue: indexPath.section)!
+        switch section {
+        case .filters:
             let category = FilterCategory(rawValue: indexPath.row)!
             self.delegate?.filterViewController(_filterViewController: self,
                                                 didSelectCategories: [category])
             dismiss(animated: true, completion: nil)
-        } else {
+        case .login:
             // Push login screen
             showLoginScreen()
+        case .discoverLists:
+            // Selected list
+            let selectedList = lists[indexPath.row]
+            self.delegate?.filterViewController(_filterViewController: self,
+                                                didSelectList: selectedList)
+            dismiss(animated: true, completion: nil)
         }
+        
     }
     
     func showLoginScreen() {
