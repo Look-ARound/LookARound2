@@ -86,14 +86,26 @@ internal class AddPlaceViewController: UIViewController, UITableViewDelegate, UI
         }, failure: {
             error in
             // FIXME: - Needs better error handling!
-            print(error?.localizedDescription)
+            print(error?.localizedDescription ?? "")
         })
     }
     
     private func createAndSaveNewList(with name: String) {
         let list = List(name: name, placeID: place.id)
         if let list = list {
-            DatabaseRequests.shared.createOrUpdateList(list: list)
+            DatabaseRequests.shared.createOrUpdateList(list: list) {
+                error in
+                
+                if let error = error {
+                    _ = SweetAlert().showAlert("Oops!", subTitle: error.localizedDescription, style: .error)
+                } else {
+                    _ = SweetAlert().showAlert("Success!", subTitle: "New list has been successfully created.", style: .success)
+                    self.tableView.beginUpdates()
+                    self.lists.append(list)
+                    self.tableView.insertRows(at: [IndexPath(row: self.lists.count - 1, section: 0)], with: .automatic)
+                    self.tableView.endUpdates()
+                }
+            }
         }
     }
     

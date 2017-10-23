@@ -169,7 +169,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="5dw-DU-TWR">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="WKa-l6-n0v">
+                        <barButtonItem key="leftBarButtonItem" title="Done" id="WKa-l6-n0v">
                             <connections>
                                 <action selector="onCancelButton:" destination="l8l-GF-g8m" id="lZs-Ag-Wls"/>
                             </connections>

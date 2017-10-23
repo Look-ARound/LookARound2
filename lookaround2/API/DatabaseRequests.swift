@@ -21,12 +21,19 @@ class DatabaseRequests {
     private init () {} // avoid creating object for this class
     
     // Use this method to create/edit a list
-    func createOrUpdateList(list: List) -> Void {
-        self.ref.child(listsPath).updateChildValues([list.id : list.firebaseRepresentation()])
+    func createOrUpdateList(list: List, completionHandler: ((_ error: Error?) -> Void)? = nil) -> Void {
+        self.ref.child(listsPath).updateChildValues([list.id : list.firebaseRepresentation()]) {
+            (error, _) in
+            completionHandler?(error)
+        }
     }
     
-    func deleteList(list: List) -> Void {
+    func deleteList(list: List, completionHandler: ((_ error: Error?) -> Void)? = nil) -> Void {
         self.ref.child(listsPath).child(list.id).removeValue()
+        self.ref.child(listsPath).child(list.id).removeValue {
+            (error, _) in
+            completionHandler?(error)
+        }
     }
     
     func fetchCurrentUserLists(success: @escaping ([List]?)->(), failure: @escaping (Error?)->()) -> Void {
@@ -66,7 +73,6 @@ class DatabaseRequests {
                     self.allListsByListID[listIDStr] = newList
                 }
             }
-            
             completion(Array(self.allListsByListID.values))
         }
     }
