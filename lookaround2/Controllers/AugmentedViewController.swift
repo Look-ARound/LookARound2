@@ -51,8 +51,8 @@ class AugmentedViewController: UIViewController {
                 print("no location")
                 return CLLocation(latitude: -180.0, longitude: -180.0)
             }
-            // return coreLocation // SETLOCATION(1/2) uncomment this line to use actual current location
-            return CLLocation(latitude: 37.7837851, longitude: -122.4334173) // SETLOCATION (1/2) uncomment this line to use SF location
+            return coreLocation // SETLOCATION(1/2) uncomment this line to use actual current location
+            // return CLLocation(latitude: 37.7837851, longitude: -122.4334173) // SETLOCATION (1/2) uncomment this line to use SF location
         }
     }
     
@@ -425,7 +425,7 @@ class AugmentedViewController: UIViewController {
         
         // SETLOCATION(2/2) Comment this line out to use actual current location
         // Uncomment this line to use SF location
-        mapView.setCenter(CLLocationCoordinate2DMake(37.7837851, -122.4334173), zoomLevel: 12, animated: true)
+        // mapView.setCenter(CLLocationCoordinate2DMake(37.7837851, -122.4334173), zoomLevel: 12, animated: true)
     }
     
     private func calloutImage(for stepDescription: String) -> UIImage? {
@@ -614,12 +614,20 @@ extension AugmentedViewController: MGLMapViewDelegate {
     
 }
 
+// MARK: - PlaceDetail Delegate
 extension AugmentedViewController: PlaceDetailTableViewControllerDelegate {
     func getDirections(destLat: Double, destLong: Double) {
         if isMapHidden() {
             slideMap()
         }
         //mapView.getDirections( source: (LocationService.shared.getCurrentLocation()?.coordinate)!, dest: CLLocationCoordinate2D(latitude: destLat, longitude: destLong))
+    }
+    
+    func getDirections(for place: Place) {
+        if isMapHidden() {
+            slideMap()
+        }
+        queryDirections(with: place.location)
     }
 }
 

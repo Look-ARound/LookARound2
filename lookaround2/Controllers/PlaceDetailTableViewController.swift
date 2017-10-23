@@ -12,6 +12,7 @@ import CoreLocation
 
 @objc protocol PlaceDetailTableViewControllerDelegate {
     @objc optional func getDirections( destLat: Double, destLong: Double )
+    @objc optional func getDirections(for place: Place)
 }
 
 internal class PlaceDetailTableViewController: UITableViewController {
@@ -27,7 +28,7 @@ internal class PlaceDetailTableViewController: UITableViewController {
     @IBOutlet private var placeMapView: MKMapView!
     @IBOutlet private var directionsButton: UIButton!
     
-    internal var place: Place?
+    internal var place: Place!
 
     var delegate: PlaceDetailTableViewControllerDelegate?
     
@@ -47,9 +48,6 @@ internal class PlaceDetailTableViewController: UITableViewController {
     // MARK: - Helpers
     
     private func setupViews() {
-        guard let place = place else {
-            return
-        }
         if let imageURLString = place.picture {
             if let imageURL = URL(string: imageURLString) {
                 self.placeImageView.setImageWith(imageURL)
@@ -69,18 +67,14 @@ internal class PlaceDetailTableViewController: UITableViewController {
     
     private func setupMapView() {
         let annotation = MKPointAnnotation()
-        guard let place = place else {
-            return
-        }
         annotation.coordinate = place.coordinate
         placeMapView.addAnnotation(annotation)
        placeMapView.showAnnotations([annotation], animated: true)
     }
     
     @IBAction func onDirectionsButton(_ sender: Any) {
-        delegate?.getDirections?(destLat: (place?.latitude)!, destLong: (place?.longitude)!)
+        delegate?.getDirections?(for: place)
         dismiss(animated: true, completion: nil)
-        
     }
     
     @IBAction func onCancelButton(_ sender: Any) {
