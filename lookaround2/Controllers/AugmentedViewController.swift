@@ -409,7 +409,7 @@ class AugmentedViewController: UIViewController {
             return
         }
         print("found place")
-        //showDetailVC(forPlace: tappedPlace)
+        showDetailVC(forPlace: tappedPlace)
     }
     
 //    func showCallout(feature: MGLPointFeature) {

@@ -56,7 +56,7 @@
 		<key>GoogleToolboxForMac.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>14</integer>
+			<integer>15</integer>
 		</dict>
 		<key>MBProgressHUD.xcscheme</key>
 		<dict>
