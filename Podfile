@@ -13,6 +13,7 @@ target 'lookaround2' do
   pod 'Firebase/Database'
   pod 'FacebookCore'
   pod 'FacebookLogin'
+  pod 'FacebookShare'
   pod 'Mapbox-iOS-SDK', '~> 3.6'
   pod 'MapboxDirections.swift', '~> 0.11'
   # pod 'Polyline', '4.2.0'
