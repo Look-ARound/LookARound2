@@ -148,7 +148,7 @@ private struct PlaceSearchRequest: GraphRequestProtocol {
     var graphPath: String = "" // This string will be populated with the graphPathString function which is called by PlaceSearch().fetchPlaces.
     
     // Places available fields documentation at https://developers.facebook.com/docs/places/fields
-    var parameters: [String: Any]? = ["fields": "name, about, id, location, context, engagement, checkins, picture, cover, overall_star_rating, hours, is_always_open, single_line_address"]
+    var parameters: [String: Any]? = ["fields": "id, name, about, location, category_list, context, checkins, picture, cover, single_line_address"]
     
     // Logged in and Not-Logged-In access documented at https://developers.facebook.com/docs/places/access-tokens
     var accessToken = AccessToken.current

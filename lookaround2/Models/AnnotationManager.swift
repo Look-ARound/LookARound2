@@ -9,6 +9,7 @@
 
 import ARKit
 import CoreLocation
+import Mapbox
 
 @objc public protocol AnnotationManagerDelegate {
     
@@ -106,15 +107,13 @@ extension AnnotationManager: ARSCNViewDelegate {
             } else {
                 newNode = createDefaultNode()
             }
-//            if let annotationPlace = annotation.place {
-//                if let placeID = annotationPlace.id {
-//                    let idName = placeID.uuidString
-//                    newNode.name = idName
-//                }
-//            }
             
             if let calloutImage = annotation.calloutImage {
                 let calloutNode = createCalloutNode(with: calloutImage, node: newNode)
+                newNode.addChildNode(calloutNode)
+            }
+            else {
+                let calloutNode = createDefaultCallout(using: annotation, for: newNode)
                 newNode.addChildNode(calloutNode)
             }
             
@@ -130,6 +129,7 @@ extension AnnotationManager: ARSCNViewDelegate {
     
     func createDefaultNode() -> SCNNode {
         let geometry = SCNSphere(radius: 0.2)
+        // let geometry = SCNSphere(radius: 1.0)
         geometry.firstMaterial?.diffuse.contents = UIColor.red
         return SCNNode(geometry: geometry)
     }
@@ -140,11 +140,11 @@ extension AnnotationManager: ARSCNViewDelegate {
         var height: CGFloat = 0.0
         
         if image.size.width >= image.size.height {
-            width = 5.0 * (image.size.width / image.size.height)
-            height = 5.0
+            width = 3.0 * (image.size.width / image.size.height)
+            height = 3.0
         } else {
-            width = 5.0
-            height = 5.0 * (image.size.height / image.size.width)
+            width = 3.0
+            height = 3.0 * (image.size.height / image.size.width)
         }
         
         let calloutGeometry = SCNPlane(width: width, height: height)
@@ -154,7 +154,33 @@ extension AnnotationManager: ARSCNViewDelegate {
         var nodePosition = node.position
         let (min, max) = node.boundingBox
         let nodeHeight = max.y - min.y
-        nodePosition.y = nodeHeight + 0.5
+        nodePosition.y = nodeHeight + 2.0
+        
+        calloutNode.position = nodePosition
+        
+        let constraint = SCNBillboardConstraint()
+        constraint.freeAxes = [.Y]
+        calloutNode.constraints = [constraint]
+        
+        return calloutNode
+    }
+    
+    func createDefaultCallout(using annotation: Annotation, for node: SCNNode) -> SCNNode {
+        
+        guard let annotationTitle = annotation.title else {
+            print("no title")
+            return SCNNode()
+        }
+        let title = SCNText(string: annotationTitle, extrusionDepth: 0)
+        title.font = UIFont.systemFont(ofSize: 1.2)
+
+        let calloutNode = SCNNode(geometry: title)
+        var nodePosition = node.position
+        let (cmin, cmax) = calloutNode.boundingBox
+        let (min, max) = node.boundingBox
+        let calloutWidth = cmax.x - cmin.x
+        nodePosition.y = max.y + 0.1
+        nodePosition.x -= calloutWidth/2
         
         calloutNode.position = nodePosition
         

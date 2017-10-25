@@ -51,8 +51,8 @@ class AugmentedViewController: UIViewController {
                 print("no location")
                 return CLLocation(latitude: -180.0, longitude: -180.0)
             }
-            return coreLocation // SETLOCATION(1/2) uncomment this line to use actual current location
-            // return CLLocation(latitude: 37.7837851, longitude: -122.4334173) // SETLOCATION (1/2) uncomment this line to use SF location
+            //return coreLocation // SETLOCATION(1/2) uncomment this line to use actual current location
+            return CLLocation(latitude: 37.7837851, longitude: -122.4334173) // uncomment this line to use SF location
         }
     }
     
@@ -65,8 +65,7 @@ class AugmentedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Configure and style control and map views
-        styleControlViewContainer()
+        // Configure and style the 2D map view
         configureMapboxMapView()
         
         // SceneKit
@@ -97,7 +96,64 @@ class AugmentedViewController: UIViewController {
         sceneView.session.pause()
     }
     
+    
+    // MARK: - 2D Map setup
+    func initMap()
+    {
+        mapView.alpha = 0.9
+        
+        controlsContainerView.translatesAutoresizingMaskIntoConstraints = false
+        mapTop = controlsContainerView.topAnchor.constraint(equalTo: view.centerYAnchor)
+        mapTop.isActive = true
+        mapBottom = controlsContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        mapBottom.isActive = true
+        
+        // Move mapView offscreen (below view)
+        self.view.layoutIfNeeded() // Do this, otherwise frame.height will be incorrect
+        mapTop.constant = mapView.frame.height
+        mapBottom.constant = mapView.frame.height
+    }
+    
+    func isMapHidden() -> Bool {
+        return !(self.mapBottom?.constant == 0)
+    }
+    
+    private func configureMapboxMapView() {
+        mapView.delegate = self
+        mapView.styleURL = MGLStyle.streetsStyleURL()
+        mapView.userTrackingMode = .followWithHeading
+        mapView.layer.cornerRadius = 10
+        
+        // SETLOCATION(2/2) Comment this line out to use actual current location
+        // Uncomment this line to use SF location
+        mapView.setCenter(CLLocationCoordinate2DMake(37.7837851, -122.4334173), zoomLevel: 12, animated: true)
+    }
+    
     // MARK: - AR scene setup
+    
+    private func startSession() {
+        // Create a session configuration
+        let configuration = ARWorldTrackingConfiguration()
+        
+        if automaticallyFindTrueNorth {
+            configuration.worldAlignment = .gravityAndHeading
+        } else {
+            configuration.worldAlignment = .gravity
+        }
+        
+        // Run the view's session
+        sceneView.session.run(configuration, options: [.resetTracking])
+    }
+    
+    private func prepButtonsWithARTheme(buttons : [UIButton]) {
+        for button in buttons {
+            button.setTitleColor(UIColor.LABrand.primary, for: .normal)
+            button.layer.cornerRadius = button.frame.size.height * 0.5
+            button.clipsToBounds = true
+            button.alpha = 0.6
+        }
+    }
+    
     func performFirstSearch() {
         // Add our own gesture recognizer to handle taps on our custom map features.
         sceneView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onMapTap(recognizer:))))
@@ -122,13 +178,14 @@ class AugmentedViewController: UIViewController {
         }
     }
     
+    // MARK: - Manage Places and AR Pins
     func addPlaces( places: [Place] ) {
         print( "* places.count=\(places.count)")
         
         for index in 0..<places.count {
             let place = places[index]
             
-            var location = CLLocation(coordinate: place.coordinate, altitude: 30, horizontalAccuracy: 5, verticalAccuracy: 5, timestamp: Date())
+            let location = CLLocation(coordinate: place.coordinate, altitude: 30, horizontalAccuracy: 5, verticalAccuracy: 5, timestamp: Date())
             // set user's current location to get the distance
             place.userLocation = currentLocation
             guard let distance = place.distance else {
@@ -136,7 +193,7 @@ class AugmentedViewController: UIViewController {
             }
             let distanceStr = "\(distance) meters"
             
-            let annotation2D = Annotation(location: location, calloutImage: #imageLiteral(resourceName: "pin"), place: place)
+            let annotation2D = Annotation(location: location, nodeImage: #imageLiteral(resourceName: "pin"), calloutImage: nil, place: place)
             annotation2D.subtitle = distanceStr
             mapView.addAnnotation(annotation2D)
             self.annotationManager.addAnnotation(annotation: annotation2D)
@@ -145,6 +202,7 @@ class AugmentedViewController: UIViewController {
             }
             print(placename)
         }
+    
     }
     
     func refreshPins(withList list: List) {
@@ -182,25 +240,96 @@ class AugmentedViewController: UIViewController {
         }
     }
     
-    // MARK: - 2D Map setup
-    func initMap()
-    {
-        mapView.alpha = 0.9
+    // MARK: - Directions
+    
+    // Query the directions endpoint with waypoints that are the current center location of the map
+    // as the start and the passed in location as the end
+    func queryDirections(with endLocation: CLLocation) {
+        let currentLocation = CLLocation(latitude: self.mapView.centerCoordinate.latitude, longitude: self.mapView.centerCoordinate.longitude)
+        annotationManager.originLocation = currentLocation
         
-        controlsContainerView.translatesAutoresizingMaskIntoConstraints = false
-        mapTop = controlsContainerView.topAnchor.constraint(equalTo: view.centerYAnchor)
-        mapTop.isActive = true
-        mapBottom = controlsContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        mapBottom.isActive = true
+        let waypoints = [
+            Waypoint(coordinate: CLLocationCoordinate2D(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude), name: "start"),
+            Waypoint(coordinate: CLLocationCoordinate2D(latitude: endLocation.coordinate.latitude, longitude: endLocation.coordinate.longitude), name: "end"),
+            ]
         
-        // Move mapView offscreen (below view)
-        self.view.layoutIfNeeded() // Do this, otherwise frame.height will be incorrect
-        mapTop.constant = mapView.frame.height
-        mapBottom.constant = mapView.frame.height
+        // Ask for walking directions
+        let options = RouteOptions(waypoints: waypoints, profileIdentifier: .walking)
+        options.includesSteps = true
+        
+        var annotationsToAdd = [Annotation]()
+        
+        // Initiate the query
+        let _ = directions.calculate(options) { (waypoints, routes, error) in
+            guard error == nil else {
+                print("Error calculating directions: \(error!)")
+                return
+            }
+            
+            // If a route is returned:
+            if let route = routes?.first, let leg = route.legs.first {
+                var polyline = [CLLocationCoordinate2D]()
+                
+                // Add an AR node and map view annotation for every defined "step" in the route
+                for step in leg.steps {
+                    let coordinate = step.coordinates!.first!
+                    polyline.append(coordinate)
+                    let stepLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+                    
+                    // Update feature collection for map view
+                    self.updateShapeCollectionFeature(&self.waypointShapeCollectionFeature, with: stepLocation, typeKey: "waypoint-type", typeAttribute: "big")
+                    
+                    // Add an AR node
+                    let annotation = Annotation(location: stepLocation, calloutImage: self.calloutImage(for: step.description), place: nil)
+                    annotationsToAdd.append(annotation)
+                }
+                
+                let metersPerNode: CLLocationDistance = 5
+                let turfPolyline = Polyline(polyline)
+                
+                // Walk the route line and add a small AR node and map view annotation every metersPerNode
+                for i in stride(from: metersPerNode, to: turfPolyline.distance() - metersPerNode, by: metersPerNode) {
+                    // Use Turf to find the coordinate of each incremented distance along the polyline
+                    if let nextCoordinate = turfPolyline.coordinateFromStart(distance: i) {
+                        let interpolatedStepLocation = CLLocation(latitude: nextCoordinate.latitude, longitude: nextCoordinate.longitude)
+                        
+                        // Update feature collection for map view
+                        self.updateShapeCollectionFeature(&self.waypointShapeCollectionFeature, with: interpolatedStepLocation, typeKey: "waypoint-type", typeAttribute: "small")
+                        
+                        // Add an AR node
+                        let annotation = Annotation(location: interpolatedStepLocation, calloutImage: nil, place: nil)
+                        annotationsToAdd.append(annotation)
+                    }
+                }
+                
+                // Update the source used for route line visualization with the latest waypoint shape collection
+                self.updateSource(identifer: "annotationSource", shape: self.waypointShapeCollectionFeature)
+                
+                // Update the annotation manager with the latest AR annotations
+                self.annotationManager.addAnnotations(annotations: annotationsToAdd)
+            }
+        }
+        
+        // Put the map view into a "follow with course" tracking mode
+        mapView.userTrackingMode = .followWithCourse
     }
     
-    func isMapHidden() -> Bool {
-        return !(self.mapBottom?.constant == 0)
+    private func calloutImage(for stepDescription: String) -> UIImage? {
+        
+        let lowerCasedDescription = stepDescription.lowercased()
+        var image: UIImage?
+        
+        if lowerCasedDescription.contains("arrived") {
+            image = UIImage(named: "arrived")
+        } else if lowerCasedDescription.contains("left") {
+            image = UIImage(named: "turnleft")
+        } else if lowerCasedDescription.contains("right") {
+            image = UIImage(named: "turnright")
+        } else if lowerCasedDescription.contains("head") {
+            image = UIImage(named: "straightahead")
+        }
+        
+        return image
     }
     
     // MARK: - Actions
@@ -319,143 +448,6 @@ class AugmentedViewController: UIViewController {
         
         present(filterNVC, animated: true, completion: nil)
     }
-    
-    // MARK: - Directions
-    
-    // Query the directions endpoint with waypoints that are the current center location of the map
-    // as the start and the passed in location as the end
-    func queryDirections(with endLocation: CLLocation) {
-        let currentLocation = CLLocation(latitude: self.mapView.centerCoordinate.latitude, longitude: self.mapView.centerCoordinate.longitude)
-        annotationManager.originLocation = currentLocation
-        
-        let waypoints = [
-            Waypoint(coordinate: CLLocationCoordinate2D(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude), name: "start"),
-            Waypoint(coordinate: CLLocationCoordinate2D(latitude: endLocation.coordinate.latitude, longitude: endLocation.coordinate.longitude), name: "end"),
-            ]
-        
-        // Ask for walking directions
-        let options = RouteOptions(waypoints: waypoints, profileIdentifier: .walking)
-        options.includesSteps = true
-        
-        var annotationsToAdd = [Annotation]()
-        
-        // Initiate the query
-        let _ = directions.calculate(options) { (waypoints, routes, error) in
-            guard error == nil else {
-                print("Error calculating directions: \(error!)")
-                return
-            }
-            
-            // If a route is returned:
-            if let route = routes?.first, let leg = route.legs.first {
-                var polyline = [CLLocationCoordinate2D]()
-                
-                // Add an AR node and map view annotation for every defined "step" in the route
-                for step in leg.steps {
-                    let coordinate = step.coordinates!.first!
-                    polyline.append(coordinate)
-                    let stepLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-                    
-                    // Update feature collection for map view
-                    self.updateShapeCollectionFeature(&self.waypointShapeCollectionFeature, with: stepLocation, typeKey: "waypoint-type", typeAttribute: "big")
-                    
-                    // Add an AR node
-                    let annotation = Annotation(location: stepLocation, calloutImage: self.calloutImage(for: step.description), place: nil)
-                    annotationsToAdd.append(annotation)
-                }
-                
-                let metersPerNode: CLLocationDistance = 5
-                let turfPolyline = Polyline(polyline)
-                
-                // Walk the route line and add a small AR node and map view annotation every metersPerNode
-                for i in stride(from: metersPerNode, to: turfPolyline.distance() - metersPerNode, by: metersPerNode) {
-                    // Use Turf to find the coordinate of each incremented distance along the polyline
-                    if let nextCoordinate = turfPolyline.coordinateFromStart(distance: i) {
-                        let interpolatedStepLocation = CLLocation(latitude: nextCoordinate.latitude, longitude: nextCoordinate.longitude)
-                        
-                        // Update feature collection for map view
-                        self.updateShapeCollectionFeature(&self.waypointShapeCollectionFeature, with: interpolatedStepLocation, typeKey: "waypoint-type", typeAttribute: "small")
-                        
-                        // Add an AR node
-                        let annotation = Annotation(location: interpolatedStepLocation, calloutImage: nil, place: nil)
-                        annotationsToAdd.append(annotation)
-                    }
-                }
-                
-                // Update the source used for route line visualization with the latest waypoint shape collection
-                self.updateSource(identifer: "annotationSource", shape: self.waypointShapeCollectionFeature)
-                
-                // Update the annotation manager with the latest AR annotations
-                self.annotationManager.addAnnotations(annotations: annotationsToAdd)
-            }
-        }
-        
-        // Put the map view into a "follow with course" tracking mode
-        mapView.userTrackingMode = .followWithCourse
-    }
-    
-    // MARK: - Utility methods
-    
-    private func startSession() {
-        // Create a session configuration
-        let configuration = ARWorldTrackingConfiguration()
-        
-        if automaticallyFindTrueNorth {
-            configuration.worldAlignment = .gravityAndHeading
-        } else {
-            configuration.worldAlignment = .gravity
-        }
-        
-        // Run the view's session
-        sceneView.session.run(configuration, options: [.resetTracking])
-    }
-    
-    private func prepButtonsWithARTheme(buttons : [UIButton]) {
-        for button in buttons {
-            button.setTitleColor(UIColor.LABrand.primary, for: .normal)
-            button.layer.cornerRadius = button.frame.size.height * 0.5
-            button.clipsToBounds = true
-            button.alpha = 0.6
-        }
-    }
-    
-    private func styleControlViewContainer() {
-        let blurEffect = UIBlurEffect(style: .prominent)
-        let blurView = UIVisualEffectView(effect: blurEffect)
-        blurView.frame = controlsContainerView.bounds
-        blurView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        controlsContainerView.insertSubview(blurView, belowSubview: mapView)
-    }
-    
-    private func configureMapboxMapView() {
-        mapView.delegate = self
-        mapView.styleURL = MGLStyle.streetsStyleURL()
-        mapView.userTrackingMode = .followWithHeading
-        mapView.layer.cornerRadius = 10
-        
-        // SETLOCATION(2/2) Comment this line out to use actual current location
-        // Uncomment this line to use SF location
-        // mapView.setCenter(CLLocationCoordinate2DMake(37.7837851, -122.4334173), zoomLevel: 12, animated: true)
-    }
-    
-    private func calloutImage(for stepDescription: String) -> UIImage? {
-        
-        let lowerCasedDescription = stepDescription.lowercased()
-        var image: UIImage?
-        
-        if lowerCasedDescription.contains("arrived") {
-            image = UIImage(named: "arrived")
-        } else if lowerCasedDescription.contains("left") {
-            image = UIImage(named: "turnleft")
-        } else if lowerCasedDescription.contains("right") {
-            image = UIImage(named: "turnright")
-        } else if lowerCasedDescription.contains("head") {
-            image = UIImage(named: "straightahead")
-        }
-        
-        return image
-    }
-
 
     // MARK: - Navigation
 
@@ -489,13 +481,18 @@ extension AugmentedViewController: AnnotationManagerDelegate {
     
     func node(for annotation: Annotation) -> SCNNode? {
         
-        if annotation.calloutImage == nil {
-            // Comment `createLightBulbNode` and add `return nil` to use the default node
-            //return createLightBulbNode()
-            return nil
-        } else {
+        if let nodeImage = annotation.nodeImage {
+            // node image supplied (place)
+            return createPinNode(with: nodeImage)
+        } else if annotation.calloutImage != nil { // && annotation.nodeImage == nil {
+            // only callout image supplied (waypoints of directions), make the flashing ball underneath
             let firstColor = UIColor(red: 0.0, green: 99/255.0, blue: 175/255.0, alpha: 1.0)
             return createSphereNode(with: 0.5, firstColor: firstColor, secondColor: UIColor.green)
+        } else {
+            // no special node or callout image supplied (Pac-Man breadcrumbs for directions)
+            // Comment `createLightBulbNode` and add `return nil` to use the default node
+            // return createLightBulbNode()
+            return nil
         }
     }
     
@@ -511,10 +508,28 @@ extension AugmentedViewController: AnnotationManagerDelegate {
         return sphereNode
     }
     
-    func createLightBulbNode() -> SCNNode {
-        let lightBulbNode = collada2SCNNode(filepath: "art.scnassets/light-bulb.dae")
-        lightBulbNode.scale = SCNVector3Make(0.25, 0.25, 0.25)
-        return lightBulbNode
+    func createPinNode(with image: UIImage) -> SCNNode {
+            var width: CGFloat = 0.0
+            var height: CGFloat = 0.0
+            
+            if image.size.width >= image.size.height {
+                width = 5.0 * (image.size.width / image.size.height)
+                height = 5.0
+            } else {
+                width = 5.0
+                height = 5.0 * (image.size.height / image.size.width)
+            }
+            
+            let calloutGeometry = SCNPlane(width: width, height: height)
+            calloutGeometry.firstMaterial?.diffuse.contents = image
+            
+            let pinNode = SCNNode(geometry: calloutGeometry)
+            
+            let constraint = SCNBillboardConstraint()
+            constraint.freeAxes = [.Y]
+            pinNode.constraints = [constraint]
+            
+            return pinNode
     }
     
     func collada2SCNNode(filepath:String) -> SCNNode {
@@ -626,13 +641,6 @@ extension AugmentedViewController: MGLMapViewDelegate {
 
 // MARK: - PlaceDetail Delegate
 extension AugmentedViewController: PlaceDetailTableViewControllerDelegate {
-    func getDirections(destLat: Double, destLong: Double) {
-        if isMapHidden() {
-            slideMap()
-        }
-        //mapView.getDirections( source: (LocationService.shared.getCurrentLocation()?.coordinate)!, dest: CLLocationCoordinate2D(latitude: destLat, longitude: destLong))
-    }
-    
     func getDirections(for place: Place) {
         if isMapHidden() {
             slideMap()

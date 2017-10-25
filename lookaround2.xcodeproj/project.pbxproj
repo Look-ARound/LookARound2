@@ -22,6 +22,7 @@
 		7747FEF11F9B409300366D54 /* lookaround2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7747FEF01F9B409300366D54 /* lookaround2Tests.swift */; };
 		7747FEFC1F9B409300366D54 /* lookaround2UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7747FEFB1F9B409300366D54 /* lookaround2UITests.swift */; };
 		7761D2C31F9B471C004FDB15 /* AugmentedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7761D2C21F9B471C004FDB15 /* AugmentedViewController.swift */; };
+		77795EA51F9DD670004C9610 /* ARCalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77795EA41F9DD670004C9610 /* ARCalloutView.swift */; };
 		7789498F1F9B618300910FD1 /* PlaceDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7789498B1F9B618200910FD1 /* PlaceDetailTableViewController.swift */; };
 		778949901F9B618300910FD1 /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7789498C1F9B618300910FD1 /* SearchResultsViewController.swift */; };
 		778949911F9B618300910FD1 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7789498D1F9B618300910FD1 /* FilterViewController.swift */; };
@@ -87,6 +88,7 @@
 		7761D2C21F9B471C004FDB15 /* AugmentedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AugmentedViewController.swift; sourceTree = "<group>"; };
 		7761D2C41F9B4844004FDB15 /* FilterUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterUtilities.swift; sourceTree = "<group>"; };
 		7761D2C51F9B4844004FDB15 /* GraphRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphRequests.swift; sourceTree = "<group>"; };
+		77795EA41F9DD670004C9610 /* ARCalloutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCalloutView.swift; sourceTree = "<group>"; };
 		778949811F9B603C00910FD1 /* LABrand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LABrand.swift; sourceTree = "<group>"; };
 		778949821F9B603C00910FD1 /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		778949831F9B60BD00910FD1 /* DefaultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultCell.swift; sourceTree = "<group>"; };
@@ -246,6 +248,7 @@
 		7747FF0D1F9B416500366D54 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				77795EA41F9DD670004C9610 /* ARCalloutView.swift */,
 				778949851F9B60BD00910FD1 /* FilterCell.swift */,
 				778949831F9B60BD00910FD1 /* DefaultCell.swift */,
 				778949871F9B60BE00910FD1 /* SearchResultsCell.swift */,
@@ -459,9 +462,11 @@
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FLEX/FLEX.framework",
 				"${BUILT_PRODUCTS_DIR}/FacebookCore/FacebookCore.framework",
 				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
+				"${BUILT_PRODUCTS_DIR}/FacebookShare/FacebookShare.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework",
@@ -480,9 +485,11 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLEX.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookShare.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mapbox.framework",
@@ -518,6 +525,7 @@
 				778949931F9B623100910FD1 /* Place.swift in Sources */,
 				778949991F9B624700910FD1 /* GraphRequests.swift in Sources */,
 				7761D2C31F9B471C004FDB15 /* AugmentedViewController.swift in Sources */,
+				77795EA51F9DD670004C9610 /* ARCalloutView.swift in Sources */,
 				778949941F9B623500910FD1 /* LABrand.swift in Sources */,
 				7789498F1F9B618300910FD1 /* PlaceDetailTableViewController.swift in Sources */,
 				49E1E2211F9D2E1D004F972C /* AddPlaceViewController.swift in Sources */,
@@ -699,6 +707,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4N63YKK822;
+				DEVELOPMENT_TEAM = PUQ8TNP3W4;
 				INFOPLIST_FILE = lookaround2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.artek.LookARound;
@@ -717,6 +726,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4N63YKK822;
+				DEVELOPMENT_TEAM = PUQ8TNP3W4;
 				INFOPLIST_FILE = lookaround2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.artek.LookARound;

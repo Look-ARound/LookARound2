@@ -55,7 +55,7 @@ internal class PlaceDetailTableViewController: UITableViewController {
         }
         nameLabel.text = place.name
         checkinsCountLabel.text = "\(place.checkins ?? 0) checkins"
-        likesCountLabel.text = "\(place.likes ?? 0) likes"
+        likesCountLabel.text = "\(place.category ?? "")"
         addressLabel.text = place.address
         contextLabel.text = place.context
         

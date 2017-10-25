@@ -22,7 +22,7 @@ class SearchResultsCell: UITableViewCell {
             nameLabel.text = place.name
             aboutLabel.text = place.about
             contextLabel.text = place.context
-            engagementLabel.text = place.engagement
+            engagementLabel.text = "No likes"
             if let checkinCount = place.checkins {
                 checkinsLabel.text = String(checkinCount)
             }

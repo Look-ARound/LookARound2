@@ -29,15 +29,12 @@ class Place: NSObject {
     var longitude: Double
     var address: String?
     var about: String?
-    var categories: [Categories]?
+    var category: String?
     var thumbnail: String? = ""
     var picture: String? = ""
     var contextCount: Int?
     var context: String?
     var checkins: Int?
-    var likes: Int?
-    var engagement: String?
-    var rating: Int?
     var distance: CLLocationDistance?
     
     var coordinate: CLLocationCoordinate2D {
@@ -73,8 +70,9 @@ class Place: NSObject {
         context = json["context"]["friends_who_like"]["summary"]["social_sentence"].stringValue
         contextCount = json["context"]["friends_who_like"]["summary"]["total_count"].intValue
         checkins = json["checkins"].intValue
-        engagement = json["engagement"]["social_sentence"].stringValue
-        likes = json["engagement"]["count"].intValue
+        category = json["category_list"][0]["name"].stringValue
+        print(json)
+        print(category)
     }
     
     // MANUAL INIT for debugging and testing
