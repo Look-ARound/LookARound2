@@ -83,7 +83,6 @@ struct PlaceSearch {
             } else {
                 placeIDRequest.accessToken = nil
                 placeIDRequest.parameters?["access_token"] = Bundle.main.object(forInfoDictionaryKey: "FacebookAppSecret")
-                // Bundle.main.object(forInfoDictionaryKey: "FBSECRET")
             }
             placeIDRequest.graphPath = "/\(placeID)"
 

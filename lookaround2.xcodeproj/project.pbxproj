@@ -293,6 +293,7 @@
 				B640DC3BBAB68ECF8B0B3CD6 /* [CP] Embed Pods Frameworks */,
 				0302D3E7FB2C1A409A4F9B63 /* [CP] Copy Pods Resources */,
 				771EC5441FA09610006B0C1A /* ShellScript */,
+				771F3BC41FA1439E00FD3B91 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -463,6 +464,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "token_file=./lookaround2/mapbox_access_token\ntoken=\"$(cat $token_file)\"\nif [ \"$token\" ]; then\nplutil -replace MGLMapboxAccessToken -string $token \"$TARGET_BUILD_DIR/$INFOPLIST_PATH\"\nelse\necho 'error: Missing Mapbox access token'\nopen 'https://www.mapbox.com/studio/account/tokens/'\necho \"error: Get an access token from <https://www.mapbox.com/studio/account/tokens/>, then create a new file at $token_file that contains the access token.\"\nexit 1\nfi";
+		};
+		771F3BC41FA1439E00FD3B91 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "secret_file=./lookaround2/fb_access\nsecret=\"$(cat $secret_file)\"\nif [ \"$secret\" ]; then\nplutil -replace FacebookAppSecret -string $secret \"$TARGET_BUILD_DIR/$INFOPLIST_PATH\"\nelse\necho 'error: Missing Facebook access token. Copy the fb_access file to your root.'\nexit 1\nfi";
 		};
 		B640DC3BBAB68ECF8B0B3CD6 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
