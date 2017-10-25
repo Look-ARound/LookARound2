@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>FacebookAppSecret</key>
+	<string>165035650754339|cebd76d3cf7ee1040cdb1c620e340f25</string>
 	<key>MGLMapboxAccessToken</key>
 	<string>copy mapbox_access_token file to root</string>
 	<key>CFBundleDevelopmentRegion</key>

@@ -48,7 +48,7 @@ struct PlaceSearch {
             request.accessToken = token
         } else {
             request.accessToken = nil
-            request.parameters?["access_token"] = "165035650754339|cebd76d3cf7ee1040cdb1c620e340f25"
+            request.parameters?["access_token"] = Bundle.main.object(forInfoDictionaryKey: "FacebookAppSecret")
             request.parameters?["fields"] = "id, name, about, location, category_list, checkins, picture, cover, single_line_address"
         }
         if let categories = categories {
@@ -82,7 +82,7 @@ struct PlaceSearch {
                 placeIDRequest.accessToken = token
             } else {
                 placeIDRequest.accessToken = nil
-                placeIDRequest.parameters?["access_token"] = "165035650754339|cebd76d3cf7ee1040cdb1c620e340f25"
+                placeIDRequest.parameters?["access_token"] = Bundle.main.object(forInfoDictionaryKey: "FacebookAppSecret")
                 // Bundle.main.object(forInfoDictionaryKey: "FBSECRET")
             }
             placeIDRequest.graphPath = "/\(placeID)"
