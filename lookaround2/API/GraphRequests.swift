@@ -44,6 +44,13 @@ struct PlaceSearch {
     func fetchPlaces(with categories:[FilterCategory]?, location: CLLocationCoordinate2D, distance: Int,
                      success: @escaping ([Place]?)->(), failure: @escaping (Error)->()) -> Void {
         var request = PlaceSearchRequest()
+        if let token = AccessToken.current {
+            request.accessToken = token
+        } else {
+            request.accessToken = nil
+            request.parameters?["access_token"] = "165035650754339|cebd76d3cf7ee1040cdb1c620e340f25"
+            request.parameters?["fields"] = "id, name, about, location, category_list, checkins, picture, cover, single_line_address"
+        }
         if let categories = categories {
             request.graphPath = graphPathString(categories: categories)
         } else {
@@ -71,8 +78,15 @@ struct PlaceSearch {
         
         for placeID in placeIDs {
             var placeIDRequest = PlaceSearchRequest()
+            if let token = AccessToken.current {
+                placeIDRequest.accessToken = token
+            } else {
+                placeIDRequest.accessToken = nil
+                placeIDRequest.parameters?["access_token"] = "165035650754339|cebd76d3cf7ee1040cdb1c620e340f25"
+                // Bundle.main.object(forInfoDictionaryKey: "FBSECRET")
+            }
             placeIDRequest.graphPath = "/\(placeID)"
-            
+
             placeIDSearchConnection.add(placeIDRequest,
                                         batchParameters: nil,
                                         completion: { (response, result : GraphRequestResult) in
@@ -148,10 +162,12 @@ private struct PlaceSearchRequest: GraphRequestProtocol {
     var graphPath: String = "" // This string will be populated with the graphPathString function which is called by PlaceSearch().fetchPlaces.
     
     // Places available fields documentation at https://developers.facebook.com/docs/places/fields
-    var parameters: [String: Any]? = ["fields": "id, name, about, location, category_list, context, checkins, picture, cover, single_line_address"]
+    var parameters: [String: Any]? = ["fields": "id, name, about, location, category_list, checkins, picture, cover, single_line_address, context"]
     
-    // Logged in and Not-Logged-In access documented at https://developers.facebook.com/docs/places/access-tokens
-    var accessToken = AccessToken.current
+    // Access documented at https://developers.facebook.com/docs/places/access-tokens
+    // Default access token is the public client token, used for logged-out users
+    // var accessToken: AccessToken? = AccessToken.init(authenticationToken: SDKSettings.clientToken!)
+    var accessToken: AccessToken?
     var httpMethod: GraphRequestHTTPMethod = .GET
     var apiVersion: GraphAPIVersion = .defaultVersion
     
