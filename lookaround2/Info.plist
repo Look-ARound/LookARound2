@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>FacebookAppSecret</key>
+	<string>copy fb_access file to root</string>
+	<key>MGLMapboxAccessToken</key>
+	<string>copy mapbox_access_token file to root</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -31,6 +35,8 @@
 	<string>4</string>
 	<key>FacebookAppID</key>
 	<string>165035650754339</string>
+	<key>FacebookClientToken</key>
+	<string>a10a58a73b4ec85e0c11c67969166134</string>
 	<key>FacebookDisplayName</key>
 	<string>LookARound2</string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -42,8 +48,6 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>MGLMapboxAccessToken</key>
-	<string>pk.eyJ1Ijoid2FuZ2VsYSIsImEiOiJjajkweXhjZDIzNXhqMzRtcnVpcmczMnJ0In0.S7BYjtwr_K-gXPZeXSrzZA</string>
 	<key>NSCameraUsageDescription</key>
 	<string>This application will use the camera for Augmented Reality.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

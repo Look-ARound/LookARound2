@@ -163,9 +163,8 @@ class AugmentedViewController: UIViewController {
                           FilterCategory.Arts_Entertainment, FilterCategory.Travel_Transportation,
                           FilterCategory.Fitness_Recreation]
         
-        guard AccessToken.current != nil else {
-            print("no logged in user")
-            return
+        if AccessToken.current == nil {
+            print("no logged in user, trying anonymous graph request")
         }
         print(currentCoordinates)
         PlaceSearch().fetchPlaces(with: categories, location: currentCoordinates, success: { [weak self] (places: [Place]?) in

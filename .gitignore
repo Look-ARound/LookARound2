@@ -9,6 +9,10 @@ DerivedData/
 ## Firebase
 GoogleService-Info.plist
 
+## Secrets and Tokens
+mapbox_access_token
+fb_access
+
 ## Various settings
 *.pbxuser
 !default.pbxuser
