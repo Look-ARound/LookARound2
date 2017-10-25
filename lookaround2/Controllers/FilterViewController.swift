@@ -3,6 +3,7 @@
 //  LookARound
 //
 //  Created by Siji Rachel Tom on 10/14/17.
+//  Updated by John Nguyen on 10/24/17 for My Lists / Public Lists
 //  Copyright © 2017 LookARound. All rights reserved.
 //
 
@@ -15,23 +16,32 @@ protocol FilterViewControllerDelegate : NSObjectProtocol {
     func filterViewController(_filterViewController: FilterViewController, didSelectList list:List)
 }
 
+enum SectionType : Int {
+    case filters = 0
+    case login
+    case discoverLists
+}
+
 class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    enum SectionType : Int {
-        case filters = 0
-        case login
-        case discoverLists
-    }
-    
     @IBOutlet weak var filterTableView: UITableView!
     weak var delegate : FilterViewControllerDelegate?
     var coordinates: CLLocationCoordinate2D!
-    var lists = [List]()
+    var myListItem: ListItem!
+    var publicListItem: ListItem!
     
-    
+    var sectionItems: [SectionItem] = []
+  
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        myListItem = ListItem(title: "My Lists")
+        publicListItem = ListItem(title: "Public Lists")
+        sectionItems.append( CategoryItem(title: "Categories"))
+        sectionItems.append( myListItem )
+        sectionItems.append( publicListItem )
+        sectionItems.append( LoginItem(title: "Login"))
+        
         // Do any additional setup after loading the view.
         filterTableView.delegate = self
         filterTableView.dataSource = self        
@@ -41,9 +51,24 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         filterTableView.tableFooterView = UIView()
         
-        DatabaseRequests.shared.fetchAllLists { (lists : [List]) in
-            self.lists = lists
+        DatabaseRequests.shared.fetchPublicLists(success: { lists in
+            guard let lists = lists else {
+                return
+            }
+            self.publicListItem.lists = lists
             self.filterTableView.reloadData()
+        }) { error in
+            print(error)
+        }
+        
+        DatabaseRequests.shared.fetchCurrentUserLists(success: { lists in
+            guard let lists = lists else {
+                return
+            }
+            self.myListItem.lists = lists
+            self.filterTableView.reloadData()
+        }) { error in
+            print(error)
         }
         
         // TODO: Can we directly go to search results VC from here without going through the login page? I (Angela)
@@ -51,47 +76,41 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
 //        let resultsButton = UIBarButtonItem(title: "List Results", style: .plain, target: self, action: #selector(onResultsButton))
 //        navigationItem.rightBarButtonItem = resultsButton
 
+
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        // 1st section: filters
-        // 2nd section: log in rows, if the user isn't already logged in
-        
-        /* Final behavior: Use this to hide login button if user is already logged in
-        // var numSections = 1
-        
-        if AccessToken.current == nil {
-            // User is not logged in
-            numSections = 2
-        }
-         */
-        
-        // Forcing to always show 2 for debugging since we want to be able to access the login screen and logout button
-        let numSections = 3
+//        if AccessToken.current == nil {
+//            // User is not logged in
+//            numSections = 2
+//        }
+
+        let numSections = sectionItems.count
         
         return numSections
     }
     
-    func numRows(forSection section: SectionType) -> Int {
-        switch section {
-        case .filters:
-            return FilterCategory.Categories_Total_Count.rawValue
-        case .login:
-            return 1
-        case .discoverLists:
-            return lists.count
-        }
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return numRows(forSection: SectionType(rawValue: section)!)
+        return sectionItems[section].rowCount
     }
     
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let  header = tableView.dequeueReusableCell(withIdentifier: "HeaderCell") as! HeaderCell
+        
+        header.titleLabel.text = sectionItems[section].title
+        
+        return header
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40.0
+    }
+ 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : UITableViewCell
-        let section = SectionType(rawValue: indexPath.section)!
+        let sectionType = sectionItems[indexPath.section].type
         
-        switch section {
+        switch sectionType {
         case .filters:
             cell = tableView.dequeueReusableCell(withIdentifier: "FilterCell", for: indexPath)
             (cell as! FilterCell).filterNameLabel.text = FilterCategoryDisplayString(category: FilterCategory(rawValue: indexPath.row)!)
@@ -99,8 +118,9 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
             (cell as! DefaultCell).titleLabel.text = "Login to Facebook"
         case .discoverLists:
-            cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
-            (cell as! DefaultCell).titleLabel.text  = lists[indexPath.row].name
+            let listItem = sectionItems[indexPath.section] as! ListItem
+            cell = tableView.dequeueReusableCell(withIdentifier: "FilterCell", for: indexPath)
+            (cell as! FilterCell).filterNameLabel.text  = listItem.lists[indexPath.row].name
             cell.accessoryType = .none
         }
         
@@ -109,9 +129,9 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
-        let section = SectionType(rawValue: indexPath.section)!
-        switch section {
+
+        let sectionType = sectionItems[ indexPath.section ].type
+        switch sectionType {
         case .filters:
             let category = FilterCategory(rawValue: indexPath.row)!
             self.delegate?.filterViewController(_filterViewController: self,
@@ -122,7 +142,8 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
             showLoginScreen()
         case .discoverLists:
             // Selected list
-            let selectedList = lists[indexPath.row]
+            let listItem = sectionItems[indexPath.section] as! ListItem
+            let selectedList = listItem.lists[indexPath.row]
             self.delegate?.filterViewController(_filterViewController: self,
                                                 didSelectList: selectedList)
             dismiss(animated: true, completion: nil)
@@ -156,5 +177,50 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         // Pass the selected object to the new view controller.
     }
     */
-
 }
+
+class SectionItem {
+    var title: String!
+    var type: SectionType {
+        return SectionType.discoverLists
+    }
+    var rowCount: Int { return 0 }
+    
+    init( title: String ) {
+        self.title = title
+    }
+}
+
+class CategoryItem: SectionItem {
+    override var type: SectionType {
+        return SectionType.filters
+    }
+    override var rowCount: Int {
+        return FilterCategory.Categories_Total_Count.rawValue
+    }
+}
+
+class LoginItem: SectionItem {
+    override var type: SectionType {
+        return SectionType.login
+    }
+    override var rowCount: Int {
+        return 1
+    }
+}
+
+class ListItem: SectionItem {
+    var lists: [List]!
+    
+    override var type: SectionType {
+        return SectionType.discoverLists
+    }
+    
+    override var rowCount: Int {
+        guard let lists = lists else {
+            return 0
+        }
+        return lists.count
+    }
+}
+

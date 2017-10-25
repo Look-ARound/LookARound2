@@ -30,17 +30,17 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filter Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e4g-Hd-vDh">
-                                                    <rect key="frame" x="16" y="20" width="102" height="24"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                                                    <rect key="frame" x="25" y="8" width="91" height="21.5"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="e4g-Hd-vDh" firstAttribute="top" secondItem="ZQA-sB-zw7" secondAttribute="top" constant="20" id="LfV-tg-A4v"/>
+                                                <constraint firstItem="e4g-Hd-vDh" firstAttribute="top" secondItem="ZQA-sB-zw7" secondAttribute="top" constant="8" id="LfV-tg-A4v"/>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="e4g-Hd-vDh" secondAttribute="trailing" constant="16" id="Yi8-JI-lss"/>
-                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="e4g-Hd-vDh" secondAttribute="bottom" constant="20" id="Zob-zD-2RA"/>
-                                                <constraint firstItem="e4g-Hd-vDh" firstAttribute="leading" secondItem="ZQA-sB-zw7" secondAttribute="leading" constant="16" id="vT1-KE-HRj"/>
+                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="e4g-Hd-vDh" secondAttribute="bottom" constant="8" id="Zob-zD-2RA"/>
+                                                <constraint firstItem="e4g-Hd-vDh" firstAttribute="leading" secondItem="ZQA-sB-zw7" secondAttribute="leading" constant="25" id="vT1-KE-HRj"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -55,21 +55,47 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n4P-s4-Zho">
-                                                    <rect key="frame" x="16" y="20" width="50" height="24"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                                                    <rect key="frame" x="25" y="10" width="44" height="21.5"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="n4P-s4-Zho" firstAttribute="top" secondItem="Eaf-Wd-8vD" secondAttribute="top" constant="20" id="1Te-Zq-ezH"/>
-                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="n4P-s4-Zho" secondAttribute="bottom" constant="20" id="GQ0-RL-UBY"/>
-                                                <constraint firstItem="n4P-s4-Zho" firstAttribute="leading" secondItem="Eaf-Wd-8vD" secondAttribute="leading" constant="16" id="W8v-72-fnS"/>
+                                                <constraint firstItem="n4P-s4-Zho" firstAttribute="top" secondItem="Eaf-Wd-8vD" secondAttribute="top" constant="10" id="1Te-Zq-ezH"/>
+                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="n4P-s4-Zho" secondAttribute="bottom" constant="10" id="GQ0-RL-UBY"/>
+                                                <constraint firstItem="n4P-s4-Zho" firstAttribute="leading" secondItem="Eaf-Wd-8vD" secondAttribute="leading" constant="25" id="W8v-72-fnS"/>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="n4P-s4-Zho" secondAttribute="trailing" constant="16" id="cef-rL-gMa"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="titleLabel" destination="n4P-s4-Zho" id="8rW-i5-eR6"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="HeaderCell" id="iTT-ci-CyX" customClass="HeaderCell" customModule="lookaround2" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="197" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="iTT-ci-CyX" id="cPy-Ig-G3U">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Header Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SEO-iu-QvA">
+                                                    <rect key="frame" x="16" y="8" width="111.5" height="21.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="SEO-iu-QvA" firstAttribute="leading" secondItem="cPy-Ig-G3U" secondAttribute="leading" constant="16" id="fhs-62-RV0"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="SEO-iu-QvA" secondAttribute="trailing" constant="16" id="lJd-Da-QCS"/>
+                                                <constraint firstItem="SEO-iu-QvA" firstAttribute="top" secondItem="cPy-Ig-G3U" secondAttribute="top" constant="8" id="s9h-d2-OVI"/>
+                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="SEO-iu-QvA" secondAttribute="bottom" constant="8" id="zLw-Jd-zaM"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <outlet property="titleLabel" destination="SEO-iu-QvA" id="Cvb-2w-vKQ"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

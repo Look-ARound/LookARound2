@@ -36,6 +36,7 @@ class DatabaseRequests {
         self.allListsByListID.removeValue(forKey: list.id)
     }
     
+    // TODO: Change to query for currentUserID on server side
     func fetchCurrentUserLists(success: @escaping ([List]?)->(), failure: @escaping (Error?)->()) -> Void {
         if let currentUserID = AccessToken.current?.userId {
             // Get all lists
@@ -51,6 +52,29 @@ class DatabaseRequests {
             })
         }
         // User not logged in
+        else {
+            // TODO: better error handling
+            print("User not logged in!")
+            failure(nil)
+        }
+    }
+    
+    // TODO: Change to filter out currentUserID on server side
+    func fetchPublicLists(success: @escaping ([List]?)->(), failure: @escaping (Error?)->()) -> Void {
+        if let currentUserID = AccessToken.current?.userId {
+            // Get all lists
+            // Filter by those created by userID
+            self.fetchAllLists(completion: { (lists: [List]) in
+                var publicLists = [List]()
+                for list in lists {
+                    if list.createdByUserID != currentUserID {
+                        publicLists.append(list)
+                    }
+                }
+                success(publicLists)
+            })
+        }
+            // User not logged in
         else {
             // TODO: better error handling
             print("User not logged in!")
