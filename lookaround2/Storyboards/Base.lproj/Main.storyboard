@@ -59,7 +59,7 @@
                                             <action selector="onFilterButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="weW-UP-QlT"/>
                                         </connections>
                                     </button>
-                                    <searchBar contentMode="redraw" placeholder="LOOK AROUND!" showsSearchResultsButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5C8-ZY-DJT">
+                                    <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="LOOK AROUND!" translatesAutoresizingMaskIntoConstraints="NO" id="5C8-ZY-DJT">
                                         <rect key="frame" x="38" y="0.0" width="283" height="30"/>
                                         <color key="barTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="search"/>
@@ -108,6 +108,7 @@
                         <outlet property="mapButton" destination="NWZ-Be-KzA" id="Xs3-07-BCc"/>
                         <outlet property="mapView" destination="yzd-SX-HSI" id="bqy-zc-2nT"/>
                         <outlet property="sceneView" destination="7Ma-8d-EH7" id="phs-4C-o7N"/>
+                        <outlet property="searchBar" destination="5C8-ZY-DJT" id="7Gb-Tj-uCS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

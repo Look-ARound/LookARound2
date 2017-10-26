@@ -29,6 +29,7 @@ class AugmentedViewController: UIViewController {
     
     @IBOutlet weak var mapButton: UIButton!
     @IBOutlet weak var filterButton: UIButton!
+    @IBOutlet weak var searchBar: UISearchBar!
     
     // Use this to control how ARKit aligns itself to the world
     // Often ARKit can determine the direction of North well enough for
@@ -79,6 +80,10 @@ class AugmentedViewController: UIViewController {
         // Set up the UI elements as per the app theme
         filterButton.setImage(#imageLiteral(resourceName: "hamburger-on"), for: .selected)
         prepButtonsWithARTheme(buttons: [filterButton, mapButton])
+        
+        searchBar.barTintColor = UIColor.clear
+        searchBar.backgroundColor = UIColor.clear
+        searchBar.tintColor = UIColor.clear
         
         initMap()
     }
