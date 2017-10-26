@@ -200,7 +200,6 @@ class AugmentedViewController: UIViewController {
             let distanceStr = "\(distance) meters"
             
             let annotation2D = Annotation(location: location, nodeImage: #imageLiteral(resourceName: "pin"), calloutImage: nil, place: place)
-            annotation2D.subtitle = distanceStr
             mapView.addAnnotation(annotation2D)
             self.annotationManager.addAnnotation(annotation: annotation2D)
             guard let placename = annotation2D.place?.name else {
