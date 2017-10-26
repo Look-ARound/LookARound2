@@ -171,7 +171,13 @@ extension AnnotationManager: ARSCNViewDelegate {
             print("no title")
             return SCNNode()
         }
-        let title = SCNText(string: annotationTitle, extrusionDepth: 0)
+        var calloutString = annotationTitle
+        if let friendsCount = annotation.place?.contextCount {
+            if friendsCount > 0 {
+                calloutString += " (\(friendsCount))"
+            }
+        }
+        let title = SCNText(string: calloutString, extrusionDepth: 0)
         title.font = UIFont.systemFont(ofSize: 1.2)
 
         let calloutNode = SCNNode(geometry: title)

@@ -71,8 +71,6 @@ class Place: NSObject {
         contextCount = json["context"]["friends_who_like"]["summary"]["total_count"].intValue
         checkins = json["checkins"].intValue
         category = json["category_list"][0]["name"].stringValue
-        print(json)
-        print(category)
     }
     
     // MANUAL INIT for debugging and testing

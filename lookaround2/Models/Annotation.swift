@@ -41,7 +41,9 @@ public class Annotation: NSObject, MGLAnnotation {
             self.place = myPlace
             self.title = myPlace.name
             if let friendCount = myPlace.contextCount {
-                self.subtitle = "\(friendCount) friends like this"
+                if friendCount > 0 {
+                    self.subtitle = "\(friendCount) friends like this"
+                }
             }
         }
         if let image = calloutImage {
@@ -56,7 +58,9 @@ public class Annotation: NSObject, MGLAnnotation {
             self.place = myPlace
             self.title = myPlace.name
             if let friendCount = myPlace.contextCount {
-                self.subtitle = "\(friendCount) friends like this"
+                if friendCount > 0 {
+                    self.subtitle = "\(friendCount) friends like this"
+                }
             }
         }
         if let nodeImage = nodeImage {
