@@ -73,6 +73,24 @@ struct PlaceSearch {
         searchConnection.start()
     }
     
+    func fetchPlaces(with searchTerm:String, success: @escaping ([Place])->(), failure: @escaping (Error)->()) -> Void {
+        let placeSearchConnection = GraphRequestConnection()
+        
+        var placeSearchRequest = PlaceSearchRequest()
+        placeSearchRequest.graphPath = "/search?q=\(searchTerm)"
+        placeSearchConnection.add(placeSearchRequest,
+                                  batchEntryName: nil) { (response, result) in
+                                    switch result {
+                                    case .success(let response):
+                                        success(response.places)
+                                    case .failed(let error):
+                                        print("Failed to fetch place with term: \(searchTerm)")
+                                        failure(error)
+                                    }
+        }
+        placeSearchConnection.start()
+    }
+    
     func fetchPlaces(with placeIDs:[String], success: @escaping ([Place])->(), failure: @escaping (Error)->()) -> Void {
         let placeIDSearchConnection = GraphRequestConnection()
         
