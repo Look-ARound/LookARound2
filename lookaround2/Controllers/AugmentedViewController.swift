@@ -77,6 +77,7 @@ class AugmentedViewController: UIViewController {
         annotationManager.delegate = self
         
         // Set up the UI elements as per the app theme
+        filterButton.setImage(#imageLiteral(resourceName: "hamburger-on"), for: .selected)
         prepButtonsWithARTheme(buttons: [filterButton, mapButton])
         
         initMap()
@@ -147,6 +148,7 @@ class AugmentedViewController: UIViewController {
     
     private func prepButtonsWithARTheme(buttons : [UIButton]) {
         for button in buttons {
+            button.tintColor = UIColor.LABrand.primary
             button.setTitleColor(UIColor.LABrand.primary, for: .normal)
             button.layer.cornerRadius = button.frame.size.height * 0.5
             button.clipsToBounds = true
