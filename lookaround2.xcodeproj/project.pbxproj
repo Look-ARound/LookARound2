@@ -41,6 +41,7 @@
 		7789499F1F9B626400910FD1 /* Filter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 778949891F9B60EA00910FD1 /* Filter.storyboard */; };
 		778949A01F9B626700910FD1 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 778949881F9B60EA00910FD1 /* Login.storyboard */; };
 		778949A31F9B629800910FD1 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 77972BB11F9B5A2500CAEB1F /* art.scnassets */; };
+		77BD47BD1FA1EB8200F485A8 /* DetailButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BD47BC1FA1EB8200F485A8 /* DetailButton.swift */; };
 		94C5D99B7D4A23F860998772 /* Pods_lookaround2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E5AFF4092DEDBCD196BF743 /* Pods_lookaround2.framework */; };
 /* End PBXBuildFile section */
 
@@ -106,6 +107,7 @@
 		77972BAF1F9B591800CAEB1F /* MBARAnchor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBARAnchor.swift; sourceTree = "<group>"; };
 		77972BB01F9B591800CAEB1F /* AnnotationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationManager.swift; sourceTree = "<group>"; };
 		77972BB11F9B5A2500CAEB1F /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
+		77BD47BC1FA1EB8200F485A8 /* DetailButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailButton.swift; sourceTree = "<group>"; };
 		AE0506F8C58D1DD1A3AFC610 /* Pods-lookaround2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lookaround2.release.xcconfig"; path = "Pods/Target Support Files/Pods-lookaround2/Pods-lookaround2.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -256,6 +258,7 @@
 				778949831F9B60BD00910FD1 /* DefaultCell.swift */,
 				778949871F9B60BE00910FD1 /* SearchResultsCell.swift */,
 				702F12D51FA0471F00E86482 /* HeaderCell.swift */,
+				77BD47BC1FA1EB8200F485A8 /* DetailButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -548,6 +551,7 @@
 				778949921F9B618300910FD1 /* LoginViewController.swift in Sources */,
 				7789499B1F9B624E00910FD1 /* FilterCell.swift in Sources */,
 				778949961F9B623E00910FD1 /* AnnotationManager.swift in Sources */,
+				77BD47BD1FA1EB8200F485A8 /* DetailButton.swift in Sources */,
 				778949911F9B618300910FD1 /* FilterViewController.swift in Sources */,
 				7747FEDE1F9B409300366D54 /* ViewController.swift in Sources */,
 				778949981F9B624400910FD1 /* FilterUtilities.swift in Sources */,

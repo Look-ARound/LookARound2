@@ -610,6 +610,32 @@ extension AugmentedViewController: MGLMapViewDelegate {
         return true
     }
     
+    func mapView(_ mapView: MGLMapView, calloutViewFor annotation: MGLAnnotation) -> MGLCalloutView? {
+        let callout = ARCalloutView(representedObject: annotation)
+        
+        return callout
+    }
+    
+    func mapView(_ mapView: MGLMapView, rightCalloutAccessoryViewFor annotation: MGLAnnotation) -> UIView? {
+        let arAnnotation = annotation as! Annotation
+        guard let place = arAnnotation.place else {
+            return UIView()
+        }
+        let detailButton = DetailButton(type: .detailDisclosure)
+        detailButton.params["place"] = place
+        detailButton.addTarget(self, action: #selector(onDetailButton(_:)), for: UIControlEvents.touchUpInside)
+        
+        return detailButton
+    }
+    
+    @objc func onDetailButton(_ sender: Any) {
+        let button = sender as! DetailButton
+        guard let place = button.params["place"] as? Place else {
+            return
+        }
+        showDetailVC(forPlace: place)
+    }
+    
     // MARK: - Utility methods for MGLMapViewDelegate
     
     private func updateSource(identifer: String, shape: MGLShape?) {
