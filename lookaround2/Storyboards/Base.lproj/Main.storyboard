@@ -44,10 +44,10 @@
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="Z9v-Wv-VBd">
-                                <rect key="frame" x="86.5" y="24" width="201" height="30"/>
+                                <rect key="frame" x="7.5" y="24" width="359" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AB3-rY-gO6">
-                                        <rect key="frame" x="63.5" y="3" width="74" height="24"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="30" id="Ik1-x0-Psk"/>
@@ -60,12 +60,12 @@
                                         </connections>
                                     </button>
                                     <searchBar contentMode="redraw" placeholder="LOOK AROUND!" showsSearchResultsButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5C8-ZY-DJT">
-                                        <rect key="frame" x="0.0" y="-13" width="201" height="56"/>
+                                        <rect key="frame" x="38" y="0.0" width="283" height="30"/>
                                         <color key="barTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="search"/>
                                     </searchBar>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NWZ-Be-KzA">
-                                        <rect key="frame" x="60.5" y="0.0" width="80" height="30"/>
+                                        <rect key="frame" x="329" y="0.0" width="30" height="30"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="30" id="GE1-5i-HTM"/>
