@@ -29,6 +29,10 @@ internal class PlaceDetailTableViewController: UITableViewController {
     @IBOutlet private var aboutLabel: UILabel!
     @IBOutlet private var placeMapView: MKMapView!
     @IBOutlet private var directionsButton: UIButton!
+    @IBOutlet private var checkInImageView: UIImageView!
+    @IBOutlet private var doneBarButtonItem: UIBarButtonItem!
+    @IBOutlet private var addBarButtonItem: UIBarButtonItem!
+    @IBOutlet private var bookmarkBarButtonItem: UIBarButtonItem!
     
     // MARK: - Stored Properties
     
@@ -72,6 +76,7 @@ internal class PlaceDetailTableViewController: UITableViewController {
         aboutLabel.text = place.about
         directionsButton.layer.cornerRadius = directionsButton.frame.size.height * 0.5
         directionsButton.clipsToBounds = true
+        setupThemeColors()
         setupMapView()
         addLikeButton()
     }
@@ -85,6 +90,18 @@ internal class PlaceDetailTableViewController: UITableViewController {
         likeControl.likeControlHorizontalAlignment = .left
         likeControl.objectID = place.id
         facebookLikeButtonView.addSubview(likeControl)
+    }
+    
+    private func setupThemeColors() {
+        navigationController?.navigationBar.barStyle = .black
+        doneBarButtonItem.tintColor = UIColor.LABrand.buttons
+        addBarButtonItem.tintColor = UIColor.LABrand.buttons
+        bookmarkBarButtonItem.tintColor = UIColor.LABrand.buttons
+        categoryLabel.textColor = UIColor.LABrand.detail
+        checkinsCountLabel.textColor = UIColor.LABrand.detail
+        checkInImageView.tintColor = UIColor.LABrand.detail
+        directionsButton.tintColor = UIColor.white
+        directionsButton.backgroundColor = UIColor.LABrand.primary
     }
     
     
