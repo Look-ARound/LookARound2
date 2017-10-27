@@ -59,7 +59,7 @@ struct PlaceSearch {
         request.parameters?["type"] = "place"
         request.parameters?["center"] = "\(location.latitude), \(location.longitude)"
         request.parameters?["distance"] = distance
-        request.parameters?["limit"] = 50
+        request.parameters?["limit"] = 30
         
         let searchConnection = GraphRequestConnection()
         searchConnection.add(request) { (response, result: GraphRequestResult) in
@@ -216,7 +216,7 @@ private struct PlaceSearchResponse: GraphResponseProtocol {
             }
         }
         let sortedPlaces = sortPlaces(places: rawPlaces, by: .magic)
-        let end = min(sortedPlaces.count, 10)
+        let end = min(sortedPlaces.count, 20)
         print("end = \(end)")
         places = Array(sortedPlaces[..<end])
     }

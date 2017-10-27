@@ -53,7 +53,9 @@ class AugmentedViewController: UIViewController {
                 return CLLocation(latitude: -180.0, longitude: -180.0)
             }
             //return coreLocation // SETLOCATION(1/2) uncomment this line to use actual current location
-            return CLLocation(latitude: 37.7837851, longitude: -122.4334173) // uncomment this line to use SF location
+            // return CLLocation(latitude: 37.7837851, longitude: -122.4334173) // uncomment this line to use SF location
+            //return CLLocation(latitude: 35.6600201, longitude: 139.697973) // uncomment this line to use Tokyo location
+            return CLLocation(latitude: 40.7408932, longitude: -74.0070035) // uncomment this line to use NYC location
         }
     }
     
@@ -130,9 +132,15 @@ class AugmentedViewController: UIViewController {
         mapView.userTrackingMode = .followWithHeading
         mapView.layer.cornerRadius = 10
         
-        // SETLOCATION(2/2) Comment this line out to use actual current location
+        // SETLOCATION(2/2) Comment all these lines out to use actual current location
         // Uncomment this line to use SF location
-        mapView.setCenter(CLLocationCoordinate2DMake(37.7837851, -122.4334173), zoomLevel: 12, animated: true)
+        // mapView.setCenter(CLLocationCoordinate2DMake(37.7837851, -122.4334173), zoomLevel: 12, animated: true)
+        
+        // Uncomment this line to use Tokyo location
+        //mapView.setCenter(CLLocationCoordinate2DMake(35.6600201, 139.697973), zoomLevel: 15, animated: true)
+        
+        // Uncomment this line to use NYC location
+        mapView.setCenter(CLLocationCoordinate2DMake(40.7408932, -74.0070035), zoomLevel: 14, animated: true)
     }
     
     // MARK: - AR scene setup
@@ -588,13 +596,6 @@ extension AugmentedViewController: MGLMapViewDelegate {
         mapView.style?.addLayer(circleStyleLayer)
     }
     
-    func mapView(_ mapView: MGLMapView, didSelect annotation: MGLAnnotation) {
-        guard let augmentedAnnotation = annotation as? Annotation, let place = augmentedAnnotation.place else {
-            return
-        }
-        showDetailVC(forPlace: place)
-    }
-    
     func generateFeature(centerCoordinate: CLLocationCoordinate2D) -> MGLPointFeature {
         let feature = MGLPointFeature()
         feature.coordinate = centerCoordinate
@@ -608,6 +609,60 @@ extension AugmentedViewController: MGLMapViewDelegate {
     
     internal func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
         return true
+    }
+    
+    func mapView(_ mapView: MGLMapView, calloutViewFor annotation: MGLAnnotation) -> MGLCalloutView? {
+        return nil
+    }
+    
+    func mapView(_ mapView: MGLMapView, leftCalloutAccessoryViewFor annotation: MGLAnnotation) -> UIView? {
+        guard let augmentedAnnotation = annotation as? Annotation, let place = augmentedAnnotation.place else {
+            return UIView()
+        }
+        let detailButton = DetailButton(type: .detailDisclosure)
+        detailButton.params["place"] = place
+        detailButton.tag = 1
+
+        return detailButton
+    }
+    
+    func mapView(_ mapView: MGLMapView, rightCalloutAccessoryViewFor annotation: MGLAnnotation) -> UIView? {
+        guard let augmentedAnnotation = annotation as? Annotation, let place = augmentedAnnotation.place else {
+            return UIView()
+        }
+        let directionsButton = DirectionsButton(type: .detailDisclosure)
+        directionsButton.params["place"] = place
+        directionsButton.tag = 2
+        
+        return directionsButton
+    }
+    
+    func mapView(_ mapView: MGLMapView, tapOnCalloutFor annotation: MGLAnnotation) {
+        guard let augmentedAnnotation = annotation as? Annotation, let place = augmentedAnnotation.place else {
+            return
+        }
+        showDetailVC(forPlace: place)
+    }
+    
+    func mapView(_ mapView: MGLMapView, annotation: MGLAnnotation, calloutAccessoryControlTapped control: UIControl) {
+        switch control.tag {
+        case 1:
+            // Left accessory tapped
+            let button = control as! DetailButton
+            guard let place = button.params["place"] as? Place else {
+                return
+            }
+            showDetailVC(forPlace: place)
+        case 2:
+            // Right accessory tapped
+            let button = control as! DirectionsButton
+            guard let place = button.params["place"] as? Place else {
+                return
+            }
+            getDirections(for: place)
+        default:
+            return
+        }
     }
     
     // MARK: - Utility methods for MGLMapViewDelegate
