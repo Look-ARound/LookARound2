@@ -72,6 +72,20 @@ internal class AddPlaceViewController: UIViewController, UITableViewDelegate, UI
     
     // MARK: - Helpers
     
+    private func fetchUserLists() {
+        DatabaseRequests.shared.fetchCurrentUserLists(success: {
+            lists in
+            if let lists = lists {
+                self.lists = lists
+                self.tableView.reloadData()
+            }
+        }, failure: {
+            error in
+            // FIXME: - Needs better error handling!
+            print(error?.localizedDescription ?? "")
+        })
+    }
+    
     private func addNewList() {
         alertVC = UIAlertController(title: "Name", message: nil, preferredStyle: .alert)
         alertVC.addTextField {
@@ -92,60 +106,36 @@ internal class AddPlaceViewController: UIViewController, UITableViewDelegate, UI
     }
     
     private func removeList(at indexPath: IndexPath) {
-        DatabaseRequests.shared.deleteList(list: lists[indexPath.row]) {
-            error in
-            if let error = error {
-                _ = SweetAlert().showAlert("Oops!", subTitle: error.localizedDescription, style: .error)
-            } else {
-                self.lists.remove(at: indexPath.row)
-                self.tableView.deleteRows(at: [indexPath], with: .automatic)
-                _ = SweetAlert().showAlert("Success!", subTitle: "List was removed.", style: .success)
-            }
-        }
-    }
-    
-    private func fetchUserLists() {
-        DatabaseRequests.shared.fetchCurrentUserLists(success: {
-            lists in
-            if let lists = lists {
-                self.lists = lists
-                self.tableView.reloadData()
-            }
-        }, failure: {
-            error in
-            // FIXME: - Needs better error handling!
-            print(error?.localizedDescription ?? "")
-        })
+        let listBeingDeleted = lists[indexPath.row].copy
+        self.lists.remove(at: indexPath.row)
+        self.deleteRow(at: indexPath)
+        DatabaseRequests.shared.deleteList(list: listBeingDeleted, completionHandler: nil)
     }
     
     private func createAndSaveNewList(with name: String) {
         let list = List(name: name, placeID: place.id)
         if let list = list {
             self.lists.append(list)
-            self.tableView.beginUpdates()
-            self.tableView.insertRows(at: [IndexPath(row: self.lists.count - 1, section: 0)], with: .automatic)
-            self.tableView.endUpdates()
-            savePlace(in: list)
+            insertRow(at: IndexPath(row: self.lists.count - 1, section: 0))
+            DatabaseRequests.shared.createOrUpdateList(list: list)
         }
     }
     
     private func updateListOnDatabase(list: List) {
         list.placeIDs.append(place.id)
-        savePlace(in: list)
+        DatabaseRequests.shared.createOrUpdateList(list: list)
     }
     
-    private func savePlace(in list: List) {
-        DatabaseRequests.shared.createOrUpdateList(list: list) {
-            error in
-            if let error = error {
-                _ = SweetAlert().showAlert("Oops!", subTitle: error.localizedDescription, style: .error)
-            } else {
-                _ = SweetAlert().showAlert("Success!", subTitle: "Place was added to the list.", style: .success, buttonTitle: "Ok") {
-                    _ in
-                    self.dismiss(animated: true, completion: nil)
-                }
-            }
-        }
+    private func deleteRow(at indexPath: IndexPath) {
+        self.tableView.beginUpdates()
+        self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        self.tableView.endUpdates()
+    }
+    
+    private func insertRow(at indexPath: IndexPath) {
+        self.tableView.beginUpdates()
+        self.tableView.insertRows(at: [indexPath], with: .automatic)
+        self.tableView.endUpdates()
     }
     
     
