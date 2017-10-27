@@ -214,10 +214,10 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
             button.clipsToBounds = true
             button.alpha = 0.6
         }
-        filterButton.tintColor = UIColor.LABrand.unselected
+        filterButton.tintColor = UIColor.LABrand.buttons
         filterButton.clipsToBounds = true
         filterButton.alpha = 0.6
-        moreControl.tintColor = UIColor.LABrand.accent
+        moreControl.tintColor = UIColor.LABrand.primary
         moreControl.backgroundColor = UIColor.white
         moreControl.clipsToBounds = true
         moreControl.alpha = 0.6
@@ -287,6 +287,8 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
         }) { (error: Error) in
             print("error fetching places")
         }
+        
+        mapView.userTrackingMode = .followWithHeading
     }
     
     func refreshPins(withCategories categories: [FilterCategory]) {
@@ -302,6 +304,8 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
         }) { (error: Error) in
             print("Error fetching places with updated filters. Error: \(error)")
         }
+        
+        mapView.userTrackingMode = .followWithHeading
     }
     
     func changeNumPins() {
