@@ -74,8 +74,17 @@ internal class PlaceDetailTableViewController: UITableViewController {
         aboutLabel.text = place.about
         directionsButton.layer.cornerRadius = directionsButton.frame.size.height * 0.5
         directionsButton.clipsToBounds = true
-        
         setupMapView()
+        addLikeButton()
+    }
+    
+    private func addLikeButton() {
+        let likeControl:FBSDKLikeControl = FBSDKLikeControl()
+        likeControl.objectID = "MyPage"
+        likeControl.likeControlStyle = FBSDKLikeControlStyle.standard
+        likeControl.frame = facebookLikeButtonView.bounds
+        likeControl.likeControlHorizontalAlignment = .left
+        facebookLikeButtonView.addSubview(likeControl)
     }
     
     

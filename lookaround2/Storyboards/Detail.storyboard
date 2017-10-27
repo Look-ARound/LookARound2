@@ -74,7 +74,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="225 Likes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sLz-w2-POd">
-                                                    <rect key="frame" x="116" y="94" width="251" height="17"/>
+                                                    <rect key="frame" x="96" y="87" width="271" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -92,12 +92,12 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <view clipsSubviews="YES" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="AcI-iK-cXg" customClass="FBSDKLikeButton">
-                                                    <rect key="frame" x="8" y="81" width="100" height="44"/>
+                                                <view clipsSubviews="YES" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="AcI-iK-cXg">
+                                                    <rect key="frame" x="8" y="81" width="80" height="30"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="100" id="RWg-yb-afS"/>
-                                                        <constraint firstAttribute="height" constant="44" id="g8v-Ae-xoF"/>
+                                                        <constraint firstAttribute="width" constant="80" id="RWg-yb-afS"/>
+                                                        <constraint firstAttribute="height" constant="30" id="g8v-Ae-xoF"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
@@ -120,7 +120,7 @@
                                                 <constraint firstItem="xaR-Fp-1Oi" firstAttribute="centerY" secondItem="t6L-u0-Afo" secondAttribute="centerY" id="iAA-wm-7ne"/>
                                                 <constraint firstAttribute="trailing" secondItem="V9Y-Iz-m4d" secondAttribute="trailing" constant="8" id="jXx-De-Xpf"/>
                                                 <constraint firstItem="xaR-Fp-1Oi" firstAttribute="leading" secondItem="t6L-u0-Afo" secondAttribute="trailing" constant="8" id="wWO-4p-I1j"/>
-                                                <constraint firstItem="t6L-u0-Afo" firstAttribute="top" secondItem="AcI-iK-cXg" secondAttribute="bottom" constant="8" id="yNF-Ip-5KW"/>
+                                                <constraint firstItem="t6L-u0-Afo" firstAttribute="top" relation="greaterThanOrEqual" secondItem="AcI-iK-cXg" secondAttribute="bottom" constant="8" id="yNF-Ip-5KW"/>
                                                 <constraint firstItem="Oqi-wq-l9j" firstAttribute="top" secondItem="TYi-kW-PVw" secondAttribute="bottom" constant="8" id="z1v-jg-jjJ"/>
                                             </constraints>
                                         </tableViewCellContentView>
