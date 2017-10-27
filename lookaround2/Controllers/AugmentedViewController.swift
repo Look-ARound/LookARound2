@@ -588,14 +588,6 @@ extension AugmentedViewController: MGLMapViewDelegate {
         mapView.style?.addLayer(circleStyleLayer)
     }
     
-    func mapView(_ mapView: MGLMapView, didSelect annotation: MGLAnnotation) {
-        guard let augmentedAnnotation = annotation as? Annotation, let place = augmentedAnnotation.place else {
-            return
-        }
-        // showDetailVC(forPlace: place)
-        return
-    }
-    
     func generateFeature(centerCoordinate: CLLocationCoordinate2D) -> MGLPointFeature {
         let feature = MGLPointFeature()
         feature.coordinate = centerCoordinate
@@ -635,6 +627,13 @@ extension AugmentedViewController: MGLMapViewDelegate {
         directionsButton.tag = 2
         
         return directionsButton
+    }
+    
+    func mapView(_ mapView: MGLMapView, tapOnCalloutFor annotation: MGLAnnotation) {
+        guard let augmentedAnnotation = annotation as? Annotation, let place = augmentedAnnotation.place else {
+            return
+        }
+        showDetailVC(forPlace: place)
     }
     
     func mapView(_ mapView: MGLMapView, annotation: MGLAnnotation, calloutAccessoryControlTapped control: UIControl) {
