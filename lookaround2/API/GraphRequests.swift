@@ -225,9 +225,11 @@ private struct PlaceSearchResponse: GraphResponseProtocol {
             }
         }
         let sortedPlaces = sortPlaces(places: rawPlaces, by: .magic)
-        let end = min(sortedPlaces.count, 20)
-        print("end = \(end)")
-        places = Array(sortedPlaces[..<end])
+        places = sortedPlaces
+        // Moved truncation of array to viewcontroller
+//        let end = min(sortedPlaces.count, 20)
+//        print("end = \(end)")
+//        places = Array(sortedPlaces[..<end])
     }
 }
 

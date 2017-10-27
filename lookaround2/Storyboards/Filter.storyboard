@@ -147,7 +147,7 @@
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ePi-ab-LTi">
                                 <rect key="frame" x="16" y="7" width="48" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Cancel"/>
+                                <state key="normal" title="Done"/>
                                 <connections>
                                     <action selector="onCancel:" destination="yTT-a3-4EU" eventType="touchUpInside" id="JIU-99-bmU"/>
                                 </connections>
