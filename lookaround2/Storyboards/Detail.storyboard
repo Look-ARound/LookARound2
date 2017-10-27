@@ -57,7 +57,7 @@
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Place Name" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TYi-kW-PVw">
                                                     <rect key="frame" x="8" y="8" width="359" height="36"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="30"/>
                                                     <color key="textColor" red="0.20984135841836737" green="0.20984135841836737" blue="0.20984135841836737" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -68,8 +68,8 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oqi-wq-l9j">
-                                                    <rect key="frame" x="8" y="52" width="359" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <rect key="frame" x="8" y="52" width="359" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -87,7 +87,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view clipsSubviews="YES" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="AcI-iK-cXg">
-                                                    <rect key="frame" x="8" y="81" width="359" height="30"/>
+                                                    <rect key="frame" x="8" y="78" width="359" height="30"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="g8v-Ae-xoF"/>
@@ -131,7 +131,10 @@
                                                     </constraints>
                                                 </mapView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eVL-kf-xEi">
-                                                    <rect key="frame" x="285" y="8" width="70" height="30"/>
+                                                    <rect key="frame" x="255" y="8" width="100" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="100" id="ayJ-oz-lM9"/>
+                                                    </constraints>
                                                     <state key="normal" title="Directions"/>
                                                     <connections>
                                                         <action selector="onDirectionsButton:" destination="l8l-GF-g8m" eventType="touchUpInside" id="AH9-mS-bE8"/>
@@ -195,10 +198,14 @@
                     </navigationItem>
                     <connections>
                         <outlet property="aboutLabel" destination="V9Y-Iz-m4d" id="o4Y-AX-bRy"/>
+                        <outlet property="addBarButtonItem" destination="1MN-gk-c4z" id="82F-7c-boH"/>
                         <outlet property="addressLabel" destination="UUy-PP-brP" id="Y4l-3Q-O83"/>
+                        <outlet property="bookmarkBarButtonItem" destination="Wa7-Xq-qnU" id="egU-1m-9lA"/>
                         <outlet property="categoryLabel" destination="Oqi-wq-l9j" id="G7R-kl-xzi"/>
+                        <outlet property="checkInImageView" destination="t6L-u0-Afo" id="dH0-qt-RtF"/>
                         <outlet property="checkinsCountLabel" destination="xaR-Fp-1Oi" id="1MY-F0-3hi"/>
                         <outlet property="directionsButton" destination="eVL-kf-xEi" id="9Nz-wG-O4H"/>
+                        <outlet property="doneBarButtonItem" destination="WKa-l6-n0v" id="D2W-jx-uaN"/>
                         <outlet property="facebookLikeButtonView" destination="AcI-iK-cXg" id="cpb-xc-GBa"/>
                         <outlet property="nameLabel" destination="TYi-kW-PVw" id="jN7-wL-9go"/>
                         <outlet property="placeImageView" destination="z9B-hJ-RqJ" id="5Fj-7w-xEd"/>
