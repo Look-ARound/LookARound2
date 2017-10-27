@@ -102,6 +102,7 @@ internal class PlaceDetailTableViewController: UITableViewController {
         checkInImageView.tintColor = UIColor.LABrand.detail
         directionsButton.tintColor = UIColor.white
         directionsButton.backgroundColor = UIColor.LABrand.primary
+        aboutLabel.textColor = UIColor.LABrand.detail
     }
     
     
