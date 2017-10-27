@@ -17,6 +17,7 @@ internal class AddPlaceViewController: UIViewController, UITableViewDelegate, UI
     // MARK: - Stored Properties
     
     private var lists = [List]()
+    private var listsThatHavePlace = [Int : Bool]()
     internal var place: Place!
     private var alertVC: UIAlertController!
     
@@ -56,6 +57,10 @@ internal class AddPlaceViewController: UIViewController, UITableViewDelegate, UI
             cell = tableView.dequeueReusableCell(withIdentifier: "listNameCell", for: indexPath)
             let list = lists[indexPath.row]
             cell.textLabel?.text = list.name
+            
+            // Checkmark configuration
+            let shouldContainCheckMark = listsThatHavePlace[indexPath.row] ?? false
+            cell.accessoryType = shouldContainCheckMark ? .checkmark : .none
         } else {
             cell = tableView.dequeueReusableCell(withIdentifier: "newListCell", for: indexPath)
         }
@@ -65,7 +70,8 @@ internal class AddPlaceViewController: UIViewController, UITableViewDelegate, UI
     internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == 0 {
-            updateListOnDatabase(list: lists[indexPath.row])
+            let shouldCheckMark = !(listsThatHavePlace[indexPath.row] ?? false)
+            updateListOnDatabase(isAdding: shouldCheckMark, for: indexPath, list: lists[indexPath.row], creatingNewList: false)
         } else {
             addNewList()
         }
@@ -79,6 +85,9 @@ internal class AddPlaceViewController: UIViewController, UITableViewDelegate, UI
             if let lists = lists {
                 self.lists = lists
                 self.tableView.reloadData()
+                for (index, list) in lists.enumerated() {
+                    self.listsThatHavePlace[index] = list.placeIDs.contains(self.place.id)
+                }
             }
         }, failure: {
             error in
@@ -96,7 +105,7 @@ internal class AddPlaceViewController: UIViewController, UITableViewDelegate, UI
         let saveAction = UIAlertAction(title: "Save", style: .default) {
             _ in
             if let listName =  self.alertVC.textFields?[0].text, !listName.isEmpty {
-                self.createAndSaveNewList(with: listName)
+                self.createAndSaveNewList(with: listName, creatingNewPlace: true)
             } else {
                 print("NO NAME")
             }
@@ -108,23 +117,56 @@ internal class AddPlaceViewController: UIViewController, UITableViewDelegate, UI
     
     private func removeList(at indexPath: IndexPath) {
         let listBeingDeleted = lists[indexPath.row].copy
-        self.lists.remove(at: indexPath.row)
-        self.deleteRow(at: indexPath)
+        lists.remove(at: indexPath.row)
+        listsThatHavePlace.removeValue(forKey: indexPath.row)
+        deleteRow(at: indexPath)
         DatabaseRequests.shared.deleteList(list: listBeingDeleted, completionHandler: nil)
     }
     
-    private func createAndSaveNewList(with name: String) {
+    private func createAndSaveNewList(with name: String, creatingNewPlace: Bool) {
         let list = List(name: name, placeID: place.id)
         if let list = list {
             self.lists.append(list)
-            insertRow(at: IndexPath(row: self.lists.count - 1, section: 0))
-            DatabaseRequests.shared.createOrUpdateList(list: list)
+            let indexPath = IndexPath(row: self.lists.count - 1, section: 0)
+            insertRow(at: indexPath)
+            addPlaceToDatabase(from: indexPath, list: list, creatingNewList: creatingNewPlace)
         }
     }
     
-    private func updateListOnDatabase(list: List) {
-        list.placeIDs.append(place.id)
+    private func updateListOnDatabase(isAdding: Bool, for indexPath: IndexPath, list: List, creatingNewList: Bool) {
+        if isAdding {
+            list.placeIDs.append(place.id)
+            addPlaceToDatabase(from: indexPath, list: list, creatingNewList: creatingNewList)
+        } else {
+            // kinda inefficient? Was sleepy while doing this...
+            for (index, placeID) in list.placeIDs.enumerated() {
+                if placeID == place.id {
+                    list.placeIDs.remove(at: index)
+                    removePlaceFromDatabase(indexPath: indexPath, list: list)
+                    return
+                }
+            }
+        }
+    }
+    
+    private func removePlaceFromDatabase(indexPath: IndexPath, list: List) {
         DatabaseRequests.shared.createOrUpdateList(list: list)
+        configCheckMark(shouldCheckMark: false, indexPath: indexPath)
+    }
+    
+    private func addPlaceToDatabase(from indexPath: IndexPath, list: List, creatingNewList: Bool) {
+        if creatingNewList {
+            DatabaseRequests.shared.createOrUpdateList(list: list) { error in
+                if let error = error {
+                    _ = SweetAlert().showAlert("Error", subTitle: error.localizedDescription, style: .error)
+                } else {
+                    _ = SweetAlert().showAlert("Success!", subTitle: "Successfully added '\(list.name)' to your lists.", style: .success)
+                }
+            }
+        } else {
+            DatabaseRequests.shared.createOrUpdateList(list: list)
+        }
+        configCheckMark(shouldCheckMark: true, indexPath: indexPath)
     }
     
     private func deleteRow(at indexPath: IndexPath) {
@@ -139,5 +181,11 @@ internal class AddPlaceViewController: UIViewController, UITableViewDelegate, UI
         self.tableView.endUpdates()
     }
     
+    private func configCheckMark(shouldCheckMark: Bool, indexPath: IndexPath) {
+        // Checkmark Configuration
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.accessoryType = shouldCheckMark ? .checkmark : .none
+        listsThatHavePlace[indexPath.row] = shouldCheckMark
+    }
     
 }
