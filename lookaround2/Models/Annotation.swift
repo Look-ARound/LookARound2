@@ -41,8 +41,13 @@ public class Annotation: NSObject, MGLAnnotation {
             self.place = myPlace
             self.title = myPlace.name
             if let friendCount = myPlace.contextCount {
-                if friendCount > 0 {
+                switch friendCount {
+                case 1:
+                    self.subtitle = "\(friendCount) friend likes this"
+                case _ where friendCount > 1:
                     self.subtitle = "\(friendCount) friends like this"
+                default:
+                    self.subtitle = nil
                 }
             }
         }

@@ -588,13 +588,6 @@ extension AugmentedViewController: MGLMapViewDelegate {
         mapView.style?.addLayer(circleStyleLayer)
     }
     
-    func mapView(_ mapView: MGLMapView, didSelect annotation: MGLAnnotation) {
-        guard let augmentedAnnotation = annotation as? Annotation, let place = augmentedAnnotation.place else {
-            return
-        }
-        showDetailVC(forPlace: place)
-    }
-    
     func generateFeature(centerCoordinate: CLLocationCoordinate2D) -> MGLPointFeature {
         let feature = MGLPointFeature()
         feature.coordinate = centerCoordinate
@@ -608,6 +601,60 @@ extension AugmentedViewController: MGLMapViewDelegate {
     
     internal func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
         return true
+    }
+    
+    func mapView(_ mapView: MGLMapView, calloutViewFor annotation: MGLAnnotation) -> MGLCalloutView? {
+        return nil
+    }
+    
+    func mapView(_ mapView: MGLMapView, leftCalloutAccessoryViewFor annotation: MGLAnnotation) -> UIView? {
+        guard let augmentedAnnotation = annotation as? Annotation, let place = augmentedAnnotation.place else {
+            return UIView()
+        }
+        let detailButton = DetailButton(type: .detailDisclosure)
+        detailButton.params["place"] = place
+        detailButton.tag = 1
+
+        return detailButton
+    }
+    
+    func mapView(_ mapView: MGLMapView, rightCalloutAccessoryViewFor annotation: MGLAnnotation) -> UIView? {
+        guard let augmentedAnnotation = annotation as? Annotation, let place = augmentedAnnotation.place else {
+            return UIView()
+        }
+        let directionsButton = DirectionsButton(type: .detailDisclosure)
+        directionsButton.params["place"] = place
+        directionsButton.tag = 2
+        
+        return directionsButton
+    }
+    
+    func mapView(_ mapView: MGLMapView, tapOnCalloutFor annotation: MGLAnnotation) {
+        guard let augmentedAnnotation = annotation as? Annotation, let place = augmentedAnnotation.place else {
+            return
+        }
+        showDetailVC(forPlace: place)
+    }
+    
+    func mapView(_ mapView: MGLMapView, annotation: MGLAnnotation, calloutAccessoryControlTapped control: UIControl) {
+        switch control.tag {
+        case 1:
+            // Left accessory tapped
+            let button = control as! DetailButton
+            guard let place = button.params["place"] as? Place else {
+                return
+            }
+            showDetailVC(forPlace: place)
+        case 2:
+            // Right accessory tapped
+            let button = control as! DirectionsButton
+            guard let place = button.params["place"] as? Place else {
+                return
+            }
+            getDirections(for: place)
+        default:
+            return
+        }
     }
     
     // MARK: - Utility methods for MGLMapViewDelegate

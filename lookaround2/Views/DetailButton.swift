@@ -1,0 +1,24 @@
+//
+//  detailButton.swift
+//  lookaround2
+//
+//  Created by Angela Yu on 10/26/17.
+//  Copyright © 2017 Angela Yu. All rights reserved.
+//
+
+import UIKit
+
+class DetailButton: UIButton {
+    
+    var params: Dictionary<String, Any>
+    
+    override init(frame: CGRect) {
+        self.params = [:]
+        super.init(frame: frame)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        self.params = [:]
+        super.init(coder: aDecoder)
+    }
+}

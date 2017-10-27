@@ -66,8 +66,19 @@ class ARCalloutView: UIView, MGLCalloutView {
         view.addSubview(self)
         
         // Prepare title label
-        mainBody.setTitle(representedObject.title!, for: .normal)
+        var fullTitle = ""
+        if let title = representedObject.title as? String {
+            fullTitle = title
+            if let subtitle = representedObject.subtitle as? String {
+                print(subtitle)
+                mainBody.titleLabel!.lineBreakMode = .byWordWrapping
+                mainBody.titleLabel!.numberOfLines = 2
+                fullTitle += "\n\(subtitle)"
+            }
+        }
+        mainBody.setTitle(fullTitle, for: .normal)
         mainBody.sizeToFit()
+        
         
         if isCalloutTappable() {
             // Handle taps and eventually try to send them to the delegate (usually the map view)
