@@ -27,6 +27,7 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
     var mapTop: NSLayoutConstraint!
     var mapBottom: NSLayoutConstraint!
     
+    @IBOutlet weak var moreControl: UISegmentedControl!
     @IBOutlet weak var mapButton: UIButton!
     @IBOutlet weak var filterButton: UIButton!
     @IBOutlet weak var searchBar: UISearchBar!
@@ -55,7 +56,9 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
             //return coreLocation // SETLOCATION(1/2) uncomment this line to use actual current location
             // return CLLocation(latitude: 37.7837851, longitude: -122.4334173) // uncomment this line to use SF location
             //return CLLocation(latitude: 35.6600201, longitude: 139.697973) // uncomment this line to use Tokyo location
-            return CLLocation(latitude: 40.7408932, longitude: -74.0070035) // uncomment this line to use NYC location
+            //return CLLocation(latitude: 40.7408932, longitude: -74.0070035) // uncomment this line to use NYC location
+            return CLLocation(latitude: 36.1815789, longitude: -86.7348512) // uncomment this line to use Nashville location
+            //return CLLocation(latitude: 23.7909714, longitude: 90.4014137) // uncomment this line to use Dhaka location
         }
     }
     
@@ -64,6 +67,9 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
             return currentLocation.coordinate
         }
     }
+    
+    var placeArray: [Place]?
+    var numResults = 10
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,7 +87,8 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
         
         // Set up the UI elements as per the app theme
         filterButton.setImage(#imageLiteral(resourceName: "hamburger-on"), for: .selected)
-        prepButtonsWithARTheme(buttons: [filterButton, mapButton])
+        prepButtonsWithARTheme(buttons: [mapButton])
+        moreControl.selectedSegmentIndex = 0
         
         searchBar.delegate = self
         searchBar.barTintColor = UIColor.clear
@@ -171,10 +178,16 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
         // mapView.setCenter(CLLocationCoordinate2DMake(37.7837851, -122.4334173), zoomLevel: 12, animated: true)
         
         // Uncomment this line to use Tokyo location
-        //mapView.setCenter(CLLocationCoordinate2DMake(35.6600201, 139.697973), zoomLevel: 15, animated: true)
+        // mapView.setCenter(CLLocationCoordinate2DMake(35.6600201, 139.697973), zoomLevel: 15, animated: true)
         
         // Uncomment this line to use NYC location
-        mapView.setCenter(CLLocationCoordinate2DMake(40.7408932, -74.0070035), zoomLevel: 14, animated: true)
+        //mapView.setCenter(CLLocationCoordinate2DMake(40.7408932, -74.0070035), zoomLevel: 14, animated: true)
+        
+        // Uncomment this line to use Nashville location
+        mapView.setCenter(CLLocationCoordinate2DMake(36.1815789, -86.7348512), zoomLevel: 14, animated: true)
+        
+        // Uncomment this line to use Dhaka location
+        //mapView.setCenter(CLLocationCoordinate2DMake(23.7909714, 90.4014137), zoomLevel: 14, animated: true)
     }
     
     // MARK: - AR scene setup
@@ -201,6 +214,13 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
             button.clipsToBounds = true
             button.alpha = 0.6
         }
+        filterButton.tintColor = UIColor.LABrand.unselected
+        filterButton.clipsToBounds = true
+        filterButton.alpha = 0.6
+        moreControl.tintColor = UIColor.LABrand.accent
+        moreControl.backgroundColor = UIColor.white
+        moreControl.clipsToBounds = true
+        moreControl.alpha = 0.6
     }
     
     func performFirstSearch() {
@@ -216,10 +236,15 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
             print("no logged in user, trying anonymous graph request")
         }
         print(currentCoordinates)
-        PlaceSearch().fetchPlaces(with: categories, location: currentCoordinates, success: { [weak self] (places: [Place]?) in
+        PlaceSearch().fetchPlaces(with: categories, location: currentCoordinates, success: { (places: [Place]?) in
             if let places = places {
                 print("got places, adding")
-                self?.addPlaces(places: places)
+                self.placeArray = places
+                if self.moreControl.selectedSegmentIndex == 1 {
+                    self.numResults = 20
+                }
+                let end = min(self.placeArray!.count, self.numResults)
+                self.addPlaces(places: Array(places[..<end]))
             }
         }) { (error: Error) in
             print("Error fetching places with updated filters. Error: \(error)")
@@ -257,6 +282,7 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
         
         let placeIDs = list.placeIDs
         PlaceSearch().fetchPlaces(with: placeIDs, success: { (places: [Place]) in
+            self.placeArray = places
             self.addPlaces(places: places)
         }) { (error: Error) in
             print("error fetching places")
@@ -267,14 +293,23 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
         removeExistingPins()
         
         // Add new pins
-        PlaceSearch().fetchPlaces(with: categories, location: currentCoordinates, success: { [weak self] (places: [Place]?) in
+        PlaceSearch().fetchPlaces(with: categories, location: currentCoordinates, success: { (places: [Place]?) in
             if let places = places {
-                print("got places, adding")
-                self?.addPlaces(places: places)
+                self.placeArray = places
+                let end = min(self.placeArray!.count, self.numResults)
+                self.addPlaces(places: Array(places[..<end]))
             }
         }) { (error: Error) in
             print("Error fetching places with updated filters. Error: \(error)")
         }
+    }
+    
+    func changeNumPins() {
+        removeExistingPins()
+        
+        let end = min(placeArray!.count, numResults)
+        print("placing \(end) pins")
+        self.addPlaces(places: Array(placeArray![..<end]))
     }
     
     func removeExistingPins() {
@@ -380,53 +415,6 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
     }
     
     // MARK: - Actions
-    
-    // Handle a long press on the Mapbox map view
-    // Adds an annotation where the long press happened and routes directions to that place from current locatin
-    @IBAction func didLongPress(_ recognizer: UILongPressGestureRecognizer) {
-
-        // Find the geographic coordinate of the point pressed in the map view
-        let point = recognizer.location(in: mapView)
-        let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
-        
-        // Remove any existing annotations on the map view
-        if let existingAnnotations = mapView.annotations {
-            mapView.removeAnnotations(existingAnnotations)
-        }
-        
-        // Add an annotation to the map view for the pressed point
-        let annotation = MGLPointAnnotation()
-        annotation.coordinate = coordinate
-        mapView.addAnnotation(annotation)
-        
-        // When the gesture ends use the annotation location to initiate a query to the Mapbox Directions API
-        if recognizer.state == .ended {
-            
-            // remove any previously rendered route
-            annotationManager.removeAllAnnotations()
-            resetShapeCollectionFeature(&waypointShapeCollectionFeature)
-            self.updateSource(identifer: "annotationSource", shape: self.waypointShapeCollectionFeature)
-            
-            // Create a CLLocation instance to represent the end location for the directions query
-            let annotationLocation = CLLocation(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude)
-            queryDirections(with: annotationLocation)
-        }
-    }
-    
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        print("touches began")
-//        guard let touch = touches.first else { return }
-//        let result = sceneView.hitTest(touch.location(in: sceneView), options: [SCNHitTestOption.firstFoundOnly : true]).first
-//        print("got one?")
-//        if let node = result?.node, let annotation = annotationManager.annotationsByNode[node] {
-//            print("annotation")
-//            if let tappedPlace = annotation.place {
-//                print("place")
-//                showDetailVC(forPlace: tappedPlace)
-//            } else { print("no place in annotation") }
-//        } else { print("no annotation for node")}
-//    }
-    
     @objc func onMapTap(recognizer: UITapGestureRecognizer) {
         print("tapped")
         let location = recognizer.location(in: sceneView)
@@ -459,16 +447,6 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
         showDetailVC(forPlace: tappedPlace)
     }
     
-//    func showCallout(feature: MGLPointFeature) {
-//        let point = MGLPointFeature()
-//        point.title = feature.attributes["name"] as? String
-//        point.coordinate = feature.coordinate
-//
-//        // Selecting an feature that doesn’t already exist on the map will add a new annotation view.
-//        // We’ll need to use the map’s delegate methods to add an empty annotation view and remove it when we’re done selecting it.
-//        mapView.selectAnnotation(point, animated: true)
-//    }
-    
     @IBAction func onMapButton(_ sender: Any) {
         slideMap()
     }
@@ -495,6 +473,20 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
         
         present(filterNVC, animated: true, completion: nil)
     }
+    
+    @IBAction func onMoreResults(_ sender: Any) {
+        switch moreControl.selectedSegmentIndex {
+        case 0:
+            numResults = 10
+            changeNumPins()
+        case 1:
+            numResults = 20
+            changeNumPins()
+        default:
+            break
+        }
+    }
+    
 
     // MARK: - Navigation
 
