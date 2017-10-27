@@ -62,6 +62,18 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         loginButtonView.addSubview(loginButton)
         updateLoginInfo()
         
+        fetchPlacesLists()
+        
+        
+        // TODO: Can we directly go to search results VC from here without going through the login page? I (Angela)
+        // tried instantiating a SearchResultsViewController directly but it's not that easy.
+//        let resultsButton = UIBarButtonItem(title: "List Results", style: .plain, target: self, action: #selector(onResultsButton))
+//        navigationItem.rightBarButtonItem = resultsButton
+
+
+    }
+
+    func fetchPlacesLists() {
         DatabaseRequests.shared.fetchPublicLists(success: { lists in
             guard let lists = lists else {
                 return
@@ -81,16 +93,7 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }) { error in
             print(error)
         }
-        
-        // TODO: Can we directly go to search results VC from here without going through the login page? I (Angela)
-        // tried instantiating a SearchResultsViewController directly but it's not that easy.
-//        let resultsButton = UIBarButtonItem(title: "List Results", style: .plain, target: self, action: #selector(onResultsButton))
-//        navigationItem.rightBarButtonItem = resultsButton
-
-
     }
-
-
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return sectionItems.count
@@ -188,6 +191,7 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
 extension FilterViewController : LoginButtonDelegate {
     func loginButtonDidCompleteLogin(_ loginButton: LoginButton, result: LoginResult) {
         updateLoginInfo()
+        fetchPlacesLists()
     }
     
     func loginButtonDidLogOut(_ loginButton: LoginButton) {
@@ -198,7 +202,7 @@ extension FilterViewController : LoginButtonDelegate {
         if AccessToken.current != nil {
             ProfileRequest().fetchCurrentUser(success: { (user : User) in
                 self.currentUserNameLabel.text = user.name
-                //self.nameLabel.sizeToFit()
+                self.currentUserNameLabel.sizeToFit()
                 if let url = URL(string: user.profileImageURL!) {
                     self.currentUserImageView.setImageWith(url)
                 }
