@@ -10,6 +10,7 @@ import UIKit
 import MapKit
 import CoreLocation
 import FBSDKShareKit
+import Mapbox
 
 @objc protocol PlaceDetailTableViewControllerDelegate {
     @objc optional func getDirections( destLat: Double, destLong: Double )
@@ -27,12 +28,12 @@ internal class PlaceDetailTableViewController: UITableViewController {
     @IBOutlet private var facebookLikeButtonView: UIView!
     @IBOutlet private var addressLabel: UILabel!
     @IBOutlet private var aboutLabel: UILabel!
-    @IBOutlet private var placeMapView: MKMapView!
     @IBOutlet private var directionsButton: UIButton!
     @IBOutlet private var checkInImageView: UIImageView!
     @IBOutlet private var doneBarButtonItem: UIBarButtonItem!
     @IBOutlet private var addBarButtonItem: UIBarButtonItem!
     @IBOutlet private var bookmarkBarButtonItem: UIBarButtonItem!
+    @IBOutlet private var mapView: UIView!
     
     // MARK: - Stored Properties
     
@@ -43,13 +44,7 @@ internal class PlaceDetailTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        place = Place(id: "ldksl32f", name: "Some Place", latitude: 34.33, longitude: 34.33)
-        place.picture = "https://media-cdn.tripadvisor.com/media/photo-s/03/c4/95/72/carne-y-vino-restaurant.jpg"
-        place.about = "This is an authentic restaurant with lots of stuff in it and I'm just typing for the sake of testing and nothing else really I'm just doing this for a test thing and stuff yeah so it's authentic and stuff dude!"
-        place.category = "Indian Restaurant"
-        place.checkins = 233
-        place.address = "261 University Ave"
-        place.id = "460770554016783"
+        
         setupViews()
         self.tableView.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0)
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
@@ -62,11 +57,11 @@ internal class PlaceDetailTableViewController: UITableViewController {
     }
     
     // MARK: - Setup Views
-    
+//    setupDummyPlace()
     private func setupViews() {
         if let imageURLString = place.picture {
             if let imageURL = URL(string: imageURLString) {
-                self.placeImageView.setImageWith(imageURL)
+                self.placeImageView.setImageWith(imageURL, placeholderImage: #imageLiteral(resourceName: "placeholder"))
             }
         }
         nameLabel.text = place.name
@@ -79,6 +74,17 @@ internal class PlaceDetailTableViewController: UITableViewController {
         setupThemeColors()
         setupMapView()
         addLikeButton()
+    }
+    
+    // FOR DEBUG
+    private func setupDummyPlace() {
+        place = Place(id: "ldksl32f", name: "Some Place", latitude: 37.3382, longitude: -121.8863)
+         place.picture = "https://media-cdn.tripadvisor.com/media/photo-s/03/c4/95/72/carne-y-vino-restaurant.jpg"
+         place.about = "This is an authentic restaurant with lots of stuff in it and I'm just typing for the sake of testing and nothing else really I'm just doing this for a test thing and stuff yeah so it's authentic and stuff dude!"
+         place.category = "Indian Restaurant"
+         place.checkins = 233
+         place.address = "261 University Ave"
+         place.id = "460770554016783"
     }
     
     private func addLikeButton() {
@@ -102,6 +108,7 @@ internal class PlaceDetailTableViewController: UITableViewController {
         checkInImageView.tintColor = UIColor.LABrand.detail
         directionsButton.tintColor = UIColor.white
         directionsButton.backgroundColor = UIColor.LABrand.primary
+        aboutLabel.textColor = UIColor.LABrand.detail
     }
     
     
@@ -117,10 +124,13 @@ internal class PlaceDetailTableViewController: UITableViewController {
     }*/
     
     private func setupMapView() {
-        let annotation = MKPointAnnotation()
+        guard let mapView = mapView as? MGLMapView else { return }
+        let annotation = MGLPointAnnotation()
         annotation.coordinate = place.coordinate
-        placeMapView.addAnnotation(annotation)
-       placeMapView.showAnnotations([annotation], animated: true)
+        mapView.addAnnotation(annotation)
+        mapView.zoomLevel = 14
+        mapView.setCenter(place.coordinate, animated: true)
+        mapView.styleURL = MGLStyle.streetsStyleURL()
     }
     
     @IBAction func onDirectionsButton(_ sender: Any) {
