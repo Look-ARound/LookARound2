@@ -11,17 +11,6 @@ import CoreLocation
 import SwiftyJSON
 import Mapbox
 
-enum Categories: String {
-    case artsEntertainment = "ARTS_ENTERTAINMENT"
-    case education = "EDUCATION"
-    case fitnessRecreation = "FITNESS_RECREATION"
-    case foodBeverage = "FOOD_BEVERAGE"
-    case hotelLodging = "HOTEL_LODGING"
-    case medicalHealth = "MEDICAL_HEALTH"
-    case shoppingRetail = "SHOPPING_RETAIL"
-    case travelTransportation = "TRAVEL_TRANSPORTATION"
-}
-
 class Place: NSObject {
     var id: String!
     var name: String
