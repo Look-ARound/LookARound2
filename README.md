@@ -11,7 +11,7 @@ Wherever you are, look around with AR to see recommended places to visit.
 Initial View: Augmented Reality
 - [x] When user looks at what’s nearby them, they see recommended places available near them
 - [x] The recommended places are the most popular among your friends and then the most popular among the public
-- [ ] Callouts indicate why the places are recommended
+- [x] Callouts indicate why the places are recommended
 - [x] Alternative view to see recommended places on a 2D map
 - [ ] Alternative view to see recommended places in a list view
 
