@@ -56,4 +56,15 @@ class List {
         
         return dict as NSDictionary
     }
+    
+    private init(_ copyingTo: List) {
+        self.id = copyingTo.id
+        self.name = copyingTo.name
+        self.createdByUserID = copyingTo.createdByUserID
+        self.placeIDs = copyingTo.placeIDs
+    }
+    
+    var copy: List {
+        return List(self)
+    }
 }
