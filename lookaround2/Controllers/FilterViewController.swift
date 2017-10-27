@@ -9,6 +9,7 @@
 
 import UIKit
 import FacebookCore
+import FacebookLogin
 import CoreLocation
 
 protocol FilterViewControllerDelegate : NSObjectProtocol {
@@ -25,6 +26,10 @@ enum SectionType : Int {
 class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var filterTableView: UITableView!
+    
+    @IBOutlet var currentUserNameLabel: UILabel!
+    @IBOutlet var currentUserImageView: UIImageView!
+    @IBOutlet var loginButtonView: UIView!
     weak var delegate : FilterViewControllerDelegate?
     var coordinates: CLLocationCoordinate2D!
     var myListItem: ListItem!
@@ -40,7 +45,7 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         sectionItems.append( CategoryItem(title: "Categories"))
         sectionItems.append( myListItem )
         sectionItems.append( publicListItem )
-        sectionItems.append( LoginItem(title: "Login"))
+        // sectionItems.append( LoginItem(title: "Login"))
         
         // Do any additional setup after loading the view.
         filterTableView.delegate = self
@@ -50,6 +55,12 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         filterTableView.rowHeight = UITableViewAutomaticDimension
         
         filterTableView.tableFooterView = UIView()
+        
+        // Initialize facebook login button
+        let loginButton = LoginButton(frame: nil, readPermissions: [ .publicProfile, .userFriends ])
+        loginButton.delegate = self
+        loginButtonView.addSubview(loginButton)
+        updateLoginInfo()
         
         DatabaseRequests.shared.fetchPublicLists(success: { lists in
             guard let lists = lists else {
@@ -78,16 +89,11 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 
     }
+
+
     
     func numberOfSections(in tableView: UITableView) -> Int {
-//        if AccessToken.current == nil {
-//            // User is not logged in
-//            numSections = 2
-//        }
-
-        let numSections = sectionItems.count
-        
-        return numSections
+        return sectionItems.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -177,6 +183,36 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         // Pass the selected object to the new view controller.
     }
     */
+}
+
+extension FilterViewController : LoginButtonDelegate {
+    func loginButtonDidCompleteLogin(_ loginButton: LoginButton, result: LoginResult) {
+        updateLoginInfo()
+    }
+    
+    func loginButtonDidLogOut(_ loginButton: LoginButton) {
+        updateLoginInfo()
+    }
+    
+    func updateLoginInfo() {
+        if AccessToken.current != nil {
+            ProfileRequest().fetchCurrentUser(success: { (user : User) in
+                self.currentUserNameLabel.text = user.name
+                //self.nameLabel.sizeToFit()
+                if let url = URL(string: user.profileImageURL!) {
+                    self.currentUserImageView.setImageWith(url)
+                }
+            }) { (error: Error) in
+                print("Custom Graph Request Failed: \(error)")
+            }
+            currentUserImageView.isHidden = false
+            currentUserNameLabel.isHidden = false
+        }
+        else {
+            currentUserImageView.isHidden = true
+            currentUserNameLabel.isHidden = true
+        }
+    }
 }
 
 class SectionItem {
