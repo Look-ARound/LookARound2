@@ -61,7 +61,7 @@ internal class PlaceDetailTableViewController: UITableViewController {
     private func setupViews() {
         if let imageURLString = place.picture {
             if let imageURL = URL(string: imageURLString) {
-                self.placeImageView.setImageWith(imageURL)
+                self.placeImageView.setImageWith(imageURL, placeholderImage: #imageLiteral(resourceName: "placeholder"))
             }
         }
         nameLabel.text = place.name
