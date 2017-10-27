@@ -83,10 +83,13 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
         filterButton.setImage(#imageLiteral(resourceName: "hamburger-on"), for: .selected)
         prepButtonsWithARTheme(buttons: [filterButton, mapButton])
         
+        searchBar.delegate = self
         searchBar.barTintColor = UIColor.clear
         searchBar.backgroundColor = UIColor.clear
         searchBar.tintColor = UIColor.clear
-        searchBar.delegate = self
+        
+        let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as? UITextField
+        textFieldInsideSearchBar?.textColor = UIColor.white
         
         initMap()
     }
