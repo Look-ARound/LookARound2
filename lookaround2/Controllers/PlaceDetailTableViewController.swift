@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import CoreLocation
+import FBSDKShareKit
 
 @objc protocol PlaceDetailTableViewControllerDelegate {
     @objc optional func getDirections( destLat: Double, destLong: Double )
@@ -21,31 +22,43 @@ internal class PlaceDetailTableViewController: UITableViewController {
     
     @IBOutlet private var placeImageView: UIImageView!
     @IBOutlet private var nameLabel: UILabel!
-    @IBOutlet private var contextLabel: UILabel!
+    @IBOutlet private var categoryLabel: UILabel!
     @IBOutlet private var checkinsCountLabel: UILabel!
     @IBOutlet private var likesCountLabel: UILabel!
+    @IBOutlet private var facebookLikeButtonView: UIView!
     @IBOutlet private var addressLabel: UILabel!
+    @IBOutlet private var aboutLabel: UILabel!
     @IBOutlet private var placeMapView: MKMapView!
     @IBOutlet private var directionsButton: UIButton!
     
+    // MARK: - Stored Properties
+    
     internal var place: Place!
-
-    var delegate: PlaceDetailTableViewControllerDelegate?
+    internal var delegate: PlaceDetailTableViewControllerDelegate?
     
     // MARK: - Lifecycles
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        place = Place(id: "ldksl32f", name: "Some Place", latitude: 34.33, longitude: 34.33)
+        place.picture = "https://media-cdn.tripadvisor.com/media/photo-s/03/c4/95/72/carne-y-vino-restaurant.jpg"
+        place.about = "This is an authentic restaurant with lots of stuff in it and I'm just typing for the sake of testing and nothing else really I'm just doing this for a test thing and stuff yeah so it's authentic and stuff dude!"
+        place.category = "Indian Restaurant"
+        place.checkins = 233
+        place.contextCount = 3333
+        place.address = "261 University Ave"
         setupViews()
+        self.tableView.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0)
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        navigationController?.navigationBar.isHidden = false        
     }
     
-    // MARK: - Helpers
+    // MARK: - Setup Views
     
     private func setupViews() {
         if let imageURLString = place.picture {
@@ -55,15 +68,27 @@ internal class PlaceDetailTableViewController: UITableViewController {
         }
         nameLabel.text = place.name
         checkinsCountLabel.text = "\(place.checkins ?? 0) checkins"
-        likesCountLabel.text = "\(place.category ?? "")"
+        likesCountLabel.text = place.contextCount != nil && (place.contextCount ?? 0) > 0 ? "\(place.contextCount ?? 0) friends like this" : ""
         addressLabel.text = place.address
-        contextLabel.text = place.context
-        
+        categoryLabel.text = place.category
+        aboutLabel.text = place.about
         directionsButton.layer.cornerRadius = directionsButton.frame.size.height * 0.5
         directionsButton.clipsToBounds = true
         
         setupMapView()
     }
+    
+    
+    // DEPRICATED Adding address view below
+    /*private func addBottomAddressView() {
+        addressLabelView = UIView(frame: CGRect(x: 0, y: self.view.frame.height - 50, width: self.view.frame.width, height: 50))
+        addressLabelView.backgroundColor = .white
+        addressLabel = UILabel(frame: CGRect(x: 8, y: 8, width: addressLabelView.frame.width - 8, height: addressLabelView.frame.height - 8))
+        addressLabel.numberOfLines = 0
+        addressLabel.textAlignment = .left
+        addressLabelView.addSubview(addressLabel)
+        self.view.addSubview(addressLabelView)
+    }*/
     
     private func setupMapView() {
         let annotation = MKPointAnnotation()
@@ -90,6 +115,14 @@ internal class PlaceDetailTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 44
     }
+    
+    // DEPRICATED Bring address view to front
+    /*override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        var frame: CGRect = addressLabelView.frame
+        frame.origin.y = scrollView.contentOffset.y + tableView.frame.size.height - addressLabelView.frame.size.height
+        addressLabelView.frame = frame
+        view.bringSubview(toFront: addressLabelView)
+    }*/
     
     // MARK: - Navigation
     
