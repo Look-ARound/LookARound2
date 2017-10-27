@@ -24,7 +24,6 @@ internal class PlaceDetailTableViewController: UITableViewController {
     @IBOutlet private var nameLabel: UILabel!
     @IBOutlet private var categoryLabel: UILabel!
     @IBOutlet private var checkinsCountLabel: UILabel!
-    @IBOutlet private var likesCountLabel: UILabel!
     @IBOutlet private var facebookLikeButtonView: UIView!
     @IBOutlet private var addressLabel: UILabel!
     @IBOutlet private var aboutLabel: UILabel!
@@ -45,8 +44,8 @@ internal class PlaceDetailTableViewController: UITableViewController {
         place.about = "This is an authentic restaurant with lots of stuff in it and I'm just typing for the sake of testing and nothing else really I'm just doing this for a test thing and stuff yeah so it's authentic and stuff dude!"
         place.category = "Indian Restaurant"
         place.checkins = 233
-        place.contextCount = 3333
         place.address = "261 University Ave"
+        place.id = "460770554016783"
         setupViews()
         self.tableView.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0)
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
@@ -68,7 +67,6 @@ internal class PlaceDetailTableViewController: UITableViewController {
         }
         nameLabel.text = place.name
         checkinsCountLabel.text = "\(place.checkins ?? 0) checkins"
-        likesCountLabel.text = place.contextCount != nil && (place.contextCount ?? 0) > 0 ? "\(place.contextCount ?? 0) friends like this" : ""
         addressLabel.text = place.address
         categoryLabel.text = place.category
         aboutLabel.text = place.about
@@ -79,11 +77,13 @@ internal class PlaceDetailTableViewController: UITableViewController {
     }
     
     private func addLikeButton() {
-        let likeControl:FBSDKLikeControl = FBSDKLikeControl()
+        let likeControl = FBSDKLikeControl()
         likeControl.objectID = "MyPage"
         likeControl.likeControlStyle = FBSDKLikeControlStyle.standard
+        likeControl.objectType = .openGraph
         likeControl.frame = facebookLikeButtonView.bounds
         likeControl.likeControlHorizontalAlignment = .left
+        likeControl.objectID = place.id
         facebookLikeButtonView.addSubview(likeControl)
     }
     
