@@ -25,6 +25,7 @@ internal class AddPlaceViewController: UIViewController, UITableViewDelegate, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchUserLists()
+        navigationItem.title = "My Lists"
         self.tableView.allowsMultipleSelectionDuringEditing = false
     }
     
