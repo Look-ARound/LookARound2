@@ -53,11 +53,11 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
                 print("no location")
                 return CLLocation(latitude: -180.0, longitude: -180.0)
             }
-            //return coreLocation // SETLOCATION(1/2) uncomment this line to use actual current location
-            // return CLLocation(latitude: 37.7837851, longitude: -122.4334173) // uncomment this line to use SF location
+            return coreLocation // SETLOCATION(1/2) uncomment this line to use actual current location
+            //return CLLocation(latitude: 37.7837851, longitude: -122.4334173) // uncomment this line to use SF location
             //return CLLocation(latitude: 35.6600201, longitude: 139.697973) // uncomment this line to use Tokyo location
             //return CLLocation(latitude: 40.7408932, longitude: -74.0070035) // uncomment this line to use NYC location
-            return CLLocation(latitude: 36.1815789, longitude: -86.7348512) // uncomment this line to use Nashville location
+            //return CLLocation(latitude: 36.1815789, longitude: -86.7348512) // uncomment this line to use Nashville location
             //return CLLocation(latitude: 23.7909714, longitude: 90.4014137) // uncomment this line to use Dhaka location
         }
     }
@@ -175,16 +175,16 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
         
         // SETLOCATION(2/2) Comment all these lines out to use actual current location
         // Uncomment this line to use SF location
-        // mapView.setCenter(CLLocationCoordinate2DMake(37.7837851, -122.4334173), zoomLevel: 12, animated: true)
+        //mapView.setCenter(CLLocationCoordinate2DMake(37.7837851, -122.4334173), zoomLevel: 12, animated: true)
         
         // Uncomment this line to use Tokyo location
-        // mapView.setCenter(CLLocationCoordinate2DMake(35.6600201, 139.697973), zoomLevel: 15, animated: true)
+        //mapView.setCenter(CLLocationCoordinate2DMake(35.6600201, 139.697973), zoomLevel: 15, animated: true)
         
         // Uncomment this line to use NYC location
         //mapView.setCenter(CLLocationCoordinate2DMake(40.7408932, -74.0070035), zoomLevel: 14, animated: true)
         
         // Uncomment this line to use Nashville location
-        mapView.setCenter(CLLocationCoordinate2DMake(36.1815789, -86.7348512), zoomLevel: 14, animated: true)
+        //mapView.setCenter(CLLocationCoordinate2DMake(36.1815789, -86.7348512), zoomLevel: 14, animated: true)
         
         // Uncomment this line to use Dhaka location
         //mapView.setCenter(CLLocationCoordinate2DMake(23.7909714, 90.4014137), zoomLevel: 14, animated: true)
@@ -228,9 +228,9 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
         sceneView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onMapTap(recognizer:))))
         
         print("first search starting...")
-        let categories = [FilterCategory.Food_Beverage, FilterCategory.Shopping_Retail,
-                          FilterCategory.Arts_Entertainment, FilterCategory.Travel_Transportation,
-                          FilterCategory.Fitness_Recreation]
+        let categories: [FilterCategory] = [] //= [FilterCategory.Food_Beverage, FilterCategory.Shopping_Retail,
+                          //FilterCategory.Arts_Entertainment, FilterCategory.Travel_Transportation,
+                          //FilterCategory.Fitness_Recreation]
         
         if AccessToken.current == nil {
             print("no logged in user, trying anonymous graph request")
@@ -260,11 +260,11 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
             
             let location = CLLocation(coordinate: place.coordinate, altitude: 30, horizontalAccuracy: 5, verticalAccuracy: 5, timestamp: Date())
             // set user's current location to get the distance
-            place.userLocation = currentLocation
-            guard let distance = place.distance else {
-                return
-            }
-            let distanceStr = "\(distance) meters"
+            // place.userLocation = currentLocation
+            // guard let distance = place.distance else {
+            //    return
+            //}
+            // let distanceStr = "\(distance) meters"
             
             let annotation2D = Annotation(location: location, nodeImage: #imageLiteral(resourceName: "pin"), calloutImage: nil, place: place)
             mapView.addAnnotation(annotation2D)
@@ -389,6 +389,8 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
                 
                 // Update the annotation manager with the latest AR annotations
                 self.annotationManager.addAnnotations(annotations: annotationsToAdd)
+                
+                self.mapView.userTrackingMode = .followWithHeading
             }
         }
         
@@ -620,12 +622,6 @@ extension AugmentedViewController: MGLMapViewDelegate {
             options: nil
         )
         mapView.style?.addLayer(circleStyleLayer)
-    }
-    
-    func generateFeature(centerCoordinate: CLLocationCoordinate2D) -> MGLPointFeature {
-        let feature = MGLPointFeature()
-        feature.coordinate = centerCoordinate
-        return feature
     }
     
     // Use the default marker.

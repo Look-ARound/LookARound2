@@ -168,7 +168,6 @@ extension AnnotationManager: ARSCNViewDelegate {
     func createDefaultCallout(using annotation: Annotation, for node: SCNNode) -> SCNNode {
         
         guard let annotationTitle = annotation.title else {
-            print("no title")
             return SCNNode()
         }
         var calloutString = annotationTitle

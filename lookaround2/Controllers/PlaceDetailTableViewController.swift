@@ -7,8 +7,9 @@
 //
 
 import UIKit
-import MapKit
-import CoreLocation
+import AFNetworking
+import FBSDKCoreKit
+import FBSDKLoginKit
 import FBSDKShareKit
 import Mapbox
 
@@ -25,6 +26,7 @@ internal class PlaceDetailTableViewController: UITableViewController {
     @IBOutlet private var nameLabel: UILabel!
     @IBOutlet private var categoryLabel: UILabel!
     @IBOutlet private var checkinsCountLabel: UILabel!
+    @IBOutlet weak var friendsCountLabel: UILabel!
     @IBOutlet private var facebookLikeButtonView: UIView!
     @IBOutlet private var addressLabel: UILabel!
     @IBOutlet private var aboutLabel: UILabel!
@@ -33,7 +35,8 @@ internal class PlaceDetailTableViewController: UITableViewController {
     @IBOutlet private var doneBarButtonItem: UIBarButtonItem!
     @IBOutlet private var addBarButtonItem: UIBarButtonItem!
     @IBOutlet private var bookmarkBarButtonItem: UIBarButtonItem!
-    @IBOutlet private var mapView: UIView!
+    @IBOutlet weak var friendsConstraint: NSLayoutConstraint!
+    @IBOutlet weak var mapView: MGLMapView!
     
     // MARK: - Stored Properties
     
@@ -88,6 +91,34 @@ internal class PlaceDetailTableViewController: UITableViewController {
     }
     
     private func addLikeButton() {
+        let likeButton = FBSDKLikeButton()
+        likeButton.objectID = place.id
+        likeButton.objectType = .openGraph
+        likeButton.frame = facebookLikeButtonView.bounds
+        facebookLikeButtonView.addSubview(likeButton)
+        
+        guard let friends = place.contextCount else {
+            friendsCountLabel.isHidden = true
+            friendsConstraint.isActive = false
+            return
+        }
+        switch friends {
+        case _ where friends > 1:
+            friendsCountLabel.text = "\(friends) friends like this"
+            friendsCountLabel.isHidden = false
+            friendsConstraint.isActive = true
+        case _ where friends == 1:
+            friendsCountLabel.text = "1 friend likes this"
+            friendsCountLabel.isHidden = false
+            friendsConstraint.isActive = true
+        default:
+            friendsCountLabel.isHidden = true
+            friendsConstraint.isActive = false
+        }
+
+    }
+    
+    private func addLikeControl() {
         let likeControl = FBSDKLikeControl()
         likeControl.objectID = "MyPage"
         likeControl.likeControlStyle = FBSDKLikeControlStyle.standard
@@ -112,7 +143,7 @@ internal class PlaceDetailTableViewController: UITableViewController {
     }
     
     
-    // DEPRICATED Adding address view below
+    // DEPRECATED Adding address view below
     /*private func addBottomAddressView() {
         addressLabelView = UIView(frame: CGRect(x: 0, y: self.view.frame.height - 50, width: self.view.frame.width, height: 50))
         addressLabelView.backgroundColor = .white
@@ -124,7 +155,6 @@ internal class PlaceDetailTableViewController: UITableViewController {
     }*/
     
     private func setupMapView() {
-        guard let mapView = mapView as? MGLMapView else { return }
         let annotation = MGLPointAnnotation()
         annotation.coordinate = place.coordinate
         mapView.addAnnotation(annotation)
@@ -152,7 +182,7 @@ internal class PlaceDetailTableViewController: UITableViewController {
         return 44
     }
     
-    // DEPRICATED Bring address view to front
+    // DEPRECATED Bring address view to front
     /*override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         var frame: CGRect = addressLabelView.frame
         frame.origin.y = scrollView.contentOffset.y + tableView.frame.size.height - addressLabelView.frame.size.height
