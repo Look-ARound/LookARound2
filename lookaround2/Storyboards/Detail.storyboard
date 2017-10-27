@@ -73,12 +73,6 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="225 Likes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sLz-w2-POd">
-                                                    <rect key="frame" x="96" y="87" width="271" height="17"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkin" translatesAutoresizingMaskIntoConstraints="NO" id="t6L-u0-Afo">
                                                     <rect key="frame" x="8" y="132.5" width="30" height="30"/>
                                                     <constraints>
@@ -93,16 +87,14 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view clipsSubviews="YES" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="AcI-iK-cXg">
-                                                    <rect key="frame" x="8" y="81" width="80" height="30"/>
+                                                    <rect key="frame" x="8" y="81" width="359" height="30"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="80" id="RWg-yb-afS"/>
                                                         <constraint firstAttribute="height" constant="30" id="g8v-Ae-xoF"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="sLz-w2-POd" firstAttribute="leading" secondItem="AcI-iK-cXg" secondAttribute="trailing" constant="8" id="29d-iK-vQ7"/>
                                                 <constraint firstAttribute="trailing" secondItem="TYi-kW-PVw" secondAttribute="trailing" constant="8" id="4Ur-uN-10d"/>
                                                 <constraint firstItem="V9Y-Iz-m4d" firstAttribute="leading" secondItem="9Oh-TS-MPB" secondAttribute="leading" constant="8" id="5Es-Vh-xr8"/>
                                                 <constraint firstItem="AcI-iK-cXg" firstAttribute="top" secondItem="Oqi-wq-l9j" secondAttribute="bottom" constant="8" id="8H4-hb-pRD"/>
@@ -110,12 +102,11 @@
                                                 <constraint firstAttribute="bottom" secondItem="V9Y-Iz-m4d" secondAttribute="bottom" constant="8" id="Cdp-cZ-qaN"/>
                                                 <constraint firstItem="Oqi-wq-l9j" firstAttribute="leading" secondItem="9Oh-TS-MPB" secondAttribute="leading" constant="8" id="CgD-j8-3Cy"/>
                                                 <constraint firstItem="AcI-iK-cXg" firstAttribute="leading" secondItem="9Oh-TS-MPB" secondAttribute="leading" constant="8" id="Cvj-Vu-hnn"/>
-                                                <constraint firstItem="sLz-w2-POd" firstAttribute="centerY" secondItem="AcI-iK-cXg" secondAttribute="centerY" id="I5X-o7-ZE5"/>
-                                                <constraint firstAttribute="trailing" secondItem="sLz-w2-POd" secondAttribute="trailing" constant="8" id="Jpp-sJ-uvw"/>
                                                 <constraint firstItem="t6L-u0-Afo" firstAttribute="leading" secondItem="9Oh-TS-MPB" secondAttribute="leading" constant="8" id="SV4-WK-D00"/>
                                                 <constraint firstItem="TYi-kW-PVw" firstAttribute="leading" secondItem="9Oh-TS-MPB" secondAttribute="leading" constant="8" id="VZD-MH-x4A"/>
                                                 <constraint firstItem="TYi-kW-PVw" firstAttribute="top" secondItem="9Oh-TS-MPB" secondAttribute="top" constant="8" id="bhe-w8-rGj"/>
                                                 <constraint firstItem="V9Y-Iz-m4d" firstAttribute="top" secondItem="t6L-u0-Afo" secondAttribute="bottom" constant="8" id="d9W-kt-KEb"/>
+                                                <constraint firstAttribute="trailing" secondItem="AcI-iK-cXg" secondAttribute="trailing" constant="8" id="dZb-IZ-8oq"/>
                                                 <constraint firstAttribute="trailing" secondItem="Oqi-wq-l9j" secondAttribute="trailing" constant="8" id="dgs-G6-tA5"/>
                                                 <constraint firstItem="xaR-Fp-1Oi" firstAttribute="centerY" secondItem="t6L-u0-Afo" secondAttribute="centerY" id="iAA-wm-7ne"/>
                                                 <constraint firstAttribute="trailing" secondItem="V9Y-Iz-m4d" secondAttribute="trailing" constant="8" id="jXx-De-Xpf"/>
@@ -209,7 +200,6 @@
                         <outlet property="checkinsCountLabel" destination="xaR-Fp-1Oi" id="1MY-F0-3hi"/>
                         <outlet property="directionsButton" destination="eVL-kf-xEi" id="9Nz-wG-O4H"/>
                         <outlet property="facebookLikeButtonView" destination="AcI-iK-cXg" id="cpb-xc-GBa"/>
-                        <outlet property="likesCountLabel" destination="sLz-w2-POd" id="xsC-hD-sA0"/>
                         <outlet property="nameLabel" destination="TYi-kW-PVw" id="jN7-wL-9go"/>
                         <outlet property="placeImageView" destination="z9B-hJ-RqJ" id="5Fj-7w-xEd"/>
                         <outlet property="placeMapView" destination="EOn-Em-kMt" id="Iax-SO-LTJ"/>
