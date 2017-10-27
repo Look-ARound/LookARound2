@@ -20,7 +20,7 @@ import MapboxDirections
 import MapboxARKit
 import Turf
 
-class AugmentedViewController: UIViewController {
+class AugmentedViewController: UIViewController, UISearchBarDelegate {
     @IBOutlet weak var sceneView: ARSCNView!
     @IBOutlet weak var controlsContainerView: UIView!
     @IBOutlet weak var mapView: MGLMapView!
@@ -86,6 +86,7 @@ class AugmentedViewController: UIViewController {
         searchBar.barTintColor = UIColor.clear
         searchBar.backgroundColor = UIColor.clear
         searchBar.tintColor = UIColor.clear
+        searchBar.delegate = self
         
         initMap()
     }
@@ -102,6 +103,36 @@ class AugmentedViewController: UIViewController {
         
         // Pause the view's session
         sceneView.session.pause()
+    }
+    
+    // MARK: - SearchBar methods
+        
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        if let searchText = searchBar.text {
+            // Fetch places
+            PlaceSearch().fetchPlaces(with: searchText, success: { (places: [Place]?) in
+                if let places = places {
+                    self.removeExistingPins()
+                    self.addPlaces(places: places)
+                }
+            }, failure: { (error: Error) in
+                print("error fetching places based on search term: \(searchText). Error: \(error)")
+            })
+        }
+        
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = true
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
     
     

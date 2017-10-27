@@ -43,23 +43,17 @@ struct PlaceSearch {
     // Fully featured PlaceSearch.fetchPlaces
     func fetchPlaces(with categories:[FilterCategory]?, location: CLLocationCoordinate2D, distance: Int,
                      success: @escaping ([Place]?)->(), failure: @escaping (Error)->()) -> Void {
-        var request = PlaceSearchRequest()
-        if let token = AccessToken.current {
-            request.accessToken = token
-        } else {
-            request.accessToken = nil
-            request.parameters?["access_token"] = Bundle.main.object(forInfoDictionaryKey: "FacebookAppSecret")
-            request.parameters?["fields"] = "id, name, about, location, category_list, checkins, picture, cover, single_line_address"
-        }
+        
+        var request = presetRequest()
+        
         if let categories = categories {
             request.graphPath = graphPathString(categories: categories)
         } else {
             request.graphPath = "/search?"
         }
-        request.parameters?["type"] = "place"
+        
         request.parameters?["center"] = "\(location.latitude), \(location.longitude)"
         request.parameters?["distance"] = distance
-        request.parameters?["limit"] = 30
         
         let searchConnection = GraphRequestConnection()
         searchConnection.add(request) { (response, result: GraphRequestResult) in
@@ -73,11 +67,30 @@ struct PlaceSearch {
         searchConnection.start()
     }
     
-    func fetchPlaces(with searchTerm:String, success: @escaping ([Place])->(), failure: @escaping (Error)->()) -> Void {
+    fileprivate func presetRequest() -> PlaceSearchRequest {
+        var request = PlaceSearchRequest()
+        
+        if let token = AccessToken.current {
+            request.accessToken = token
+        } else {
+            request.accessToken = nil
+            request.parameters?["access_token"] = Bundle.main.object(forInfoDictionaryKey: "FacebookAppSecret")
+            request.parameters?["fields"] = "id, name, about, location, category_list, checkins, picture, cover, single_line_address"
+        }
+        
+        request.parameters?["type"] = "place"
+        request.parameters?["limit"] = 30
+        
+        return request
+    }
+    
+    func fetchPlaces(with searchTerm:String, success: @escaping ([Place]?)->(), failure: @escaping (Error)->()) -> Void {
         let placeSearchConnection = GraphRequestConnection()
         
-        var placeSearchRequest = PlaceSearchRequest()
+        var placeSearchRequest = presetRequest()
+        
         placeSearchRequest.graphPath = "/search?q=\(searchTerm)"
+        
         placeSearchConnection.add(placeSearchRequest,
                                   batchEntryName: nil) { (response, result) in
                                     switch result {
@@ -94,14 +107,10 @@ struct PlaceSearch {
     func fetchPlaces(with placeIDs:[String], success: @escaping ([Place])->(), failure: @escaping (Error)->()) -> Void {
         let placeIDSearchConnection = GraphRequestConnection()
         
+        // Add multiple requests to the same connection
         for placeID in placeIDs {
-            var placeIDRequest = PlaceSearchRequest()
-            if let token = AccessToken.current {
-                placeIDRequest.accessToken = token
-            } else {
-                placeIDRequest.accessToken = nil
-                placeIDRequest.parameters?["access_token"] = Bundle.main.object(forInfoDictionaryKey: "FacebookAppSecret")
-            }
+            var placeIDRequest = presetRequest()
+            
             placeIDRequest.graphPath = "/\(placeID)"
 
             placeIDSearchConnection.add(placeIDRequest,
