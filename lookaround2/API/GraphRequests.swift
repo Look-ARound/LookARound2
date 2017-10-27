@@ -71,8 +71,10 @@ struct PlaceSearch {
         var request = PlaceSearchRequest()
         
         if let token = AccessToken.current {
+            print("search with logged in user")
             request.accessToken = token
         } else {
+            print("search with logged out user")
             request.accessToken = nil
             request.parameters?["access_token"] = Bundle.main.object(forInfoDictionaryKey: "FacebookAppSecret")
             request.parameters?["fields"] = "id, name, about, location, category_list, checkins, picture, cover, single_line_address"

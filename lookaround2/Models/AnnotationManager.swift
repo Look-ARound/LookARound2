@@ -177,7 +177,7 @@ extension AnnotationManager: ARSCNViewDelegate {
             }
         }
         let title = SCNText(string: calloutString, extrusionDepth: 0)
-        title.font = UIFont.systemFont(ofSize: 2.5)
+        title.font = UIFont.systemFont(ofSize: 2.5, weight: .bold)
 
         let calloutNode = SCNNode(geometry: title)
         var nodePosition = node.position

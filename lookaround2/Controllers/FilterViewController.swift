@@ -15,6 +15,7 @@ import CoreLocation
 protocol FilterViewControllerDelegate : NSObjectProtocol {
     func filterViewController(_filterViewController: FilterViewController, didSelectCategories categories: [FilterCategory])
     func filterViewController(_filterViewController: FilterViewController, didSelectList list:List)
+    func filterViewController(_filterViewController: FilterViewController, noSelection categories: [FilterCategory])
 }
 
 enum SectionType : Int {
@@ -174,6 +175,7 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     @IBAction func onCancel(_ sender: Any) {
+        self.delegate?.filterViewController(_filterViewController: self, noSelection: [])
         dismiss(animated: true, completion: nil)
     }
     

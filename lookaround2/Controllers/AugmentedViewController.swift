@@ -123,7 +123,9 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
             PlaceSearch().fetchPlaces(with: searchText, success: { (places: [Place]?) in
                 if let places = places {
                     self.removeExistingPins()
-                    self.addPlaces(places: places)
+                    self.placeArray = places
+                    let end = min(self.placeArray!.count, self.numResults)
+                    self.addPlaces(places: Array(places[..<end]))
                 }
             }, failure: { (error: Error) in
                 print("error fetching places based on search term: \(searchText). Error: \(error)")
@@ -258,7 +260,7 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
         for index in 0..<places.count {
             let place = places[index]
             
-            let location = CLLocation(coordinate: place.coordinate, altitude: 30, horizontalAccuracy: 5, verticalAccuracy: 5, timestamp: Date())
+            let location = CLLocation(coordinate: place.coordinate, altitude: 50, horizontalAccuracy: 5, verticalAccuracy: 5, timestamp: Date())
             // set user's current location to get the distance
             // place.userLocation = currentLocation
             // guard let distance = place.distance else {
@@ -743,6 +745,26 @@ extension AugmentedViewController: FilterViewControllerDelegate {
     
     func filterViewController(_filterViewController: FilterViewController, didSelectList list: List) {
         refreshPins(withList : list)
+    }
+    
+    func filterViewController(_filterViewController: FilterViewController, noSelection categories: [FilterCategory]) {
+        if let searchText = searchBar.text, searchText.count > 0  {
+            print("using search term: \(searchText)")
+            // Fetch places
+            PlaceSearch().fetchPlaces(with: searchText, success: { (places: [Place]?) in
+                if let places = places {
+                    self.removeExistingPins()
+                    self.placeArray = places
+                    let end = min(self.placeArray!.count, self.numResults)
+                    self.addPlaces(places: Array(places[..<end]))
+                }
+            }, failure: { (error: Error) in
+                print("error fetching places based on search term: \(searchText). Error: \(error)")
+            })
+        } else {
+            print("no selection or search query, performing default search")
+            refreshPins(withCategories: categories)
+        }
     }
 }
 
