@@ -123,13 +123,13 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="129.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="EOn-Em-kMt">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="130"/>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lZf-GA-zpL" customClass="MGLMapView">
+                                                    <rect key="frame" x="8" y="1" width="359" height="128"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="130" id="bKV-dI-YQR"/>
-                                                        <constraint firstAttribute="width" constant="375" id="vZf-Gj-cna"/>
+                                                        <constraint firstAttribute="height" constant="128" id="gtG-60-46l"/>
                                                     </constraints>
-                                                </mapView>
+                                                </view>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eVL-kf-xEi">
                                                     <rect key="frame" x="255" y="8" width="100" height="30"/>
                                                     <constraints>
@@ -143,11 +143,11 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="eVL-kf-xEi" firstAttribute="top" secondItem="LyT-kS-VkO" secondAttribute="top" constant="8" id="5SX-QL-Mbk"/>
-                                                <constraint firstAttribute="bottom" secondItem="EOn-Em-kMt" secondAttribute="bottom" id="GCO-ia-1f2"/>
-                                                <constraint firstItem="EOn-Em-kMt" firstAttribute="leading" secondItem="LyT-kS-VkO" secondAttribute="leading" id="J3C-sk-hQh"/>
-                                                <constraint firstAttribute="trailing" secondItem="EOn-Em-kMt" secondAttribute="trailing" id="bkn-tP-hF5"/>
-                                                <constraint firstItem="EOn-Em-kMt" firstAttribute="top" secondItem="LyT-kS-VkO" secondAttribute="top" id="dNy-8k-DFA"/>
+                                                <constraint firstAttribute="trailing" secondItem="lZf-GA-zpL" secondAttribute="trailing" id="8XJ-Mh-WAZ"/>
+                                                <constraint firstAttribute="bottom" secondItem="lZf-GA-zpL" secondAttribute="bottom" id="CXE-2q-bwY"/>
+                                                <constraint firstItem="lZf-GA-zpL" firstAttribute="leading" secondItem="LyT-kS-VkO" secondAttribute="leading" id="Ebr-6K-91d"/>
                                                 <constraint firstAttribute="trailing" secondItem="eVL-kf-xEi" secondAttribute="trailing" constant="20" id="edA-LB-LoR"/>
+                                                <constraint firstItem="lZf-GA-zpL" firstAttribute="top" secondItem="LyT-kS-VkO" secondAttribute="top" id="lYc-ke-DIY"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -207,9 +207,9 @@
                         <outlet property="directionsButton" destination="eVL-kf-xEi" id="9Nz-wG-O4H"/>
                         <outlet property="doneBarButtonItem" destination="WKa-l6-n0v" id="D2W-jx-uaN"/>
                         <outlet property="facebookLikeButtonView" destination="AcI-iK-cXg" id="cpb-xc-GBa"/>
+                        <outlet property="mapView" destination="lZf-GA-zpL" id="k1u-lh-D5t"/>
                         <outlet property="nameLabel" destination="TYi-kW-PVw" id="jN7-wL-9go"/>
                         <outlet property="placeImageView" destination="z9B-hJ-RqJ" id="5Fj-7w-xEd"/>
-                        <outlet property="placeMapView" destination="EOn-Em-kMt" id="Iax-SO-LTJ"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eif-93-ASx" userLabel="First Responder" sceneMemberID="firstResponder"/>
