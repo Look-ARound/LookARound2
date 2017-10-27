@@ -10,6 +10,8 @@
 		497B925A1F9DAD9500052A77 /* SweetAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497B92591F9DAD9500052A77 /* SweetAlert.swift */; };
 		49E1E2211F9D2E1D004F972C /* AddPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E1E2201F9D2E1D004F972C /* AddPlaceViewController.swift */; };
 		702F12D61FA0471F00E86482 /* HeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702F12D51FA0471F00E86482 /* HeaderCell.swift */; };
+		70487B351FA378560086B1B7 /* fb_access in Resources */ = {isa = PBXBuildFile; fileRef = 7737274C1FA0805A00975D68 /* fb_access */; };
+		70487B361FA3785A0086B1B7 /* mapbox_access_token in Resources */ = {isa = PBXBuildFile; fileRef = 7737274D1FA0805A00975D68 /* mapbox_access_token */; };
 		7478B9C71F9D2BA100EB62F5 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478B9C61F9D2BA100EB62F5 /* List.swift */; };
 		7478B9C91F9D2BB400EB62F5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478B9C81F9D2BB400EB62F5 /* User.swift */; };
 		7478B9CB1F9D2BEF00EB62F5 /* DatabaseRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478B9CA1F9D2BEF00EB62F5 /* DatabaseRequests.swift */; };
@@ -403,6 +405,8 @@
 				773727501FA08B7200975D68 /* GoogleService-Info.plist in Resources */,
 				778949A31F9B629800910FD1 /* art.scnassets in Resources */,
 				7747FEE61F9B409300366D54 /* LaunchScreen.storyboard in Resources */,
+				70487B361FA3785A0086B1B7 /* mapbox_access_token in Resources */,
+				70487B351FA378560086B1B7 /* fb_access in Resources */,
 				7747FEE31F9B409300366D54 /* Assets.xcassets in Resources */,
 				778949A01F9B626700910FD1 /* Login.storyboard in Resources */,
 				7789499F1F9B626400910FD1 /* Filter.storyboard in Resources */,
@@ -744,10 +748,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = PUQ8TNP3W4;
+				DEVELOPMENT_TEAM = 4N63YKK822;
 				INFOPLIST_FILE = lookaround2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.artek.LookARound.wangela;
+				PRODUCT_BUNDLE_IDENTIFIER = com.artek.LookARound;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
@@ -762,10 +766,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = PUQ8TNP3W4;
+				DEVELOPMENT_TEAM = 4N63YKK822;
 				INFOPLIST_FILE = lookaround2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.artek.LookARound.wangela;
+				PRODUCT_BUNDLE_IDENTIFIER = com.artek.LookARound;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
