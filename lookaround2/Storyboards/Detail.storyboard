@@ -142,12 +142,12 @@
                                                 </button>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="eVL-kf-xEi" firstAttribute="top" secondItem="LyT-kS-VkO" secondAttribute="top" constant="8" id="5SX-QL-Mbk"/>
                                                 <constraint firstAttribute="trailing" secondItem="lZf-GA-zpL" secondAttribute="trailing" id="8XJ-Mh-WAZ"/>
                                                 <constraint firstAttribute="bottom" secondItem="lZf-GA-zpL" secondAttribute="bottom" id="CXE-2q-bwY"/>
                                                 <constraint firstItem="lZf-GA-zpL" firstAttribute="leading" secondItem="LyT-kS-VkO" secondAttribute="leading" id="Ebr-6K-91d"/>
                                                 <constraint firstAttribute="trailing" secondItem="eVL-kf-xEi" secondAttribute="trailing" constant="20" id="edA-LB-LoR"/>
                                                 <constraint firstItem="lZf-GA-zpL" firstAttribute="top" secondItem="LyT-kS-VkO" secondAttribute="top" id="lYc-ke-DIY"/>
+                                                <constraint firstItem="eVL-kf-xEi" firstAttribute="top" secondItem="LyT-kS-VkO" secondAttribute="top" constant="8" id="ufN-B6-NVm"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -313,6 +313,6 @@
     <resources>
         <image name="bookmark" width="24" height="24"/>
         <image name="checkin" width="24" height="24"/>
-        <image name="placeholder" width="800" height="423"/>
+        <image name="placeholder" width="600" height="400"/>
     </resources>
 </document>
