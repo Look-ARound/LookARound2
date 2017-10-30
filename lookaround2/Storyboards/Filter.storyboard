@@ -97,6 +97,90 @@
                                             <outlet property="titleLabel" destination="SEO-iu-QvA" id="Cvb-2w-vKQ"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SearchResultsCell" rowHeight="168" id="Etc-wo-3lQ" customClass="SearchResultsCell" customModule="lookaround2" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="241" width="375" height="168"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Etc-wo-3lQ" id="8Ka-fc-ZI2">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="167.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Saint Frank Coffee at Facebook" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hKN-6B-vN4">
+                                                    <rect key="frame" x="12" y="12" width="249.5" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="752" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yEc-ey-Yq0">
+                                                    <rect key="frame" x="12" y="38" width="272" height="101.5"/>
+                                                    <string key="text">An extension of our Polk St Coffee Bar, We also live in the spirit of openness, and connecting the world through the story of our Coffee and its producers.</string>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 of your friends like this." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CXL-uH-A6m">
+                                                    <rect key="frame" x="12" y="147.5" width="192.5" height="0.0"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MFH-jP-KLy">
+                                                    <rect key="frame" x="288" y="12" width="75" height="75"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="75" id="9lx-EH-noH"/>
+                                                        <constraint firstAttribute="width" constant="75" id="BQV-Ok-ROi"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="534 people like this." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wZZ-F4-ezo">
+                                                    <rect key="frame" x="12" y="155.5" width="154.5" height="0.0"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="1060" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qN7-VH-xsR">
+                                                    <rect key="frame" x="186.5" y="145.5" width="41" height="20.5"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="checkins" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FeZ-6F-XV8">
+                                                    <rect key="frame" x="231.5" y="146" width="68" height="20.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="hKN-6B-vN4" firstAttribute="top" secondItem="8Ka-fc-ZI2" secondAttribute="top" constant="12" id="Cdp-NY-zXu"/>
+                                                <constraint firstItem="yEc-ey-Yq0" firstAttribute="top" secondItem="hKN-6B-vN4" secondAttribute="bottom" constant="8" id="FHK-WC-U6c"/>
+                                                <constraint firstItem="hKN-6B-vN4" firstAttribute="leading" secondItem="8Ka-fc-ZI2" secondAttribute="leading" constant="12" id="FHR-O5-X3s"/>
+                                                <constraint firstItem="MFH-jP-KLy" firstAttribute="leading" secondItem="yEc-ey-Yq0" secondAttribute="trailing" constant="4" id="Fg7-eg-lYM"/>
+                                                <constraint firstItem="MFH-jP-KLy" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="hKN-6B-vN4" secondAttribute="trailing" constant="4" id="Ifu-iN-vBS"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="FeZ-6F-XV8" secondAttribute="trailing" constant="12" id="NTa-47-BM9"/>
+                                                <constraint firstItem="MFH-jP-KLy" firstAttribute="top" secondItem="8Ka-fc-ZI2" secondAttribute="top" constant="12" id="OD5-cb-vd4"/>
+                                                <constraint firstItem="FeZ-6F-XV8" firstAttribute="top" relation="greaterThanOrEqual" secondItem="MFH-jP-KLy" secondAttribute="bottom" constant="8" id="OXp-8s-xaX"/>
+                                                <constraint firstAttribute="trailing" secondItem="MFH-jP-KLy" secondAttribute="trailing" constant="12" id="Ovf-2K-89S"/>
+                                                <constraint firstItem="FeZ-6F-XV8" firstAttribute="centerY" secondItem="wZZ-F4-ezo" secondAttribute="centerY" id="UhA-2O-B9B"/>
+                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="MFH-jP-KLy" secondAttribute="bottom" constant="12" id="WM3-0z-EHZ"/>
+                                                <constraint firstAttribute="bottom" secondItem="wZZ-F4-ezo" secondAttribute="bottom" constant="12" id="X46-fC-uaO"/>
+                                                <constraint firstItem="yEc-ey-Yq0" firstAttribute="leading" secondItem="8Ka-fc-ZI2" secondAttribute="leading" constant="12" id="Zkp-k2-X1Y"/>
+                                                <constraint firstItem="CXL-uH-A6m" firstAttribute="top" secondItem="yEc-ey-Yq0" secondAttribute="bottom" constant="8" id="ajn-vY-szx"/>
+                                                <constraint firstItem="FeZ-6F-XV8" firstAttribute="leading" secondItem="qN7-VH-xsR" secondAttribute="trailing" constant="4" id="ffK-js-nj3"/>
+                                                <constraint firstItem="wZZ-F4-ezo" firstAttribute="top" secondItem="CXL-uH-A6m" secondAttribute="bottom" constant="8" id="gSC-u4-Y8v"/>
+                                                <constraint firstItem="qN7-VH-xsR" firstAttribute="leading" secondItem="wZZ-F4-ezo" secondAttribute="trailing" constant="20" id="ljS-DG-5bq"/>
+                                                <constraint firstItem="qN7-VH-xsR" firstAttribute="centerY" secondItem="wZZ-F4-ezo" secondAttribute="centerY" id="oth-f6-kaT"/>
+                                                <constraint firstItem="wZZ-F4-ezo" firstAttribute="leading" secondItem="8Ka-fc-ZI2" secondAttribute="leading" constant="12" id="qfx-5Y-HhU"/>
+                                                <constraint firstItem="CXL-uH-A6m" firstAttribute="leading" secondItem="8Ka-fc-ZI2" secondAttribute="leading" constant="12" id="we2-Yj-py0"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="aboutLabel" destination="yEc-ey-Yq0" id="OXv-jD-Xur"/>
+                                            <outlet property="checkinsLabel" destination="qN7-VH-xsR" id="S37-KY-GNb"/>
+                                            <outlet property="contextLabel" destination="CXL-uH-A6m" id="D0g-Fs-55x"/>
+                                            <outlet property="engagementLabel" destination="wZZ-F4-ezo" id="X3d-Uo-aTK"/>
+                                            <outlet property="nameLabel" destination="hKN-6B-vN4" id="fcU-hq-aaj"/>
+                                            <outlet property="pictureImageView" destination="MFH-jP-KLy" id="HnX-2O-p1t"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                             </tableView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Tyc-E5-Ahp">

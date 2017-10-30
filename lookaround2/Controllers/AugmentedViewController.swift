@@ -54,6 +54,7 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
                 return CLLocation(latitude: -180.0, longitude: -180.0)
             }
             return coreLocation // SETLOCATION(1/2) uncomment this line to use actual current location
+            
             //return CLLocation(latitude: 37.7837851, longitude: -122.4334173) // uncomment this line to use SF location
             //return CLLocation(latitude: 35.6600201, longitude: 139.697973) // uncomment this line to use Tokyo location
             //return CLLocation(latitude: 40.7408932, longitude: -74.0070035) // uncomment this line to use NYC location
@@ -230,9 +231,9 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
         sceneView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onMapTap(recognizer:))))
         
         print("first search starting...")
-        let categories: [FilterCategory] = [] //= [FilterCategory.Food_Beverage, FilterCategory.Shopping_Retail,
-                          //FilterCategory.Arts_Entertainment, FilterCategory.Travel_Transportation,
-                          //FilterCategory.Fitness_Recreation]
+        let categories: [FilterCategory] = [FilterCategory.Food_Beverage, FilterCategory.Shopping_Retail,
+                           FilterCategory.Arts_Entertainment, FilterCategory.Travel_Transportation,
+                           FilterCategory.Fitness_Recreation]
         
         if AccessToken.current == nil {
             print("no logged in user, trying anonymous graph request")
@@ -270,7 +271,9 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
             
             let annotation2D = Annotation(location: location, nodeImage: #imageLiteral(resourceName: "pin"), calloutImage: nil, place: place)
             mapView.addAnnotation(annotation2D)
+            
             self.annotationManager.addAnnotation(annotation: annotation2D)
+            
             guard let placename = annotation2D.place?.name else {
                 return
             }
@@ -476,6 +479,7 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
         
         let filterVC = filterNVC.topViewController as! FilterViewController
         filterVC.delegate = self
+        filterVC.places = self.placeArray
         
         filterVC.coordinates = currentCoordinates
         

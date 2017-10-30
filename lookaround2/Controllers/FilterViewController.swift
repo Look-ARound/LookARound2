@@ -22,6 +22,7 @@ enum SectionType : Int {
     case filters = 0
     case login
     case discoverLists
+    case searchResults
 }
 
 class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -32,9 +33,11 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet var currentUserImageView: UIImageView!
     @IBOutlet var loginButtonView: UIView!
     weak var delegate : FilterViewControllerDelegate?
+    var places: [Place]!
     var coordinates: CLLocationCoordinate2D!
     var myListItem: ListItem!
     var publicListItem: ListItem!
+    var searchResultsItem: SearchResultsItem!
     
     var sectionItems: [SectionItem] = []
   
@@ -43,10 +46,14 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
         myListItem = ListItem(title: "My Lists")
         publicListItem = ListItem(title: "Public Lists")
+        searchResultsItem = SearchResultsItem(title: "Search Results" )
+        searchResultsItem.places = self.places
+        
         sectionItems.append( CategoryItem(title: "Categories"))
         sectionItems.append( myListItem )
         sectionItems.append( publicListItem )
-        // sectionItems.append( LoginItem(title: "Login"))
+        sectionItems.append( searchResultsItem )
+        //sectionItems.append( LoginItem(title: "Login"))
         
         // Do any additional setup after loading the view.
         filterTableView.delegate = self
@@ -132,6 +139,10 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell = tableView.dequeueReusableCell(withIdentifier: "FilterCell", for: indexPath)
             (cell as! FilterCell).filterNameLabel.text  = listItem.lists[indexPath.row].name
             cell.accessoryType = .none
+
+        case .searchResults:
+            cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultsCell", for: indexPath)
+            (cell as! SearchResultsCell).place = places[indexPath.row]
         }
         
         return cell
@@ -157,6 +168,8 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self.delegate?.filterViewController(_filterViewController: self,
                                                 didSelectList: selectedList)
             dismiss(animated: true, completion: nil)
+        case .searchResults:
+            print( "search results selected" )
         }
         
     }
@@ -263,6 +276,18 @@ class ListItem: SectionItem {
             return 0
         }
         return lists.count
+    }
+}
+
+class SearchResultsItem: SectionItem {
+    var places: [Place]!
+    
+    override var type: SectionType {
+        return SectionType.searchResults
+    }
+    
+    override var rowCount: Int {
+        return places.count
     }
 }
 
