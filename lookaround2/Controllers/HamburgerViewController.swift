@@ -46,6 +46,7 @@ class HamburgerViewController: UIViewController {
     }
     
     func hideFilters() {
+        print("hiding")
         UIView.animate(withDuration: 0.3, animations: {
             self.contentLeadingConstraint.constant = 0
             self.view.layoutIfNeeded()

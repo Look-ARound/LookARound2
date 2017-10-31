@@ -297,17 +297,30 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
         removeExistingPins()
         
         let placeIDs = list.placeIDs
+        print(placeIDs.count)
         self.placeArray = []
         PlaceSearch().fetchPlaces(with: placeIDs, success: { (places: [Place]) in
-            self.placeArray?.append(places[0])
-            if self.placeArray?.count == placeIDs.count {
-                self.addPlaces(places: places)
+            print(places.count)
+            if places.count == placeIDs.count {
+                self.placeArray = places
+                if let listPlaces = self.placeArray {
+                    if listPlaces.count == placeIDs.count {
+                        self.addPlaces(places: listPlaces)
+                    }
+                }
             }
         }) { (error: Error) in
             print("error fetching places")
         }
         
-        mapView.userTrackingMode = .followWithHeading
+        mapView.userTrackingMode = .followWithCourse
+        print(placeArray)
+        if let results = placeArray, results.count > 0 {
+            print("setting map target")
+            let firstPlace = results[0]
+            mapView.targetCoordinate = firstPlace.coordinate
+        }
+
     }
     
     func refreshPins(withCategories categories: [FilterCategory]) {
@@ -780,6 +793,8 @@ extension AugmentedViewController: FilterViewControllerDelegate {
     func filterViewController(_filterViewController: FilterViewController, didSelectList list: List) {
         delegate?.hideFilters(_augmentedViewController: self)
         showingFilters = false
+        print(list.id)
+        print(list.placeIDs)
         refreshPins(withList : list)
     }
 }

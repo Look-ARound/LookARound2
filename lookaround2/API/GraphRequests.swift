@@ -19,6 +19,24 @@ enum sortMethod: Int {
 
 // MARK: - Place Search methods for Place Search Graph request
 struct PlaceSearch {
+    fileprivate func presetRequest() -> PlaceSearchRequest {
+        var request = PlaceSearchRequest()
+        
+        if let token = AccessToken.current {
+            request.accessToken = token
+            request.parameters?["fields"] = "id, name, about, location, category_list, checkins, picture, cover, single_line_address, context"
+        } else {
+            print("search with logged out user")
+            request.accessToken = nil
+            request.parameters?["access_token"] = Bundle.main.object(forInfoDictionaryKey: "FacebookAppSecret")
+            request.parameters?["fields"] = "id, name, about, location, category_list, checkins, picture, cover, single_line_address"
+        }
+        
+        request.parameters?["limit"] = 30
+        
+        return request
+    }
+    
     // When no location detected, use default of Facebook Building 20
     func fetchPlaces(with categories:[FilterCategory]?, success: @escaping ([Place]?)->(), failure: @escaping (Error)->()) -> Void {
         
@@ -67,25 +85,6 @@ struct PlaceSearch {
         searchConnection.start()
     }
     
-    fileprivate func presetRequest() -> PlaceSearchRequest {
-        var request = PlaceSearchRequest()
-        
-        if let token = AccessToken.current {
-            request.accessToken = token
-            request.parameters?["fields"] = "id, name, about, location, category_list, checkins, picture, cover, single_line_address, context"
-        } else {
-            print("search with logged out user")
-            request.accessToken = nil
-            request.parameters?["access_token"] = Bundle.main.object(forInfoDictionaryKey: "FacebookAppSecret")
-            request.parameters?["fields"] = "id, name, about, location, category_list, checkins, picture, cover, single_line_address"
-        }
-        
-        request.parameters?["type"] = "place"
-        request.parameters?["limit"] = 30
-        
-        return request
-    }
-    
     func fetchPlaces(with searchTerm:String, coordinates: CLLocationCoordinate2D, success: @escaping ([Place]?)->(), failure: @escaping (Error)->()) -> Void {
         let placeSearchConnection = GraphRequestConnection()
         
@@ -93,7 +92,7 @@ struct PlaceSearch {
         
         placeSearchRequest.graphPath = "/search?type=place&q=\(searchTerm)"
         placeSearchRequest.parameters?["center"] = "\(coordinates.latitude), \(coordinates.longitude)"
-        placeSearchRequest.parameters?["distance"] = 2000
+        placeSearchRequest.parameters?["distance"] = 1000
         print(placeSearchRequest.parameters)
         placeSearchConnection.add(placeSearchRequest,
                                   batchEntryName: nil) { (response, result) in
@@ -108,30 +107,45 @@ struct PlaceSearch {
         placeSearchConnection.start()
     }
     
-    func fetchPlaces(with placeIDs:[String], success: @escaping ([Place])->(), failure: @escaping (Error)->()) -> Void {
-        let placeIDSearchConnection = GraphRequestConnection()
+    fileprivate func presetIDRequest() -> PlaceIDSearchRequest {
+        var request = PlaceIDSearchRequest()
         
-        // Add multiple requests to the same connection
-        for placeID in placeIDs {
-            var placeIDRequest = presetRequest()
-            
-            placeIDRequest.graphPath = "/\(placeID)"
-
-            placeIDSearchConnection.add(placeIDRequest,
-                                        batchParameters: nil,
-                                        completion: { (response, result : GraphRequestResult) in
-                                            switch result {
-                                            case .success(let response):
-                                                if response.places.count > 0 {
-                                                    success(response.places)
-                                                }
-                                            case .failed(let error):
-                                                print("Failed to fetch place with id \(placeID)")
-                                                failure(error)
-                                            }
-            })
+        if let token = AccessToken.current {
+            request.accessToken = token
+            request.parameters?["fields"] = "id, name, about, location, category_list, checkins, picture, cover, single_line_address, context"
+        } else {
+            print("search with logged out user")
+            request.accessToken = nil
+            request.parameters?["access_token"] = Bundle.main.object(forInfoDictionaryKey: "FacebookAppSecret")
+            request.parameters?["fields"] = "id, name, about, location, category_list, checkins, picture, cover, single_line_address"
         }
         
+        return request
+    }
+    
+    func fetchPlaces(with placeIDs:[String], success: @escaping ([Place])->(), failure: @escaping (Error)->()) -> Void {
+        var places: [Place] = []
+        // Add multiple requests to the same connection
+        let placeIDSearchConnection = GraphRequestConnection()
+        
+        for placeID in placeIDs {
+            var placeIDRequest = presetIDRequest()
+            placeIDRequest.graphPath = "/\(placeID)"
+            placeIDSearchConnection.add(placeIDRequest, batchParameters: nil, completion: { (response, result: GraphRequestResult) in
+                switch result {
+                case .success(let response):
+                    if let place = response.place {
+                        print(place.name)
+                        places.append(place)
+                        success(places)
+                    }
+                case .failed(let error):
+                    print("Failed to fetch place with id /(placeID)")
+                    failure(error)
+                }
+            })
+        }
+
         placeIDSearchConnection.start()
     }
 }
@@ -204,6 +218,25 @@ private struct PlaceSearchRequest: GraphRequestProtocol {
     typealias Response = PlaceSearchResponse
 }
 
+/// Use PlaceSearch().fetchPlaces instead of using this directly.
+private struct PlaceIDSearchRequest: GraphRequestProtocol {
+    
+    // GraphPath documentation at https://developers.facebook.com/docs/places/web/search
+    var graphPath: String = "" // This string will be populated with the graphPathString function which is called by PlaceSearch().fetchPlaces.
+    
+    // Places available fields documentation at https://developers.facebook.com/docs/places/fields
+    var parameters: [String: Any]? = ["fields": "id, name, about, location, category_list, checkins, picture, cover, single_line_address"]
+    
+    // Access documented at https://developers.facebook.com/docs/places/access-tokens
+    // Default access token is the public client token, used for logged-out users
+    // var accessToken: AccessToken? = AccessToken.init(authenticationToken: SDKSettings.clientToken!)
+    var accessToken: AccessToken?
+    var httpMethod: GraphRequestHTTPMethod = .GET
+    var apiVersion: GraphAPIVersion = .defaultVersion
+    
+    typealias Response = PlaceIDSearchResponse
+}
+
 private struct PlaceSearchResponse: GraphResponseProtocol {
     var places: [Place]
     
@@ -230,12 +263,24 @@ private struct PlaceSearchResponse: GraphResponseProtocol {
         }
         let sortedPlaces = sortPlaces(places: rawPlaces, by: .magic)
         places = sortedPlaces
-        // Moved truncation of array to viewcontroller
-//        let end = min(sortedPlaces.count, 20)
-//        print("end = \(end)")
-//        places = Array(sortedPlaces[..<end])
     }
 }
+
+private struct PlaceIDSearchResponse: GraphResponseProtocol {
+    var place: Place?
+    
+    init(rawResponse: Any?) {
+        // Decode JSON from rawResponse into other properties here.
+
+        let json = JSON(rawResponse!)
+        if let unwrappedPlace = Place(json: json) {
+            place = unwrappedPlace
+        } else {
+            print("couldn't unwrap place")
+        }
+    }
+}
+
 
 // MARK: - Profile Graph Request
 var LAFBUserIDKey : String = "FBUserIDKey"
