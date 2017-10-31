@@ -288,9 +288,12 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
         removeExistingPins()
         
         let placeIDs = list.placeIDs
+        self.placeArray = []
         PlaceSearch().fetchPlaces(with: placeIDs, success: { (places: [Place]) in
-            self.placeArray = places
-            self.addPlaces(places: places)
+            self.placeArray?.append(places[0])
+            if self.placeArray?.count == placeIDs.count {
+                self.addPlaces(places: places)
+            }
         }) { (error: Error) in
             print("error fetching places")
         }
