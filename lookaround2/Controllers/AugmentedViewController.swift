@@ -297,29 +297,29 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
         removeExistingPins()
         
         let placeIDs = list.placeIDs
-        print(placeIDs.count)
         self.placeArray = []
         PlaceSearch().fetchPlaces(with: placeIDs, success: { (places: [Place]) in
-            print(places.count)
             if places.count == placeIDs.count {
                 self.placeArray = places
                 if let listPlaces = self.placeArray {
                     if listPlaces.count == placeIDs.count {
                         self.addPlaces(places: listPlaces)
+                        
+                        print("hello")
+                        print(self.placeArray)
+                        print("setting map target")
+                        let firstPlace = listPlaces[0]
+                        self.mapView.userTrackingMode = .followWithCourse
+                        self.mapView.setTargetCoordinate(firstPlace.coordinate, animated: true)
+                        }
                     }
-                }
             }
-        }) { (error: Error) in
+        }, failure: { (error: Error) in
             print("error fetching places")
-        }
+        })
         
         mapView.userTrackingMode = .followWithCourse
-        print(placeArray)
-        if let results = placeArray, results.count > 0 {
-            print("setting map target")
-            let firstPlace = results[0]
-            mapView.targetCoordinate = firstPlace.coordinate
-        }
+
 
     }
     

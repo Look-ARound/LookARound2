@@ -135,7 +135,6 @@ struct PlaceSearch {
                 switch result {
                 case .success(let response):
                     if let place = response.place {
-                        print(place.name)
                         places.append(place)
                         success(places)
                     }
@@ -145,7 +144,6 @@ struct PlaceSearch {
                 }
             })
         }
-
         placeIDSearchConnection.start()
     }
 }
