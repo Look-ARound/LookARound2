@@ -15,7 +15,6 @@ import CoreLocation
 protocol FilterViewControllerDelegate : NSObjectProtocol {
     func filterViewController(_filterViewController: FilterViewController, didSelectCategories categories: [FilterCategory])
     func filterViewController(_filterViewController: FilterViewController, didSelectList list:List)
-    func filterViewController(_filterViewController: FilterViewController, noSelection categories: [FilterCategory])
 }
 
 enum SectionType : Int {
@@ -188,7 +187,14 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     @IBAction func onCancel(_ sender: Any) {
-        self.delegate?.filterViewController(_filterViewController: self, noSelection: [])
+        var selectedCategories: [FilterCategory]
+        // TODO: track an array of selected categories whenever didSelectRowAt in the filters section of the table, and then pass that here. If no selected categories, then set selectedCategories to this default list.
+        if true {
+            selectedCategories = [FilterCategory.Food_Beverage, FilterCategory.Shopping_Retail,
+                              FilterCategory.Arts_Entertainment, FilterCategory.Travel_Transportation,
+                              FilterCategory.Fitness_Recreation, FilterCategory.Hotel_Loding]
+            self.delegate?.filterViewController(_filterViewController: self, didSelectCategories: selectedCategories)
+        }
         dismiss(animated: true, completion: nil)
     }
     
