@@ -155,7 +155,6 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
             let category = FilterCategory(rawValue: indexPath.row)!
             self.delegate?.filterViewController(_filterViewController: self,
                                                 didSelectCategories: [category])
-            dismiss(animated: true, completion: nil)
         case .login:
             // Push login screen
             showLoginScreen()
@@ -165,7 +164,6 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
             let selectedList = listItem.lists[indexPath.row]
             self.delegate?.filterViewController(_filterViewController: self,
                                                 didSelectList: selectedList)
-            dismiss(animated: true, completion: nil)
         case .searchResults:
             print( "search results selected" )
         }
