@@ -32,13 +32,19 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet var currentUserImageView: UIImageView!
     @IBOutlet var loginButtonView: UIView!
     weak var delegate : FilterViewControllerDelegate?
-    var places: [Place]!
     var coordinates: CLLocationCoordinate2D!
     var myListItem: ListItem!
     var publicListItem: ListItem!
     var searchResultsItem: SearchResultsItem!
     
     var sectionItems: [SectionItem] = []
+    
+    var places: [Place]? {
+        didSet {
+            searchResultsItem.places = self.places
+            filterTableView.reloadData()
+        }
+    }
   
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +54,7 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         searchResultsItem = SearchResultsItem(title: "Search Results" )
         searchResultsItem.places = self.places
         
-        sectionItems.append( CategoryItem(title: "Categories"))
+        sectionItems.append( CategoryItem(title: "Search Category Filters"))
         sectionItems.append( myListItem )
         sectionItems.append( publicListItem )
         sectionItems.append( searchResultsItem )
@@ -70,13 +76,6 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         updateLoginInfo()
         
         fetchPlacesLists()
-        
-        
-        // TODO: Can we directly go to search results VC from here without going through the login page? I (Angela)
-        // tried instantiating a SearchResultsViewController directly but it's not that easy.
-//        let resultsButton = UIBarButtonItem(title: "List Results", style: .plain, target: self, action: #selector(onResultsButton))
-//        navigationItem.rightBarButtonItem = resultsButton
-
 
     }
 
@@ -141,7 +140,7 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
         case .searchResults:
             cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultsCell", for: indexPath)
-            (cell as! SearchResultsCell).place = places[indexPath.row]
+            (cell as! SearchResultsCell).place = searchResultsItem.places[indexPath.row]
         }
         
         return cell
@@ -293,7 +292,11 @@ class SearchResultsItem: SectionItem {
     }
     
     override var rowCount: Int {
-        return places.count
+        if let places = places {
+            return places.count
+        } else {
+            return 0
+        }
     }
 }
 

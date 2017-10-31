@@ -21,6 +21,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)        
 
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let fStoryboard = UIStoryboard(name: "Filter", bundle: nil)
+        
+        let hamburgerViewController = storyboard.instantiateViewController(withIdentifier: "HamburgerViewController") as! HamburgerViewController
+        
+        let filterViewController = fStoryboard.instantiateViewController(withIdentifier: "FilterViewController") as! FilterViewController
+        
+        let augmentedNavController = storyboard.instantiateViewController(withIdentifier: "AugmentedNavigationController") as! UINavigationController
+        
+        let augmentedVC = augmentedNavController.childViewControllers[0] as! AugmentedViewController
+        
+        hamburgerViewController.filterViewController = filterViewController
+        hamburgerViewController.contentViewController = augmentedNavController
+        augmentedVC.delegate = hamburgerViewController
+        augmentedVC.filterVC = filterViewController
+        filterViewController.delegate = augmentedVC
+        
+        window?.rootViewController = hamburgerViewController
         return true
     }
     

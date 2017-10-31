@@ -127,10 +127,50 @@
             </objects>
             <point key="canvasLocation" x="372" y="32.833583208395808"/>
         </scene>
+        <!--Hamburger View Controller-->
+        <scene sceneID="Bpk-3a-IB6">
+            <objects>
+                <viewController storyboardIdentifier="HamburgerViewController" id="l7u-cd-IJv" customClass="HamburgerViewController" customModule="lookaround2" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="R0a-fY-UdF">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fzy-0X-qEj">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sch-kh-uj7">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Atu-42-kR1" firstAttribute="bottom" secondItem="fzy-0X-qEj" secondAttribute="bottom" id="ERz-7a-1We"/>
+                            <constraint firstItem="Sch-kh-uj7" firstAttribute="top" secondItem="Atu-42-kR1" secondAttribute="top" id="JiH-MS-HyL"/>
+                            <constraint firstItem="Atu-42-kR1" firstAttribute="trailing" secondItem="fzy-0X-qEj" secondAttribute="trailing" id="OjJ-8V-phv"/>
+                            <constraint firstItem="Atu-42-kR1" firstAttribute="bottom" secondItem="Sch-kh-uj7" secondAttribute="bottom" id="fsR-10-Eur"/>
+                            <constraint firstItem="Sch-kh-uj7" firstAttribute="width" secondItem="R0a-fY-UdF" secondAttribute="width" id="lSn-oP-Cxh"/>
+                            <constraint firstItem="fzy-0X-qEj" firstAttribute="top" secondItem="Atu-42-kR1" secondAttribute="top" id="oVd-Qs-4jC"/>
+                            <constraint firstItem="fzy-0X-qEj" firstAttribute="leading" secondItem="Atu-42-kR1" secondAttribute="leading" id="sOj-qU-a62"/>
+                            <constraint firstItem="Sch-kh-uj7" firstAttribute="leading" secondItem="Atu-42-kR1" secondAttribute="leading" id="vgw-e2-tbA"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Atu-42-kR1"/>
+                    </view>
+                    <connections>
+                        <outlet property="contentLeadingConstraint" destination="vgw-e2-tbA" id="7cT-sv-upr"/>
+                        <outlet property="contentView" destination="Sch-kh-uj7" id="qBj-NW-7wp"/>
+                        <outlet property="filterView" destination="fzy-0X-qEj" id="ONv-3T-9oi"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tex-b6-cI8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-906" y="33"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="WM6-Fh-nHf">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="gHS-vI-qQb" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="AugmentedNavigationController" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="gHS-vI-qQb" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="lBh-AM-H3f">
                         <autoresizingMask key="autoresizingMask"/>

@@ -49,7 +49,7 @@ struct PlaceSearch {
         if let categories = categories {
             request.graphPath = graphPathString(categories: categories)
         } else {
-            request.graphPath = "/search?"
+            request.graphPath = "/search?type=place"
         }
         
         request.parameters?["center"] = "\(location.latitude), \(location.longitude)"
@@ -71,8 +71,8 @@ struct PlaceSearch {
         var request = PlaceSearchRequest()
         
         if let token = AccessToken.current {
-            print("search with logged in user")
             request.accessToken = token
+            request.parameters?["fields"] = "id, name, about, location, category_list, checkins, picture, cover, single_line_address, context"
         } else {
             print("search with logged out user")
             request.accessToken = nil
@@ -86,13 +86,15 @@ struct PlaceSearch {
         return request
     }
     
-    func fetchPlaces(with searchTerm:String, success: @escaping ([Place]?)->(), failure: @escaping (Error)->()) -> Void {
+    func fetchPlaces(with searchTerm:String, coordinates: CLLocationCoordinate2D, success: @escaping ([Place]?)->(), failure: @escaping (Error)->()) -> Void {
         let placeSearchConnection = GraphRequestConnection()
         
         var placeSearchRequest = presetRequest()
         
-        placeSearchRequest.graphPath = "/search?q=\(searchTerm)"
-        
+        placeSearchRequest.graphPath = "/search?type=place&q=\(searchTerm)"
+        placeSearchRequest.parameters?["center"] = "\(coordinates.latitude), \(coordinates.longitude)"
+        placeSearchRequest.parameters?["distance"] = 2000
+        print(placeSearchRequest.parameters)
         placeSearchConnection.add(placeSearchRequest,
                                   batchEntryName: nil) { (response, result) in
                                     switch result {
@@ -141,7 +143,7 @@ private func graphPathString(categories : [FilterCategory]) -> String {
         categoriesStr += "%22\(FilterCategorySearchString(category: category))%22,"
     }
     
-    let graphPath = "/search?categories=[" + categoriesStr + "]"
+    let graphPath = "/search?type=place&categories=[" + categoriesStr + "]"
     
     return graphPath
 }
@@ -190,7 +192,7 @@ private struct PlaceSearchRequest: GraphRequestProtocol {
     var graphPath: String = "" // This string will be populated with the graphPathString function which is called by PlaceSearch().fetchPlaces.
     
     // Places available fields documentation at https://developers.facebook.com/docs/places/fields
-    var parameters: [String: Any]? = ["fields": "id, name, about, location, category_list, checkins, picture, cover, single_line_address, context"]
+    var parameters: [String: Any]? = ["fields": "id, name, about, location, category_list, checkins, picture, cover, single_line_address"]
     
     // Access documented at https://developers.facebook.com/docs/places/access-tokens
     // Default access token is the public client token, used for logged-out users
