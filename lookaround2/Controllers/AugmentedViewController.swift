@@ -20,6 +20,11 @@ import MapboxDirections
 import MapboxARKit
 import Turf
 
+protocol AugmentedViewControllerDelegate : NSObjectProtocol {
+    func revealFilters(_augmentedViewController: AugmentedViewController)
+    func hideFilters(_augmentedViewController: AugmentedViewController)
+}
+
 class AugmentedViewController: UIViewController, UISearchBarDelegate {
     @IBOutlet weak var sceneView: ARSCNView!
     @IBOutlet weak var controlsContainerView: UIView!
@@ -31,6 +36,10 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
     @IBOutlet weak var mapButton: UIButton!
     @IBOutlet weak var filterButton: UIButton!
     @IBOutlet weak var searchBar: UISearchBar!
+    
+    var delegate: AugmentedViewControllerDelegate?
+    var filterVC: FilterViewController!
+    var showingFilters: Bool = false
     
     // Use this to control how ARKit aligns itself to the world
     // Often ARKit can determine the direction of North well enough for
@@ -121,7 +130,7 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         if let searchText = searchBar.text {
             // Fetch places
-            PlaceSearch().fetchPlaces(with: searchText, success: { (places: [Place]?) in
+            PlaceSearch().fetchPlaces(with: searchText, coordinates: currentCoordinates, success: { (places: [Place]?) in
                 if let places = places {
                     self.removeExistingPins()
                     self.placeArray = places
@@ -479,16 +488,14 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
     }
     
     @IBAction func onFilterButton(_ sender: Any) {
-        let storyboard = UIStoryboard(name: "Filter", bundle: nil)
-        let filterNVC = storyboard.instantiateViewController(withIdentifier: "FilterNavigationControllerID") as! UINavigationController
-        
-        let filterVC = filterNVC.topViewController as! FilterViewController
-        filterVC.delegate = self
-        filterVC.places = self.placeArray
-        
-        filterVC.coordinates = currentCoordinates
-        
-        present(filterNVC, animated: true, completion: nil)
+        if showingFilters {
+            delegate?.hideFilters(_augmentedViewController: self)
+            showingFilters = false
+        } else {
+            filterVC.places = self.placeArray
+            delegate?.revealFilters(_augmentedViewController: self)
+            showingFilters = true
+        }
     }
     
     @IBAction func onMoreResults(_ sender: Any) {
@@ -749,10 +756,12 @@ extension AugmentedViewController: PlaceDetailTableViewControllerDelegate {
 // MARK: - FilterViewControllerDelegate
 extension AugmentedViewController: FilterViewControllerDelegate {
     func filterViewController(_filterViewController: FilterViewController, didSelectCategories categories: [FilterCategory]) {
+        delegate?.hideFilters(_augmentedViewController: self)
+        showingFilters = false
         if let searchText = searchBar.text, searchText.count > 0  {
             print("using search term: \(searchText)")
             // Fetch places
-            PlaceSearch().fetchPlaces(with: searchText, success: { (places: [Place]?) in
+            PlaceSearch().fetchPlaces(with: searchText, coordinates: currentCoordinates, success: { (places: [Place]?) in
                 if let places = places {
                     self.removeExistingPins()
                     self.placeArray = places
@@ -769,6 +778,8 @@ extension AugmentedViewController: FilterViewControllerDelegate {
     }
     
     func filterViewController(_filterViewController: FilterViewController, didSelectList list: List) {
+        delegate?.hideFilters(_augmentedViewController: self)
+        showingFilters = false
         refreshPins(withList : list)
     }
 }
