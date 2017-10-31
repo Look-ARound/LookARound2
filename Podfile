@@ -18,6 +18,6 @@ target 'lookaround2' do
   pod 'MapboxDirections.swift', '~> 0.11'
   pod 'MapboxARKit', :git => 'https://github.com/mapbox/mapbox-arkit-ios.git'
   # pod 'ARCL'
-  pod 'FLEX', '~> 2.0', :configurations => ['Debug']
+  # pod 'FLEX', '~> 2.0', :configurations => ['Debug']
 
 end

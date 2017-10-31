@@ -89,10 +89,11 @@ struct PlaceSearch {
         let placeSearchConnection = GraphRequestConnection()
         
         var placeSearchRequest = presetRequest()
-        
+        print(searchTerm)
         placeSearchRequest.graphPath = "/search?type=place&q=\(searchTerm)"
         placeSearchRequest.parameters?["center"] = "\(coordinates.latitude), \(coordinates.longitude)"
         placeSearchRequest.parameters?["distance"] = 1000
+        placeSearchRequest.parameters?["limit"] = 10
         print(placeSearchRequest.parameters)
         placeSearchConnection.add(placeSearchRequest,
                                   batchEntryName: nil) { (response, result) in
