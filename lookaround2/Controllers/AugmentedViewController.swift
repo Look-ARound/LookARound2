@@ -135,7 +135,13 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
                     self.removeExistingPins()
                     self.placeArray = places
                     let end = min(self.placeArray!.count, self.numResults)
-                    self.addPlaces(places: Array(places[..<end]))
+                    if let results = self.placeArray {
+                        self.addPlaces(places: Array(results[..<end]))
+                        
+                        let firstPlace = results[0]
+                        self.mapView.userTrackingMode = .followWithCourse
+                        self.mapView.setTargetCoordinate(firstPlace.coordinate, animated: true)
+                    }
                 }
             }, failure: { (error: Error) in
                 print("error fetching places based on search term: \(searchText). Error: \(error)")
@@ -305,9 +311,6 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
                     if listPlaces.count == placeIDs.count {
                         self.addPlaces(places: listPlaces)
                         
-                        print("hello")
-                        print(self.placeArray)
-                        print("setting map target")
                         let firstPlace = listPlaces[0]
                         self.mapView.userTrackingMode = .followWithCourse
                         self.mapView.setTargetCoordinate(firstPlace.coordinate, animated: true)
