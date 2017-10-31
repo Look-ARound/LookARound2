@@ -217,6 +217,8 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
             button.clipsToBounds = true
             button.alpha = 0.6
         }
+        let tintedImage = #imageLiteral(resourceName: "hamburger-on").withRenderingMode(.alwaysTemplate)
+        filterButton.setImage(tintedImage, for: .normal)
         filterButton.tintColor = UIColor.LABrand.buttons
         filterButton.clipsToBounds = true
         filterButton.alpha = 0.6
@@ -231,9 +233,9 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
         sceneView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onMapTap(recognizer:))))
         
         print("first search starting...")
-        let categories: [FilterCategory] = [FilterCategory.Food_Beverage, FilterCategory.Shopping_Retail,
+        let categories = [FilterCategory.Food_Beverage, FilterCategory.Shopping_Retail,
                            FilterCategory.Arts_Entertainment, FilterCategory.Travel_Transportation,
-                           FilterCategory.Fitness_Recreation]
+                           FilterCategory.Fitness_Recreation, FilterCategory.Hotel_Loding]
         
         if AccessToken.current == nil {
             print("no logged in user, trying anonymous graph request")
@@ -744,14 +746,6 @@ extension AugmentedViewController: PlaceDetailTableViewControllerDelegate {
 // MARK: - FilterViewControllerDelegate
 extension AugmentedViewController: FilterViewControllerDelegate {
     func filterViewController(_filterViewController: FilterViewController, didSelectCategories categories: [FilterCategory]) {
-        refreshPins(withCategories: categories)
-    }
-    
-    func filterViewController(_filterViewController: FilterViewController, didSelectList list: List) {
-        refreshPins(withList : list)
-    }
-    
-    func filterViewController(_filterViewController: FilterViewController, noSelection categories: [FilterCategory]) {
         if let searchText = searchBar.text, searchText.count > 0  {
             print("using search term: \(searchText)")
             // Fetch places
@@ -766,9 +760,13 @@ extension AugmentedViewController: FilterViewControllerDelegate {
                 print("error fetching places based on search term: \(searchText). Error: \(error)")
             })
         } else {
-            print("no selection or search query, performing default search")
+            print("no search query, performing default search")
             refreshPins(withCategories: categories)
         }
+    }
+    
+    func filterViewController(_filterViewController: FilterViewController, didSelectList list: List) {
+        refreshPins(withList : list)
     }
 }
 
