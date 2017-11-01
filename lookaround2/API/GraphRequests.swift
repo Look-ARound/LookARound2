@@ -19,6 +19,8 @@ enum sortMethod: Int {
 
 // MARK: - Place Search methods for Place Search Graph request
 struct PlaceSearch {
+    static var autoGenLikes: Bool = false // For debugging/demo
+    
     fileprivate func presetRequest() -> PlaceSearchRequest {
         var request = PlaceSearchRequest()
         
@@ -77,6 +79,13 @@ struct PlaceSearch {
         searchConnection.add(request) { (response, result: GraphRequestResult) in
             switch result {
             case .success(let response):
+                // For debugging/demo
+                if PlaceSearch.autoGenLikes == true {
+                    for index in 0..<response.places.count {
+                        let val = arc4random_uniform(5)+1
+                        response.places[index].contextCount = Int(val)
+                    }
+                }
                 success(response.places)
             case .failed(let error):
                 failure(error)

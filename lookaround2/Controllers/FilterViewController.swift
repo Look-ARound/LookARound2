@@ -31,6 +31,8 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet var currentUserNameLabel: UILabel!
     @IBOutlet var currentUserImageView: UIImageView!
     @IBOutlet var loginButtonView: UIView!
+
+    @IBOutlet var imageTapGesture: UITapGestureRecognizer!
     weak var delegate : FilterViewControllerDelegate?
     var coordinates: CLLocationCoordinate2D!
     var myListItem: ListItem!
@@ -74,9 +76,9 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         loginButton.delegate = self
         loginButtonView.addSubview(loginButton)
         updateLoginInfo()
+    imageTapGesture.numberOfTapsRequired = 3
         
         fetchPlacesLists()
-
     }
 
     func fetchPlacesLists() {
@@ -99,6 +101,10 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }) { error in
             print(error)
         }
+    }
+    
+    @IBAction func onImageTapGesture(_ sender: Any) {
+        self.performSegue(withIdentifier: "DebugSegue", sender: nil)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
