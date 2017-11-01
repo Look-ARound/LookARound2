@@ -13,7 +13,7 @@ Initial View: Augmented Reality
 - [x] The recommended places are the most popular among your friends and then the most popular among the public
 - [x] Callouts indicate why the places are recommended
 - [x] Alternative view to see recommended places on a 2D map
-- [ ] Alternative view to see recommended places in a list view
+- [x] Alternative view to see recommended places in a list view
 
 Filtering
 - [x] User can choose a specific category they want to see
@@ -34,7 +34,7 @@ Lists
 - [x] User taps on ‘+’ button to add place to list
 - [x] User sees a table with lists created by them. They can select any of these to add the place to.
 - [x] Users sees an ‘add new list’ button. User can select this if they want to create a new list with this place in it.
-- [ ] User sees a checkmark next to the list name once the place has been added to the list
+- [x] User sees a checkmark next to the list name once the place has been added to the list
 - [x] In Filters screen, user can see lists they have created
 - [ ] User can drag left to delete a list
 - [x] In Filters screen, user can view a list of public lists
@@ -43,7 +43,7 @@ Lists
 - [ ] Optional: User can set privacy of list (private, friends only, public)
 
 Optional: Marking a POI
-- [ ] Optional: User can "Like" the place on Facebook to save a point of interest (POI) for others to discover
+- [x] Optional: User can "Like" the place on Facebook to save a point of interest (POI) for others to discover
 - [ ] Optional: User can add note to POI for others to view
 - [ ] Optional: User can add photo, video to POI
 - [ ] Optional: User can add tags (hashtags?) to POI for future filtering
@@ -59,6 +59,9 @@ Here's a walkthrough of implemented user stories:
 | Sprint 1 walkthrough | Sprint 2 walkthrough |
 |:----:|:----:|
 | <img src='lookaround-sprint1-1.gif' title='Sprint 1 Walkthrough' width='' alt='Sprint 1 Walkthrough Video' /> | <img src='lookaround-sprint2-1.gif' title='Sprint 2 Walkthrough' width='' alt='Sprint 2 Walkthrough Video' /> |
+| Sprint 3 walkthrough |   |
+|:----:|:----:|
+| <img src='lookaround-sprint3-1.gif' title='Sprint 3 Walkthrough' width='' alt='Sprint 3 Walkthrough Video' /> |   |
 
 GIFs created with [LiceCap](http://www.cockos.com/licecap/).
 
