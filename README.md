@@ -60,7 +60,6 @@ Here's a walkthrough of implemented user stories:
 |:----:|:----:|
 | <img src='lookaround-sprint1-1.gif' title='Sprint 1 Walkthrough' width='' alt='Sprint 1 Walkthrough Video' /> | <img src='lookaround-sprint2-1.gif' title='Sprint 2 Walkthrough' width='' alt='Sprint 2 Walkthrough Video' /> |
 | Sprint 3 walkthrough |   |
-|:----:|:----:|
 | <img src='lookaround-sprint3-1.gif' title='Sprint 3 Walkthrough' width='' alt='Sprint 3 Walkthrough Video' /> |   |
 
 GIFs created with [LiceCap](http://www.cockos.com/licecap/).
