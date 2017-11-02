@@ -43,8 +43,9 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     var places: [Place]? {
         didSet {
+            print("reloading filters table")
             searchResultsItem.places = self.places
-            filterTableView.reloadData()
+            fetchPlacesLists()
         }
     }
   
@@ -198,7 +199,6 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
                               FilterCategory.Fitness_Recreation, FilterCategory.Hotel_Loding]
             self.delegate?.filterViewController(_filterViewController: self, didSelectCategories: selectedCategories)
         }
-        dismiss(animated: true, completion: nil)
     }
     
     /*
