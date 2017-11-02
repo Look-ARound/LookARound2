@@ -778,6 +778,7 @@ extension AugmentedViewController: FilterViewControllerDelegate {
         delegate?.hideFilters(_augmentedViewController: self)
         showingFilters = false
         if let searchText = searchBar.text, searchText.count > 0  {
+            // warning: Doesn't apply selected categories to this search
             print("using search term: \(searchText)")
             // Fetch places
             PlaceSearch().fetchPlaces(with: searchText, coordinates: currentCoordinates, success: { (places: [Place]?) in
