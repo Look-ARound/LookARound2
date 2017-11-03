@@ -134,7 +134,7 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
                 if let places = places {
                     self.removeExistingPins()
                     self.placeArray = places
-                    let end = min(self.placeArray!.count, self.numResults)
+                    let end = min(places.count, self.numResults)
                     if let results = self.placeArray {
                         self.addPlaces(places: Array(results[..<end]))
                         
@@ -266,7 +266,7 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
                 if self.moreControl.selectedSegmentIndex == 1 {
                     self.numResults = 20
                 }
-                let end = min(self.placeArray!.count, self.numResults)
+                let end = min(places.count, self.numResults)
                 self.addPlaces(places: Array(places[..<end]))
             }
         }) { (error: Error) in
@@ -336,7 +336,7 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
         PlaceSearch().fetchPlaces(with: categories, location: currentCoordinates, success: { (places: [Place]?) in
             if let places = places {
                 self.placeArray = places
-                let end = min(self.placeArray!.count, self.numResults)
+                let end = min(places.count, self.numResults)
                 self.addPlaces(places: Array(places[..<end]))
             }
         }) { (error: Error) in
@@ -347,11 +347,11 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
     }
     
     func changeNumPins() {
+        guard let placeArray = placeArray, placeArray.count > 0 else { return }
         removeExistingPins()
-        
-        let end = min(placeArray!.count, numResults)
+        let end = min(placeArray.count, numResults)
         print("placing \(end) pins")
-        self.addPlaces(places: Array(placeArray![..<end]))
+        self.addPlaces(places: Array(placeArray[..<end]))
     }
     
     func removeExistingPins() {
@@ -385,8 +385,8 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
         
         // Initiate the query
         let _ = directions.calculate(options) { (waypoints, routes, error) in
-            guard error == nil else {
-                print("Error calculating directions: \(error!)")
+            if let error = error {
+                print("Error calculating directions: \(error.localizedDescription)")
                 return
             }
             
@@ -396,16 +396,17 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
                 
                 // Add an AR node and map view annotation for every defined "step" in the route
                 for step in leg.steps {
-                    let coordinate = step.coordinates!.first!
-                    polyline.append(coordinate)
-                    let stepLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-                    
-                    // Update feature collection for map view
-                    self.updateShapeCollectionFeature(&self.waypointShapeCollectionFeature, with: stepLocation, typeKey: "waypoint-type", typeAttribute: "big")
-                    
-                    // Add an AR node
-                    let annotation = Annotation(location: stepLocation, calloutImage: self.calloutImage(for: step.description), place: nil)
-                    annotationsToAdd.append(annotation)
+                    if let coordinate = step.coordinates?.first {
+                        polyline.append(coordinate)
+                        let stepLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+                        
+                        // Update feature collection for map view
+                        self.updateShapeCollectionFeature(&self.waypointShapeCollectionFeature, with: stepLocation, typeKey: "waypoint-type", typeAttribute: "big")
+                        
+                        // Add an AR node
+                        let annotation = Annotation(location: stepLocation, calloutImage: self.calloutImage(for: step.description), place: nil)
+                        annotationsToAdd.append(annotation)
+                    }
                 }
                 
                 let metersPerNode: CLLocationDistance = 5
@@ -785,8 +786,10 @@ extension AugmentedViewController: FilterViewControllerDelegate {
                 if let places = places {
                     self.removeExistingPins()
                     self.placeArray = places
-                    let end = min(self.placeArray!.count, self.numResults)
-                    self.addPlaces(places: Array(places[..<end]))
+                    if let places = self.placeArray {
+                        let end = min(places.count, self.numResults)
+                        self.addPlaces(places: Array(places[..<end]))
+                    }
                 }
             }, failure: { (error: Error) in
                 print("error fetching places based on search term: \(searchText). Error: \(error)")
