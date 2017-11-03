@@ -36,6 +36,7 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
     @IBOutlet weak var mapButton: UIButton!
     @IBOutlet weak var filterButton: UIButton!
     @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet var clearDirectionsButton: UIButton!
     
     var delegate: AugmentedViewControllerDelegate?
     var filterVC: FilterViewController!
@@ -51,6 +52,8 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
     // Create an instance of MapboxDirections to simplify querying the Mapbox Directions API
     let directions = Directions.shared
     var annotationManager: AnnotationManager!
+    
+    var directionsAnnotations = [Annotation]()
     
     // Define a shape collection that will be used to hold the point geometries that define the
     // directions routeline
@@ -97,7 +100,7 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
         
         // Set up the UI elements as per the app theme
         filterButton.setImage(#imageLiteral(resourceName: "hamburger-on"), for: .selected)
-        prepButtonsWithARTheme(buttons: [mapButton])
+        prepButtonsWithARTheme(buttons: [mapButton,clearDirectionsButton])
         moreControl.selectedSegmentIndex = 0
         
         searchBar.delegate = self
@@ -107,6 +110,8 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
         
         let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as? UITextField
         textFieldInsideSearchBar?.textColor = UIColor.white
+        
+        clearDirectionsButton.isHidden = true
         
         initMap()
     }
@@ -380,8 +385,7 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
         // Ask for walking directions
         let options = RouteOptions(waypoints: waypoints, profileIdentifier: .walking)
         options.includesSteps = true
-        
-        var annotationsToAdd = [Annotation]()
+
         
         // Initiate the query
         let _ = directions.calculate(options) { (waypoints, routes, error) in
@@ -405,7 +409,7 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
                         
                         // Add an AR node
                         let annotation = Annotation(location: stepLocation, calloutImage: self.calloutImage(for: step.description), place: nil)
-                        annotationsToAdd.append(annotation)
+                        self.directionsAnnotations.append(annotation)
                     }
                 }
                 
@@ -423,7 +427,7 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
                         
                         // Add an AR node
                         let annotation = Annotation(location: interpolatedStepLocation, calloutImage: nil, place: nil)
-                        annotationsToAdd.append(annotation)
+                        self.directionsAnnotations.append(annotation)
                     }
                 }
                 
@@ -431,7 +435,7 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
                 self.updateSource(identifer: "annotationSource", shape: self.waypointShapeCollectionFeature)
                 
                 // Update the annotation manager with the latest AR annotations
-                self.annotationManager.addAnnotations(annotations: annotationsToAdd)
+                self.annotationManager.addAnnotations(annotations: self.directionsAnnotations)
                 
                 self.mapView.userTrackingMode = .followWithHeading
             }
@@ -457,6 +461,15 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
         }
         
         return image
+    }
+    
+    func clear2DMapDirections() {
+        resetShapeCollectionFeature( &self.waypointShapeCollectionFeature )
+    }
+    
+    func clearARDirections() {
+        self.annotationManager.removeAnnotations(annotations: self.directionsAnnotations)
+        directionsAnnotations = [Annotation]()
     }
     
     // MARK: - Actions
@@ -531,6 +544,11 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
         }
     }
     
+    @IBAction func onClearDirections(_ sender: Any) {
+        clearARDirections()
+        clear2DMapDirections()
+        clearDirectionsButton.isHidden = true
+    }
 
     // MARK: - Navigation
 
@@ -544,7 +562,6 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
         
         present(detailNVC, animated: true, completion: nil)
     }
-
 }
 
 // MARK: - AnnotationManagerDelegate
@@ -626,6 +643,8 @@ extension AugmentedViewController: AnnotationManagerDelegate {
         }
         return node
     }
+    
+
     
 }
 
@@ -769,7 +788,10 @@ extension AugmentedViewController: PlaceDetailTableViewControllerDelegate {
         if isMapHidden() {
             slideMap()
         }
+        clearARDirections()
+        clear2DMapDirections()
         queryDirections(with: place.location)
+        clearDirectionsButton.isHidden = false
     }
 }
 

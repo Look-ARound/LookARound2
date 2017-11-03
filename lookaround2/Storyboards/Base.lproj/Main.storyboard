@@ -40,6 +40,17 @@
                                     <constraint firstAttribute="trailing" secondItem="yzd-SX-HSI" secondAttribute="trailing" id="wzW-nL-wWA"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6sf-gu-42M">
+                                <rect key="frame" x="225" y="625" width="110" height="30"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="140" id="CPh-Zf-Jb3"/>
+                                </constraints>
+                                <state key="normal" title="Clear Directions"/>
+                                <connections>
+                                    <action selector="onClearDirections:" destination="BYZ-38-t0r" eventType="touchUpInside" id="3Cz-H1-4W1"/>
+                                </connections>
+                            </button>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="Z9v-Wv-VBd">
                                 <rect key="frame" x="7.5" y="24" width="359" height="30"/>
                                 <subviews>
@@ -104,16 +115,19 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="7Ma-8d-EH7" secondAttribute="trailing" id="53h-er-5qh"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="7Ma-8d-EH7" secondAttribute="bottom" id="F0f-78-C93"/>
                             <constraint firstItem="Z9v-Wv-VBd" firstAttribute="width" secondItem="6Tk-OE-BBY" secondAttribute="width" constant="-16" id="JPq-4Z-f6c"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="6sf-gu-42M" secondAttribute="trailing" constant="40" id="Vgi-Md-to7"/>
                             <constraint firstItem="Z9v-Wv-VBd" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="4" id="bOH-Iw-hJr"/>
                             <constraint firstItem="M78-Zw-ca0" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="ck4-7K-7yg"/>
                             <constraint firstItem="7Ma-8d-EH7" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="dbU-6A-LAg"/>
                             <constraint firstItem="7Ma-8d-EH7" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="gz6-Bm-w8m"/>
                             <constraint firstItem="M78-Zw-ca0" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="iYe-6m-uv2"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="6sf-gu-42M" secondAttribute="bottom" constant="6" id="wjL-J9-uoW"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="5S8-AB-CEg"/>
                     <connections>
+                        <outlet property="clearDirectionsButton" destination="6sf-gu-42M" id="UKp-bf-nuw"/>
                         <outlet property="controlsContainerView" destination="M78-Zw-ca0" id="L7R-tt-xs4"/>
                         <outlet property="filterButton" destination="AB3-rY-gO6" id="wsq-Jb-goH"/>
                         <outlet property="mapButton" destination="NWZ-Be-KzA" id="Xs3-07-BCc"/>
