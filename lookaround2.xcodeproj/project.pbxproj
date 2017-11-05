@@ -32,7 +32,7 @@
 		778949921F9B618300910FD1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7789498E1F9B618300910FD1 /* LoginViewController.swift */; };
 		778949931F9B623100910FD1 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778949821F9B603C00910FD1 /* Place.swift */; };
 		778949941F9B623500910FD1 /* LABrand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778949811F9B603C00910FD1 /* LABrand.swift */; };
-		778949951F9B623A00910FD1 /* MBARAnchor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77972BAF1F9B591800CAEB1F /* MBARAnchor.swift */; };
+		778949951F9B623A00910FD1 /* LookAnchor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77972BAF1F9B591800CAEB1F /* LookAnchor.swift */; };
 		778949961F9B623E00910FD1 /* AnnotationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77972BB01F9B591800CAEB1F /* AnnotationManager.swift */; };
 		778949971F9B624100910FD1 /* Annotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77972BAE1F9B591800CAEB1F /* Annotation.swift */; };
 		778949981F9B624400910FD1 /* FilterUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7761D2C41F9B4844004FDB15 /* FilterUtilities.swift */; };
@@ -111,7 +111,7 @@
 		7789498E1F9B618300910FD1 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		7791D8781FA2B0BB00DFD147 /* DirectionsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionsButton.swift; sourceTree = "<group>"; };
 		77972BAE1F9B591800CAEB1F /* Annotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Annotation.swift; sourceTree = "<group>"; };
-		77972BAF1F9B591800CAEB1F /* MBARAnchor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBARAnchor.swift; sourceTree = "<group>"; };
+		77972BAF1F9B591800CAEB1F /* LookAnchor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookAnchor.swift; sourceTree = "<group>"; };
 		77972BB01F9B591800CAEB1F /* AnnotationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationManager.swift; sourceTree = "<group>"; };
 		77972BB11F9B5A2500CAEB1F /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		77BD47BC1FA1EB8200F485A8 /* DetailButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailButton.swift; sourceTree = "<group>"; };
@@ -281,7 +281,7 @@
 				7478B9C61F9D2BA100EB62F5 /* List.swift */,
 				77972BAE1F9B591800CAEB1F /* Annotation.swift */,
 				77972BB01F9B591800CAEB1F /* AnnotationManager.swift */,
-				77972BAF1F9B591800CAEB1F /* MBARAnchor.swift */,
+				77972BAF1F9B591800CAEB1F /* LookAnchor.swift */,
 				778949811F9B603C00910FD1 /* LABrand.swift */,
 				778949821F9B603C00910FD1 /* Place.swift */,
 			);
@@ -579,7 +579,7 @@
 				497B925A1F9DAD9500052A77 /* SweetAlert.swift in Sources */,
 				7747FEDC1F9B409300366D54 /* AppDelegate.swift in Sources */,
 				7789499C1F9B625100910FD1 /* DefaultCell.swift in Sources */,
-				778949951F9B623A00910FD1 /* MBARAnchor.swift in Sources */,
+				778949951F9B623A00910FD1 /* LookAnchor.swift in Sources */,
 				7089677D1FAA2C950082F0DE /* DebugViewController.swift in Sources */,
 				778949971F9B624100910FD1 /* Annotation.swift in Sources */,
 				778949901F9B618300910FD1 /* SearchResultsViewController.swift in Sources */,
