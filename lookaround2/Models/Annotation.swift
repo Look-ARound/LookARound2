@@ -16,7 +16,7 @@ public class Annotation: NSObject, MGLAnnotation {
     public var location: CLLocation
     public var nodeImage: UIImage?
     public var calloutImage: UIImage?
-    public var anchor: MBARAnchor?
+    public var anchor: LookAnchor?
     var place: Place?
     
     public var coordinate: CLLocationCoordinate2D

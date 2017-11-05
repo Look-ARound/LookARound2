@@ -45,7 +45,7 @@ public class AnnotationManager: NSObject {
         }
         
         // Create a Mapbox AR anchor anchor at the transformed position
-        let anchor = MBARAnchor(originLocation: originLocation, location: annotation.location)
+        let anchor = LookAnchor(originLocation: originLocation, location: annotation.location)
         
         // Add the anchor to the session
         session.add(anchor: anchor)
@@ -95,8 +95,8 @@ extension AnnotationManager: ARSCNViewDelegate {
     }
     
     public func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-        // Handle MBARAnchor
-        if let anchor = anchor as? MBARAnchor {
+        // Handle LookAnchor
+        if let anchor = anchor as? LookAnchor {
             let annotation = annotationsByAnchor[anchor]!
             
             var newNode: SCNNode!
@@ -130,7 +130,7 @@ extension AnnotationManager: ARSCNViewDelegate {
     func createDefaultNode() -> SCNNode {
         let geometry = SCNSphere(radius: 0.2)
         // let geometry = SCNSphere(radius: 1.0)
-        geometry.firstMaterial?.diffuse.contents = UIColor.red
+        geometry.firstMaterial?.diffuse.contents = UIColor.yellow
         return SCNNode(geometry: geometry)
     }
     
@@ -177,7 +177,7 @@ extension AnnotationManager: ARSCNViewDelegate {
             }
         }
         let title = SCNText(string: calloutString, extrusionDepth: 0)
-        title.font = UIFont.systemFont(ofSize: 2.5, weight: .bold)
+        title.font = UIFont.systemFont(ofSize: 1.5, weight: .bold)
 
         let calloutNode = SCNNode(geometry: title)
         var nodePosition = node.position
