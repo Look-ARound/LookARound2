@@ -252,8 +252,6 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
     }
     
     func performFirstSearch() {
-        // Add our own gesture recognizer to handle taps on our custom map features.
-        sceneView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onMapTap(recognizer:))))
         
         print("first search starting...")
         let categories = [FilterCategory.Food_Beverage, FilterCategory.Shopping_Retail,
@@ -367,6 +365,14 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
         if let existingAnnotations = mapView.annotations {
             mapView.removeAnnotations(existingAnnotations)
         }
+    }
+    
+    func hidePlacesExcept(place: Place) {
+        // Remove AR pins only, leave the 2D map pins
+        annotationManager.removeAllAnnotations()
+        
+        // Add back only the selected Place's AR pin
+        addPlaces(places: [place])
     }
     
     // MARK: - Directions
@@ -545,8 +551,16 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
     }
     
     @IBAction func onClearDirections(_ sender: Any) {
+        // Remove all annotations related to directions
         clearARDirections()
         clear2DMapDirections()
+        
+        // Restore the number of Places pins depending on 10 or 20 selected in MoreControl
+        //changeNumPins()
+        
+        // Perform first search since the user may have changed locations
+        performFirstSearch()
+        
         clearDirectionsButton.isHidden = true
     }
 
@@ -654,6 +668,10 @@ extension AugmentedViewController: MGLMapViewDelegate {
     
     func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
         annotationManager.originLocation = currentLocation
+        
+        // Add our own gesture recognizer to handle taps on our AR annotations.
+        sceneView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onMapTap(recognizer:))))
+
         performFirstSearch()
     }
     
@@ -790,6 +808,7 @@ extension AugmentedViewController: PlaceDetailTableViewControllerDelegate {
         }
         clearARDirections()
         clear2DMapDirections()
+        hidePlacesExcept(place: place)
         queryDirections(with: place.location)
         clearDirectionsButton.isHidden = false
     }
