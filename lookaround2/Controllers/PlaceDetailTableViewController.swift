@@ -200,9 +200,19 @@ internal class PlaceDetailTableViewController: UITableViewController {
                         self.hasBookmarks = true
                         for (index, placeID) in list.placeIDs.enumerated() {
                             if placeID == self.place.id {
-                                let button = UIButton(type: .custom)
-                                button.setImage(#imageLiteral(resourceName: "bookmarked"), for: .normal)
-                                self.bookmarkBarButtonItem = UIBarButtonItem(customView: button)
+                                print("bookmark exists, changing button")
+                                //let button = UIButton.init(type: UIButtonType.custom)
+                                //button.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+                                //button.setImage(UIImage(named: "bookmarked-2x.png"), for: .normal)
+                                //button.addTarget(self, action: #selector(self.onBookmarkButton(_:)), for: UIControlEvents.touchUpInside)
+                                //self.bookmarkBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "bookmarked"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.onBookmarkButton(_:)))
+                                self.navigationItem.rightBarButtonItems![0] = UIBarButtonItem(image: #imageLiteral(resourceName: "bookmarked"),
+                                                                                              style: UIBarButtonItemStyle.plain,
+                                                                                              target: self,
+                                                                                              action: #selector(self.onBookmarkButton(_:)))
+                                self.navigationItem.rightBarButtonItems![0].tintColor = UIColor.white
+                                //self.navigationItem.rightBarButtonItems![0] = UIBarButtonItem(customView: button)
+                                //self.bookmarkBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonSystemItem.bookmarks, target: self, action: #selector(self.onBookmarkButton(_:)))
                                 self.isBookmarked = true
                                 self.bookmarkIndex = index
                             }
@@ -231,9 +241,11 @@ internal class PlaceDetailTableViewController: UITableViewController {
                     _ = SweetAlert().showAlert("Success!", subTitle: "Created Bookmarks list and added \(self.place.name) to your Bookmarks.", style: .success)
                 }
             }
-            let button = UIButton(type: .custom)
-            button.setImage(#imageLiteral(resourceName: "bookmarked"), for: .normal)
-            self.bookmarkBarButtonItem = UIBarButtonItem(customView: button)
+            self.navigationItem.rightBarButtonItems![0] = UIBarButtonItem(image: #imageLiteral(resourceName: "bookmarked"),
+                                                                          style: UIBarButtonItemStyle.plain,
+                                                                          target: self,
+                                                                          action: #selector(self.onBookmarkButton(_:)))
+            self.navigationItem.rightBarButtonItems![0].tintColor = UIColor.white
             isBookmarked = true
             bookmarkIndex = 0
             bookmarksList = bList
@@ -251,9 +263,11 @@ internal class PlaceDetailTableViewController: UITableViewController {
                     _ = SweetAlert().showAlert("Success!", subTitle: "Added \(self.place.name) to your Bookmarks.", style: .success)
                 }
             })
-            let button = UIButton(type: .custom)
-            button.setImage(#imageLiteral(resourceName: "bookmarked"), for: .normal)
-            self.bookmarkBarButtonItem = UIBarButtonItem(customView: button)
+            self.navigationItem.rightBarButtonItems![0] = UIBarButtonItem(image: #imageLiteral(resourceName: "bookmarked"),
+                                                                          style: UIBarButtonItemStyle.plain,
+                                                                          target: self,
+                                                                          action: #selector(self.onBookmarkButton(_:)))
+            self.navigationItem.rightBarButtonItems![0].tintColor = UIColor.white
             isBookmarked = true
             bookmarkIndex = bList.placeIDs.count - 1
             bookmarksList = bList
@@ -269,9 +283,11 @@ internal class PlaceDetailTableViewController: UITableViewController {
             }
             isBookmarked = false
             bookmarkIndex = nil
-            let button = UIButton(type: .custom)
-            button.setImage(#imageLiteral(resourceName: "bookmark"), for: .normal)
-            self.bookmarkBarButtonItem = UIBarButtonItem(customView: button)
+            self.navigationItem.rightBarButtonItems![0] = UIBarButtonItem(image: #imageLiteral(resourceName: "bookmark"),
+                                                                          style: UIBarButtonItemStyle.plain,
+                                                                          target: self,
+                                                                          action: #selector(self.onBookmarkButton(_:)))
+            self.navigationItem.rightBarButtonItems![0].tintColor = UIColor.white
         }
     }
     

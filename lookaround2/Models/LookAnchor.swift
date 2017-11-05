@@ -25,7 +25,7 @@ internal extension simd_float4x4 {
         
         // Effectively copy the position of the start location, rotate it about
         // the bearing of the end location and instesad of "pushing" it out, lift it up in altitude
-        let position = vector_float4(0.0, scaledHeight, 40.0, 0.0)
+        let position = vector_float4(0.0, scaledHeight, -40.0, 0.0)
         let translationMatrix = matrix_identity_float4x4.translationMatrix(position)
         let rotationMatrix = matrix_identity_float4x4.rotationAroundY(radians: bearing)
         let transformMatrix = simd_mul(rotationMatrix, translationMatrix)
