@@ -28,7 +28,7 @@ internal class AddPlaceViewController: UIViewController, UITableViewDelegate, UI
         fetchUserLists()
         navigationItem.title = "My Lists"
         self.tableView.allowsMultipleSelectionDuringEditing = false
-        self.navigationController?.navigationBar.backgroundColor = UIColor.black
+        self.navigationController?.navigationBar.backgroundColor = UIColor.LABrand.primary
     }
     
     // MARK: - TableView Delegate/DataSource
