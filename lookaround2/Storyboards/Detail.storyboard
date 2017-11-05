@@ -199,7 +199,11 @@
                             </connections>
                         </barButtonItem>
                         <rightBarButtonItems>
-                            <barButtonItem image="bookmark" id="Wa7-Xq-qnU"/>
+                            <barButtonItem image="bookmark" id="Wa7-Xq-qnU">
+                                <connections>
+                                    <action selector="onBookmarkButton:" destination="l8l-GF-g8m" id="Trt-7e-7mu"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem systemItem="add" id="1MN-gk-c4z">
                                 <connections>
                                     <segue destination="7TG-jw-AJm" kind="show" identifier="addPlaceVC" id="J69-4x-qOJ"/>

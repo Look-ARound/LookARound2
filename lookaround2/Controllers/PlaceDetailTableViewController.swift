@@ -42,6 +42,10 @@ internal class PlaceDetailTableViewController: UITableViewController {
     
     internal var place: Place!
     internal var delegate: PlaceDetailTableViewControllerDelegate?
+    private var hasBookmarks: Bool = false
+    private var isBookmarked: Bool = false
+    private var bookmarksList: List?
+    private var bookmarkIndex: Int?
     
     // MARK: - Lifecycles
     
@@ -77,6 +81,7 @@ internal class PlaceDetailTableViewController: UITableViewController {
         setupThemeColors()
         setupMapView()
         addLikeButton()
+        findBookmarks()
     }
     
     // FOR DEBUG
@@ -168,8 +173,122 @@ internal class PlaceDetailTableViewController: UITableViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func onBookmarkButton(_ sender: Any) {
+        if !isBookmarked {
+            print("adding")
+            addBookmark()
+        } else {
+            print("removing")
+            removeBookmark()
+        }
+
+    }
+    
     @IBAction func onCancelButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
+    }
+    
+    // MARK: - Helpers
+    private func findBookmarks()  {
+        DatabaseRequests.shared.fetchCurrentUserLists(success: {
+            lists in
+            if let lists = lists {
+                for (index, list) in lists.enumerated() {
+                    if list.name == "Bookmarks" {
+                        print("found bookmarks list")
+                        self.bookmarksList = list
+                        self.hasBookmarks = true
+                        for (index, placeID) in list.placeIDs.enumerated() {
+                            if placeID == self.place.id {
+                                print("bookmark exists, changing button")
+                                //let button = UIButton.init(type: UIButtonType.custom)
+                                //button.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+                                //button.setImage(UIImage(named: "bookmarked-2x.png"), for: .normal)
+                                //button.addTarget(self, action: #selector(self.onBookmarkButton(_:)), for: UIControlEvents.touchUpInside)
+                                //self.bookmarkBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "bookmarked"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.onBookmarkButton(_:)))
+                                self.navigationItem.rightBarButtonItems![0] = UIBarButtonItem(image: #imageLiteral(resourceName: "bookmarked"),
+                                                                                              style: UIBarButtonItemStyle.plain,
+                                                                                              target: self,
+                                                                                              action: #selector(self.onBookmarkButton(_:)))
+                                self.navigationItem.rightBarButtonItems![0].tintColor = UIColor.white
+                                //self.navigationItem.rightBarButtonItems![0] = UIBarButtonItem(customView: button)
+                                //self.bookmarkBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonSystemItem.bookmarks, target: self, action: #selector(self.onBookmarkButton(_:)))
+                                self.isBookmarked = true
+                                self.bookmarkIndex = index
+                            }
+                        }
+                    }
+                }
+            }
+        }, failure: {
+            error in
+            // FIXME: - Needs better error handling!
+            print(error?.localizedDescription ?? "")
+        })
+    }
+    
+    private func addBookmark() {
+        if !hasBookmarks {
+            print("hasB is false")
+            guard let bList = List(name: "Bookmarks", placeID: place.id) else {
+                print("couldn't create list")
+                return
+            }
+            DatabaseRequests.shared.createOrUpdateList(list: bList) { error in
+                if let error = error {
+                    _ = SweetAlert().showAlert("Error", subTitle: error.localizedDescription, style: .error)
+                } else {
+                    _ = SweetAlert().showAlert("Success!", subTitle: "Created Bookmarks list and added \(self.place.name) to your Bookmarks.", style: .success)
+                }
+            }
+            self.navigationItem.rightBarButtonItems![0] = UIBarButtonItem(image: #imageLiteral(resourceName: "bookmarked"),
+                                                                          style: UIBarButtonItemStyle.plain,
+                                                                          target: self,
+                                                                          action: #selector(self.onBookmarkButton(_:)))
+            self.navigationItem.rightBarButtonItems![0].tintColor = UIColor.white
+            isBookmarked = true
+            bookmarkIndex = 0
+            bookmarksList = bList
+        } else {
+            print("hasB is true")
+            guard let bList = bookmarksList else {
+                print("couldn't set bookmarksList")
+                return
+            }
+            bList.placeIDs.append(place.id)
+            DatabaseRequests.shared.createOrUpdateList(list: bList, completionHandler: { error in
+                if let error = error {
+                    _ = SweetAlert().showAlert("Error", subTitle: error.localizedDescription, style: .error)
+                } else {
+                    _ = SweetAlert().showAlert("Success!", subTitle: "Added \(self.place.name) to your Bookmarks.", style: .success)
+                }
+            })
+            self.navigationItem.rightBarButtonItems![0] = UIBarButtonItem(image: #imageLiteral(resourceName: "bookmarked"),
+                                                                          style: UIBarButtonItemStyle.plain,
+                                                                          target: self,
+                                                                          action: #selector(self.onBookmarkButton(_:)))
+            self.navigationItem.rightBarButtonItems![0].tintColor = UIColor.white
+            isBookmarked = true
+            bookmarkIndex = bList.placeIDs.count - 1
+            bookmarksList = bList
+            hasBookmarks = true
+        }
+    }
+    
+    private func removeBookmark() {
+        if let index = bookmarkIndex {
+            if let list = bookmarksList {
+                list.placeIDs.remove(at: index)
+                DatabaseRequests.shared.createOrUpdateList(list: list)
+            }
+            isBookmarked = false
+            bookmarkIndex = nil
+            self.navigationItem.rightBarButtonItems![0] = UIBarButtonItem(image: #imageLiteral(resourceName: "bookmark"),
+                                                                          style: UIBarButtonItemStyle.plain,
+                                                                          target: self,
+                                                                          action: #selector(self.onBookmarkButton(_:)))
+            self.navigationItem.rightBarButtonItems![0].tintColor = UIColor.white
+        }
     }
     
     // MARK: - TableView Delegate/DataSource
