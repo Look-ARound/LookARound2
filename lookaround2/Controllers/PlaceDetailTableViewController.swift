@@ -26,7 +26,7 @@ internal class PlaceDetailTableViewController: UITableViewController {
     @IBOutlet private var nameLabel: UILabel!
     @IBOutlet private var categoryLabel: UILabel!
     @IBOutlet private var checkinsCountLabel: UILabel!
-    @IBOutlet weak var friendsCountLabel: UILabel!
+    @IBOutlet private var friendsCountLabel: UILabel!
     @IBOutlet private var facebookLikeButtonView: UIView!
     @IBOutlet private var addressLabel: UILabel!
     @IBOutlet private var aboutLabel: UILabel!
@@ -35,8 +35,8 @@ internal class PlaceDetailTableViewController: UITableViewController {
     @IBOutlet private var doneBarButtonItem: UIBarButtonItem!
     @IBOutlet private var addBarButtonItem: UIBarButtonItem!
     @IBOutlet private var bookmarkBarButtonItem: UIBarButtonItem!
-    @IBOutlet weak var friendsConstraint: NSLayoutConstraint!
-    @IBOutlet weak var mapView: MGLMapView!
+    @IBOutlet private var friendsConstraint: NSLayoutConstraint!
+    @IBOutlet private var mapView: MGLMapView!
     
     // MARK: - Stored Properties
     
@@ -54,13 +54,13 @@ internal class PlaceDetailTableViewController: UITableViewController {
         
         setupViews()
         self.tableView.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0)
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
     }
     
     // MARK: - Setup Views
