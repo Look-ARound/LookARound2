@@ -58,6 +58,7 @@ internal class PlaceDetailTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        updateBookMarkImage()
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
@@ -81,11 +82,11 @@ internal class PlaceDetailTableViewController: UITableViewController {
         setupThemeColors()
         setupMapView()
         addLikeButton()
-        findBookmarks()
+        bookmarkSetup()
     }
     
     // FOR DEBUG
-    private func setupDummyPlace() {
+    /*private func setupDummyPlace() {
         place = Place(id: "ldksl32f", name: "Some Place", latitude: 37.3382, longitude: -121.8863)
          place.picture = "https://media-cdn.tripadvisor.com/media/photo-s/03/c4/95/72/carne-y-vino-restaurant.jpg"
          place.about = "This is an authentic restaurant with lots of stuff in it and I'm just typing for the sake of testing and nothing else really I'm just doing this for a test thing and stuff yeah so it's authentic and stuff dude!"
@@ -93,7 +94,7 @@ internal class PlaceDetailTableViewController: UITableViewController {
          place.checkins = 233
          place.address = "261 University Ave"
          place.id = "460770554016783"
-    }
+    }*/
     
     private func addLikeButton() {
         let likeButton = FBSDKLikeButton()
@@ -147,18 +148,6 @@ internal class PlaceDetailTableViewController: UITableViewController {
         aboutLabel.textColor = UIColor.LABrand.detail
     }
     
-    
-    // DEPRECATED Adding address view below
-    /*private func addBottomAddressView() {
-        addressLabelView = UIView(frame: CGRect(x: 0, y: self.view.frame.height - 50, width: self.view.frame.width, height: 50))
-        addressLabelView.backgroundColor = .white
-        addressLabel = UILabel(frame: CGRect(x: 8, y: 8, width: addressLabelView.frame.width - 8, height: addressLabelView.frame.height - 8))
-        addressLabel.numberOfLines = 0
-        addressLabel.textAlignment = .left
-        addressLabelView.addSubview(addressLabel)
-        self.view.addSubview(addressLabelView)
-    }*/
-    
     private func setupMapView() {
         let annotation = MGLPointAnnotation()
         annotation.coordinate = place.coordinate
@@ -181,7 +170,6 @@ internal class PlaceDetailTableViewController: UITableViewController {
             print("removing")
             removeBookmark()
         }
-
     }
     
     @IBAction func onCancelButton(_ sender: Any) {
@@ -189,7 +177,13 @@ internal class PlaceDetailTableViewController: UITableViewController {
     }
     
     // MARK: - Helpers
-    private func findBookmarks()  {
+    
+    private func updateBookMarkImage() {
+        bookmarkBarButtonItem.image = isBookmarked ? #imageLiteral(resourceName: "bookmarked") : #imageLiteral(resourceName: "bookmark")
+        bookmarkBarButtonItem.tintColor = .white
+    }
+    
+    private func bookmarkSetup()  {
         DatabaseRequests.shared.fetchCurrentUserLists(success: {
             lists in
             if let lists = lists {
@@ -201,20 +195,9 @@ internal class PlaceDetailTableViewController: UITableViewController {
                         for (index, placeID) in list.placeIDs.enumerated() {
                             if placeID == self.place.id {
                                 print("bookmark exists, changing button")
-                                //let button = UIButton.init(type: UIButtonType.custom)
-                                //button.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-                                //button.setImage(UIImage(named: "bookmarked-2x.png"), for: .normal)
-                                //button.addTarget(self, action: #selector(self.onBookmarkButton(_:)), for: UIControlEvents.touchUpInside)
-                                //self.bookmarkBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "bookmarked"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.onBookmarkButton(_:)))
-                                self.navigationItem.rightBarButtonItems![0] = UIBarButtonItem(image: #imageLiteral(resourceName: "bookmarked"),
-                                                                                              style: UIBarButtonItemStyle.plain,
-                                                                                              target: self,
-                                                                                              action: #selector(self.onBookmarkButton(_:)))
-                                self.navigationItem.rightBarButtonItems![0].tintColor = UIColor.white
-                                //self.navigationItem.rightBarButtonItems![0] = UIBarButtonItem(customView: button)
-                                //self.bookmarkBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonSystemItem.bookmarks, target: self, action: #selector(self.onBookmarkButton(_:)))
                                 self.isBookmarked = true
                                 self.bookmarkIndex = index
+                                self.updateBookMarkImage()
                             }
                         }
                     }
@@ -241,14 +224,10 @@ internal class PlaceDetailTableViewController: UITableViewController {
                     _ = SweetAlert().showAlert("Success!", subTitle: "Created Bookmarks list and added \(self.place.name) to your Bookmarks.", style: .success)
                 }
             }
-            self.navigationItem.rightBarButtonItems![0] = UIBarButtonItem(image: #imageLiteral(resourceName: "bookmarked"),
-                                                                          style: UIBarButtonItemStyle.plain,
-                                                                          target: self,
-                                                                          action: #selector(self.onBookmarkButton(_:)))
-            self.navigationItem.rightBarButtonItems![0].tintColor = UIColor.white
             isBookmarked = true
             bookmarkIndex = 0
             bookmarksList = bList
+            self.updateBookMarkImage()
         } else {
             print("hasB is true")
             guard let bList = bookmarksList else {
@@ -263,15 +242,11 @@ internal class PlaceDetailTableViewController: UITableViewController {
                     _ = SweetAlert().showAlert("Success!", subTitle: "Added \(self.place.name) to your Bookmarks.", style: .success)
                 }
             })
-            self.navigationItem.rightBarButtonItems![0] = UIBarButtonItem(image: #imageLiteral(resourceName: "bookmarked"),
-                                                                          style: UIBarButtonItemStyle.plain,
-                                                                          target: self,
-                                                                          action: #selector(self.onBookmarkButton(_:)))
-            self.navigationItem.rightBarButtonItems![0].tintColor = UIColor.white
             isBookmarked = true
             bookmarkIndex = bList.placeIDs.count - 1
             bookmarksList = bList
             hasBookmarks = true
+            self.updateBookMarkImage()
         }
     }
     
@@ -283,11 +258,7 @@ internal class PlaceDetailTableViewController: UITableViewController {
             }
             isBookmarked = false
             bookmarkIndex = nil
-            self.navigationItem.rightBarButtonItems![0] = UIBarButtonItem(image: #imageLiteral(resourceName: "bookmark"),
-                                                                          style: UIBarButtonItemStyle.plain,
-                                                                          target: self,
-                                                                          action: #selector(self.onBookmarkButton(_:)))
-            self.navigationItem.rightBarButtonItems![0].tintColor = UIColor.white
+            self.updateBookMarkImage()
         }
     }
     
@@ -300,14 +271,6 @@ internal class PlaceDetailTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 44
     }
-    
-    // DEPRECATED Bring address view to front
-    /*override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        var frame: CGRect = addressLabelView.frame
-        frame.origin.y = scrollView.contentOffset.y + tableView.frame.size.height - addressLabelView.frame.size.height
-        addressLabelView.frame = frame
-        view.bringSubview(toFront: addressLabelView)
-    }*/
     
     // MARK: - Navigation
     
