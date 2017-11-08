@@ -307,9 +307,9 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
     
     func refreshPins(withList list: List) {
         removeExistingPins()
-        
         let placeIDs = list.placeIDs
         self.placeArray = []
+        guard list.placeIDs.count > 0 else { return }
         PlaceSearch().fetchPlaces(with: placeIDs, success: { (places: [Place]) in
             if places.count == placeIDs.count {
                 self.placeArray = places
