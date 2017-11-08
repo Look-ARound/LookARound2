@@ -47,6 +47,7 @@
 		7791D8791FA2B0BB00DFD147 /* DirectionsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7791D8781FA2B0BB00DFD147 /* DirectionsButton.swift */; };
 		77BD47BD1FA1EB8200F485A8 /* DetailButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BD47BC1FA1EB8200F485A8 /* DetailButton.swift */; };
 		77D020E21FA86B90000FF270 /* HamburgerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D020E11FA86B90000FF270 /* HamburgerViewController.swift */; };
+		77D50F5A1FB2969B00FB859E /* Tip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D50F591FB2969B00FB859E /* Tip.swift */; };
 		94C5D99B7D4A23F860998772 /* Pods_lookaround2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E5AFF4092DEDBCD196BF743 /* Pods_lookaround2.framework */; };
 /* End PBXBuildFile section */
 
@@ -116,6 +117,7 @@
 		77972BB11F9B5A2500CAEB1F /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		77BD47BC1FA1EB8200F485A8 /* DetailButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailButton.swift; sourceTree = "<group>"; };
 		77D020E11FA86B90000FF270 /* HamburgerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HamburgerViewController.swift; sourceTree = "<group>"; };
+		77D50F591FB2969B00FB859E /* Tip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tip.swift; sourceTree = "<group>"; };
 		AE0506F8C58D1DD1A3AFC610 /* Pods-lookaround2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lookaround2.release.xcconfig"; path = "Pods/Target Support Files/Pods-lookaround2/Pods-lookaround2.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -284,6 +286,7 @@
 				77972BAF1F9B591800CAEB1F /* LookAnchor.swift */,
 				778949811F9B603C00910FD1 /* LABrand.swift */,
 				778949821F9B603C00910FD1 /* Place.swift */,
+				77D50F591FB2969B00FB859E /* Tip.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -575,6 +578,7 @@
 				77795EA51F9DD670004C9610 /* ARCalloutView.swift in Sources */,
 				778949941F9B623500910FD1 /* LABrand.swift in Sources */,
 				7789498F1F9B618300910FD1 /* PlaceDetailTableViewController.swift in Sources */,
+				77D50F5A1FB2969B00FB859E /* Tip.swift in Sources */,
 				49E1E2211F9D2E1D004F972C /* AddPlaceViewController.swift in Sources */,
 				497B925A1F9DAD9500052A77 /* SweetAlert.swift in Sources */,
 				7747FEDC1F9B409300366D54 /* AppDelegate.swift in Sources */,

@@ -9,11 +9,13 @@
 import Foundation
 import Firebase
 import FacebookCore
+import SwiftyJSON
 
 class DatabaseRequests {
     var ref: DatabaseReference = Database.database().reference()
     var allListsByListID = [String: List]()
     var listsPath = "lists"
+    var placesPath = "places"
     
     static let shared = DatabaseRequests()
     
@@ -94,6 +96,25 @@ class DatabaseRequests {
             }
             completion(Array(self.allListsByListID.values))
         }
+    }
+    
+    func addTip(tip: Tip, completionHandler: ((_ error: Error?) -> Void)? = nil) -> Void {
+        let tipID = ref.child(placesPath).child(tip.placeID).childByAutoId().key
+        let tipDict = tip.firebaseRepresenation()
+        let childUpdates = ["\(placesPath)/\(tipID)": tipDict]
+        self.ref.child(placesPath).updateChildValues(childUpdates) {
+            (error, _) in
+            completionHandler?(error)
+        }
+    }
+    
+    func getTips(for placeID: String) -> [Tip] {
+        let placeTipsQuery = self.ref.child(placesPath).queryEqual(toValue: placeID)
+        let json = JSON(placeTipsQuery)
+        print(json)
+        // TODO: Unwrap json once we can take a look at an example response to this query
+        let tipsArray: [Tip] = []
+        return tipsArray
     }
 }
 
