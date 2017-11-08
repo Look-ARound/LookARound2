@@ -380,9 +380,6 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
     // Query the directions endpoint with waypoints that are the current center location of the map
     // as the start and the passed in location as the end
     func queryDirections(with endLocation: CLLocation) {
-        let currentLocation = CLLocation(latitude: self.mapView.centerCoordinate.latitude, longitude: self.mapView.centerCoordinate.longitude)
-        annotationManager.originLocation = currentLocation
-        
         let waypoints = [
             Waypoint(coordinate: CLLocationCoordinate2D(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude), name: "start"),
             Waypoint(coordinate: CLLocationCoordinate2D(latitude: endLocation.coordinate.latitude, longitude: endLocation.coordinate.longitude), name: "end"),
