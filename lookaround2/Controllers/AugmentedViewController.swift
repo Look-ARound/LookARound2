@@ -565,13 +565,10 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
 
     func showDetailVC(forPlace place: Place) {
         let storyboard = UIStoryboard(name: "Detail", bundle: nil)
-        let detailNVC = storyboard.instantiateViewController(withIdentifier: "DetailNavigationController") as! UINavigationController
-        
-        let detailVC = detailNVC.topViewController as! PlaceDetailTableViewController
+        let detailNavVC = storyboard.instantiateViewController(withIdentifier: "PlaceDetailNavVC") as! UINavigationController
+        let detailVC = detailNavVC.topViewController as! PlaceDetailViewController
         detailVC.place = place
-        detailVC.delegate = self
-        
-        present(detailNVC, animated: true, completion: nil)
+        present(detailNavVC, animated: true, completion: nil)
     }
 }
 
@@ -797,8 +794,7 @@ extension AugmentedViewController: MGLMapViewDelegate {
     
 }
 
-// MARK: - PlaceDetail Delegate
-extension AugmentedViewController: PlaceDetailTableViewControllerDelegate {
+extension AugmentedViewController {
     func getDirections(for place: Place) {
         if isMapHidden() {
             slideMap()
@@ -882,3 +878,14 @@ extension UIColor {
     
 }
 
+// MARK: - Navigation
+
+extension AugmentedViewController {
+    @IBAction internal func unwindToARViewController(_ sender: UIStoryboardSegue) {
+        if sender.identifier == "getPlaceSegue" {
+            let placeDetailVC = sender.source as! PlaceDetailViewController
+            let place = placeDetailVC.place!
+            getDirections(for: place)
+        }
+    }
+}

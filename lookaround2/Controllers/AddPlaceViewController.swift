@@ -23,16 +23,6 @@ internal class AddPlaceViewController: UIViewController, UITableViewDelegate, UI
     
     // MARK: - Lifecycles
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.navigationBar.backgroundColor = UIColor.LABrand.primary
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.navigationController?.navigationBar.backgroundColor = nil
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchUserLists()

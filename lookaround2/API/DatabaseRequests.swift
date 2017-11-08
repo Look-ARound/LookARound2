@@ -39,7 +39,7 @@ class DatabaseRequests {
     }
     
     // TODO: Change to query for currentUserID on server side
-    func fetchCurrentUserLists(success: @escaping ([List]?)->(), failure: @escaping (Error?)->()) -> Void {
+    func fetchCurrentUserLists(success: (([List]?)->())?, failure: ((Error?)->())?) -> Void {
         if let currentUserID = AccessToken.current?.userId {
             // Get all lists
             // Filter by those created by userID
@@ -50,14 +50,14 @@ class DatabaseRequests {
                         currentUserLists.append(list)
                     }
                 }
-                success(currentUserLists)
+                success?(currentUserLists)
             })
         }
         // User not logged in
         else {
             // TODO: better error handling
             print("User not logged in!")
-            failure(nil)
+            failure?(nil)
         }
     }
     
