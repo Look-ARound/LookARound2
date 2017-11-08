@@ -101,7 +101,6 @@ internal class PlaceDetailViewController: UIViewController {
     
     private func addLikeControl() {
         let likeControl = FBSDKLikeControl()
-        likeControl.objectID = "MyPage"
         likeControl.likeControlStyle = FBSDKLikeControlStyle.standard
         likeControl.objectType = .openGraph
         likeControl.frame = facebookLikeButtonView.bounds
