@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		411C2EB31FB38FE60011C8CE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 411C2EB21FB38FE60011C8CE /* GoogleService-Info.plist */; };
+		411C2EB91FB3907A0011C8CE /* PlaceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411C2EB81FB3907A0011C8CE /* PlaceDetailViewController.swift */; };
 		497B925A1F9DAD9500052A77 /* SweetAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497B92591F9DAD9500052A77 /* SweetAlert.swift */; };
 		49E1E2211F9D2E1D004F972C /* AddPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E1E2201F9D2E1D004F972C /* AddPlaceViewController.swift */; };
 		702F12D61FA0471F00E86482 /* HeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702F12D51FA0471F00E86482 /* HeaderCell.swift */; };
@@ -16,7 +18,6 @@
 		7478B9C71F9D2BA100EB62F5 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478B9C61F9D2BA100EB62F5 /* List.swift */; };
 		7478B9C91F9D2BB400EB62F5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478B9C81F9D2BB400EB62F5 /* User.swift */; };
 		7478B9CB1F9D2BEF00EB62F5 /* DatabaseRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478B9CA1F9D2BEF00EB62F5 /* DatabaseRequests.swift */; };
-		773727501FA08B7200975D68 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 49E1E2221F9D322E004F972C /* GoogleService-Info.plist */; };
 		7747FEDC1F9B409300366D54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7747FEDB1F9B409300366D54 /* AppDelegate.swift */; };
 		7747FEDE1F9B409300366D54 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7747FEDD1F9B409300366D54 /* ViewController.swift */; };
 		7747FEE11F9B409300366D54 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7747FEDF1F9B409300366D54 /* Main.storyboard */; };
@@ -70,9 +71,10 @@
 
 /* Begin PBXFileReference section */
 		0E5AFF4092DEDBCD196BF743 /* Pods_lookaround2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_lookaround2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		411C2EB21FB38FE60011C8CE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		411C2EB81FB3907A0011C8CE /* PlaceDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceDetailViewController.swift; sourceTree = "<group>"; };
 		497B92591F9DAD9500052A77 /* SweetAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SweetAlert.swift; sourceTree = "<group>"; };
 		49E1E2201F9D2E1D004F972C /* AddPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlaceViewController.swift; sourceTree = "<group>"; };
-		49E1E2221F9D322E004F972C /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		702F12D51FA0471F00E86482 /* HeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCell.swift; sourceTree = "<group>"; };
 		7089677C1FAA2C950082F0DE /* DebugViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugViewController.swift; sourceTree = "<group>"; };
 		7478B9C61F9D2BA100EB62F5 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
@@ -191,7 +193,7 @@
 			children = (
 				7737274C1FA0805A00975D68 /* fb_access */,
 				7737274D1FA0805A00975D68 /* mapbox_access_token */,
-				49E1E2221F9D322E004F972C /* GoogleService-Info.plist */,
+				411C2EB21FB38FE60011C8CE /* GoogleService-Info.plist */,
 				497B925B1F9DADA200052A77 /* 3rd Party Libraries */,
 				7747FF0A1F9B415100366D54 /* API */,
 				7747FF0E1F9B416A00366D54 /* Models */,
@@ -254,6 +256,7 @@
 				7789498D1F9B618300910FD1 /* FilterViewController.swift */,
 				7789498E1F9B618300910FD1 /* LoginViewController.swift */,
 				7789498B1F9B618200910FD1 /* PlaceDetailTableViewController.swift */,
+				411C2EB81FB3907A0011C8CE /* PlaceDetailViewController.swift */,
 				7789498C1F9B618300910FD1 /* SearchResultsViewController.swift */,
 				49E1E2201F9D2E1D004F972C /* AddPlaceViewController.swift */,
 				77D020E11FA86B90000FF270 /* HamburgerViewController.swift */,
@@ -411,7 +414,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				773727501FA08B7200975D68 /* GoogleService-Info.plist in Resources */,
 				778949A31F9B629800910FD1 /* art.scnassets in Resources */,
 				7747FEE61F9B409300366D54 /* LaunchScreen.storyboard in Resources */,
 				70487B361FA3785A0086B1B7 /* mapbox_access_token in Resources */,
@@ -419,6 +421,7 @@
 				7747FEE31F9B409300366D54 /* Assets.xcassets in Resources */,
 				778949A01F9B626700910FD1 /* Login.storyboard in Resources */,
 				7789499F1F9B626400910FD1 /* Filter.storyboard in Resources */,
+				411C2EB31FB38FE60011C8CE /* GoogleService-Info.plist in Resources */,
 				7747FEE11F9B409300366D54 /* Main.storyboard in Resources */,
 				7789499E1F9B626100910FD1 /* Detail.storyboard in Resources */,
 			);
@@ -588,6 +591,7 @@
 				778949971F9B624100910FD1 /* Annotation.swift in Sources */,
 				778949901F9B618300910FD1 /* SearchResultsViewController.swift in Sources */,
 				7478B9C71F9D2BA100EB62F5 /* List.swift in Sources */,
+				411C2EB91FB3907A0011C8CE /* PlaceDetailViewController.swift in Sources */,
 				7478B9CB1F9D2BEF00EB62F5 /* DatabaseRequests.swift in Sources */,
 				7478B9C91F9D2BB400EB62F5 /* User.swift in Sources */,
 			);
@@ -758,7 +762,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = PUQ8TNP3W4;
+				DEVELOPMENT_TEAM = M6ZVBN5V88;
 				INFOPLIST_FILE = lookaround2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.artek.LookARound.wangela;
@@ -778,7 +782,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = PUQ8TNP3W4;
+				DEVELOPMENT_TEAM = M6ZVBN5V88;
 				INFOPLIST_FILE = lookaround2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
