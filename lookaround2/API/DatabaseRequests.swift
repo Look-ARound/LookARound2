@@ -98,23 +98,35 @@ class DatabaseRequests {
         }
     }
     
-    func addTip(tip: Tip, completionHandler: ((_ error: Error?) -> Void)? = nil) -> Void {
-        let tipID = ref.child(placesPath).child(tip.placeID).childByAutoId().key
+    func addTip(tip: Tip, success: @escaping (Tip)->(), failure: @escaping (Error?)->()) -> Void {
+        let place = tip.placeID
+        let tipID = ref.child(placesPath).child(place).childByAutoId().key
         let tipDict = tip.firebaseRepresenation()
-        let childUpdates = ["\(placesPath)/\(tipID)": tipDict]
-        self.ref.child(placesPath).updateChildValues(childUpdates) {
-            (error, _) in
-            completionHandler?(error)
-        }
+        let childUpdates = ["\(place)/\(tipID)": tipDict]
+        self.ref.child(placesPath).updateChildValues(childUpdates)
+        self.ref.child(placesPath).child(place).child(tipID).observeSingleEvent(of: .value, with: { snapshot in
+            let tipDict = JSON(snapshot.value)
+            let tip = Tip(by: tipID, for: place, json: tipDict)
+            success(tip)
+        })
     }
     
-    func getTips(for placeID: String) -> [Tip] {
-        let placeTipsQuery = self.ref.child(placesPath).queryEqual(toValue: placeID)
-        let json = JSON(placeTipsQuery)
-        print(json)
-        // TODO: Unwrap json once we can take a look at an example response to this query
-        let tipsArray: [Tip] = []
-        return tipsArray
+    func fetchTips(for placeID: String, success: @escaping ([Tip]?)->(), failure: @escaping (Error?)->()) -> Void {
+        self.ref.child(placesPath).child(placeID).observeSingleEvent(of: .value, with: { snapshot in
+            var tipsArray: [Tip] = []
+            for child in snapshot.children {
+                let snap = child as! DataSnapshot
+                let tipID = snap.key
+                let tipDict = JSON(snap.value)
+                let tip = Tip(by: tipID, for: placeID, json: tipDict)
+                print(tipID)
+                print(tipDict)
+                tipsArray.append(tip)
+            }
+            print("\(tipsArray.count) tips found")
+            success(tipsArray)
+        })
+
     }
 }
 
