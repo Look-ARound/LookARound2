@@ -7,17 +7,18 @@ target 'lookaround2' do
 
   # Pods for lookaround2
   pod 'AFNetworking'
-  pod 'MBProgressHUD'
-  pod 'SwiftyJSON'
-  pod 'FirebaseCore’
+  pod 'FirebaseCore'
   pod 'Firebase/Database'
   pod 'FacebookCore'
   pod 'FacebookLogin'
   pod 'FacebookShare'
+  pod 'HDAugmentedReality', '~> 2.3'
   pod 'Mapbox-iOS-SDK', '~> 3.6'
   pod 'MapboxDirections.swift', '~> 0.11'
   pod 'MapboxARKit', :git => 'https://github.com/mapbox/mapbox-arkit-ios.git'
+  pod 'SwiftyJSON'
   # pod 'ARCL'
   # pod 'FLEX', '~> 2.0', :configurations => ['Debug']
+  # pod 'MBProgressHUD'
 
 end
