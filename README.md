@@ -26,7 +26,7 @@ Place Detail
 - [x] User can preview a POI to decide if they want to go: Show name, description, hours, photos, stats
 - [x] User can see a 2D map of how to get from current location to that POI
 - [x] User can see in AR how to get from current location to that POI
-- [ ] Optional: User can "bookmark" POI as a place they want to visit
+- [x] Optional: User can "bookmark" POI as a place they want to visit
 - [ ] Optional: User can “check in” to the POI when they get there
 - [ ] Optional: User can see an optimized itinerary for the order to visit all POIs on a list
 
