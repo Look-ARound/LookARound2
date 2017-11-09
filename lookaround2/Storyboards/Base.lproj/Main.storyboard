@@ -41,7 +41,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6sf-gu-42M">
-                                <rect key="frame" x="225" y="625" width="110" height="30"/>
+                                <rect key="frame" x="195" y="631" width="140" height="30"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="140" id="CPh-Zf-Jb3"/>
@@ -67,24 +67,6 @@
                                             <action selector="onFilterButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="weW-UP-QlT"/>
                                         </connections>
                                     </button>
-                                    <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="LOOK AROUND!" translatesAutoresizingMaskIntoConstraints="NO" id="5C8-ZY-DJT">
-                                        <rect key="frame" x="38" y="0.0" width="214" height="30"/>
-                                        <color key="barTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="search"/>
-                                    </searchBar>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="2b8-0h-8gV">
-                                        <rect key="frame" x="260" y="0.0" width="61" height="31"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="6Jt-Kt-Uvh"/>
-                                        </constraints>
-                                        <segments>
-                                            <segment title="10"/>
-                                            <segment title="20"/>
-                                        </segments>
-                                        <connections>
-                                            <action selector="onMoreResults:" destination="BYZ-38-t0r" eventType="valueChanged" id="H8R-Yz-ykt"/>
-                                        </connections>
-                                    </segmentedControl>
                                     <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NWZ-Be-KzA">
                                         <rect key="frame" x="329" y="0.0" width="30" height="30"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -99,28 +81,20 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstItem="2b8-0h-8gV" firstAttribute="leading" secondItem="5C8-ZY-DJT" secondAttribute="trailing" constant="8" id="0gI-BP-g2T"/>
-                                    <constraint firstItem="AB3-rY-gO6" firstAttribute="centerY" secondItem="5C8-ZY-DJT" secondAttribute="centerY" id="1oQ-bP-uBv"/>
-                                    <constraint firstItem="NWZ-Be-KzA" firstAttribute="leading" secondItem="2b8-0h-8gV" secondAttribute="trailing" constant="8" id="8Po-0Z-sTO"/>
-                                    <constraint firstItem="NWZ-Be-KzA" firstAttribute="centerY" secondItem="5C8-ZY-DJT" secondAttribute="centerY" id="Hxi-ph-CD5"/>
-                                    <constraint firstItem="NWZ-Be-KzA" firstAttribute="centerY" secondItem="2b8-0h-8gV" secondAttribute="centerY" id="YL4-cv-fNv"/>
-                                    <constraint firstItem="5C8-ZY-DJT" firstAttribute="leading" secondItem="AB3-rY-gO6" secondAttribute="trailing" constant="8" id="hJN-Qh-VxC"/>
-                                </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="7Ma-8d-EH7" secondAttribute="trailing" id="34Y-4s-4En"/>
                             <constraint firstItem="Z9v-Wv-VBd" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="4Xh-3x-Gzb"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="7Ma-8d-EH7" secondAttribute="trailing" id="53h-er-5qh"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="7Ma-8d-EH7" secondAttribute="bottom" id="F0f-78-C93"/>
                             <constraint firstItem="Z9v-Wv-VBd" firstAttribute="width" secondItem="6Tk-OE-BBY" secondAttribute="width" constant="-16" id="JPq-4Z-f6c"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="6sf-gu-42M" secondAttribute="trailing" constant="40" id="Vgi-Md-to7"/>
+                            <constraint firstItem="7Ma-8d-EH7" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="XpF-Fg-H0k"/>
+                            <constraint firstAttribute="bottom" secondItem="7Ma-8d-EH7" secondAttribute="bottom" id="a2U-fd-D7i"/>
                             <constraint firstItem="Z9v-Wv-VBd" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="4" id="bOH-Iw-hJr"/>
                             <constraint firstItem="M78-Zw-ca0" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="ck4-7K-7yg"/>
-                            <constraint firstItem="7Ma-8d-EH7" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="dbU-6A-LAg"/>
-                            <constraint firstItem="7Ma-8d-EH7" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="gz6-Bm-w8m"/>
                             <constraint firstItem="M78-Zw-ca0" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="iYe-6m-uv2"/>
+                            <constraint firstItem="7Ma-8d-EH7" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="tRB-8w-Dzx"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="6sf-gu-42M" secondAttribute="bottom" constant="6" id="wjL-J9-uoW"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -132,9 +106,7 @@
                         <outlet property="filterButton" destination="AB3-rY-gO6" id="wsq-Jb-goH"/>
                         <outlet property="mapButton" destination="NWZ-Be-KzA" id="Xs3-07-BCc"/>
                         <outlet property="mapView" destination="yzd-SX-HSI" id="bqy-zc-2nT"/>
-                        <outlet property="moreControl" destination="2b8-0h-8gV" id="uoa-Qh-kvj"/>
                         <outlet property="sceneView" destination="7Ma-8d-EH7" id="phs-4C-o7N"/>
-                        <outlet property="searchBar" destination="5C8-ZY-DJT" id="7Gb-Tj-uCS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

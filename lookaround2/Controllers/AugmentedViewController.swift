@@ -25,22 +25,21 @@ protocol AugmentedViewControllerDelegate : NSObjectProtocol {
     func hideFilters(_augmentedViewController: AugmentedViewController)
 }
 
-class AugmentedViewController: UIViewController, UISearchBarDelegate {
+class AugmentedViewController: UIViewController {
     @IBOutlet weak var sceneView: ARSCNView!
     @IBOutlet weak var controlsContainerView: UIView!
     @IBOutlet weak var mapView: MGLMapView!
     var mapTop: NSLayoutConstraint!
     var mapBottom: NSLayoutConstraint!
     
-    @IBOutlet weak var moreControl: UISegmentedControl!
     @IBOutlet weak var mapButton: UIButton!
     @IBOutlet weak var filterButton: UIButton!
-    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet var clearDirectionsButton: UIButton!
     
     var delegate: AugmentedViewControllerDelegate?
     var filterVC: FilterViewController!
     var showingFilters: Bool = false
+    var numResults = 10
     
     // Use this to control how ARKit aligns itself to the world
     // Often ARKit can determine the direction of North well enough for
@@ -82,7 +81,6 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
     }
     
     var placeArray: [Place]?
-    var numResults = 10
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,15 +99,6 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
         // Set up the UI elements as per the app theme
         filterButton.setImage(#imageLiteral(resourceName: "hamburger-on"), for: .selected)
         prepButtonsWithARTheme(buttons: [mapButton,clearDirectionsButton])
-        moreControl.selectedSegmentIndex = 0
-        
-        searchBar.delegate = self
-        searchBar.barTintColor = UIColor.clear
-        searchBar.backgroundColor = UIColor.clear
-        searchBar.tintColor = UIColor.clear
-        
-        let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as? UITextField
-        textFieldInsideSearchBar?.textColor = UIColor.white
         
         clearDirectionsButton.isHidden = true
         
@@ -129,45 +118,6 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
         // Pause the view's session
         sceneView.session.pause()
     }
-    
-    // MARK: - SearchBar methods
-        
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        if let searchText = searchBar.text {
-            // Fetch places
-            PlaceSearch().fetchPlaces(with: searchText, coordinates: currentCoordinates, success: { (places: [Place]?) in
-                if let places = places {
-                    self.removeExistingPins()
-                    self.placeArray = places
-                    let end = min(places.count, self.numResults)
-                    if let results = self.placeArray {
-                        self.addPlaces(places: Array(results[..<end]))
-                        
-                        let firstPlace = results[0]
-                        self.mapView.userTrackingMode = .followWithCourse
-                        self.mapView.setTargetCoordinate(firstPlace.coordinate, animated: true)
-                    }
-                }
-            }, failure: { (error: Error) in
-                print("error fetching places based on search term: \(searchText). Error: \(error)")
-            })
-        }
-        
-    }
-    
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        searchBar.showsCancelButton = true
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.showsCancelButton = false
-        searchBar.resignFirstResponder()
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
-    }
-    
     
     // MARK: - 2D Map setup
     func initMap()
@@ -245,10 +195,6 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
         filterButton.tintColor = UIColor.LABrand.buttons
         filterButton.clipsToBounds = true
         filterButton.alpha = 0.6
-        moreControl.tintColor = UIColor.LABrand.primary
-        moreControl.backgroundColor = UIColor.white
-        moreControl.clipsToBounds = true
-        moreControl.alpha = 0.6
     }
     
     func performFirstSearch() {
@@ -266,9 +212,6 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
             if let places = places {
                 print("got places, adding")
                 self.placeArray = places
-                if self.moreControl.selectedSegmentIndex == 1 {
-                    self.numResults = 20
-                }
                 let end = min(places.count, self.numResults)
                 self.addPlaces(places: Array(places[..<end]))
             }
@@ -533,29 +476,13 @@ class AugmentedViewController: UIViewController, UISearchBarDelegate {
             showingFilters = true
         }
     }
-    
-    @IBAction func onMoreResults(_ sender: Any) {
-        switch moreControl.selectedSegmentIndex {
-        case 0:
-            numResults = 10
-            changeNumPins()
-        case 1:
-            numResults = 20
-            changeNumPins()
-        default:
-            break
-        }
-    }
-    
+
     @IBAction func onClearDirections(_ sender: Any) {
         // Remove all annotations related to directions
         clearARDirections()
         clear2DMapDirections()
         
-        // Restore the number of Places pins depending on 10 or 20 selected in MoreControl
-        //changeNumPins()
-        
-        // Perform first search since the user may have changed locations
+        // Perform first search again since the user may have changed locations
         performFirstSearch()
         
         clearDirectionsButton.isHidden = true
@@ -812,26 +739,8 @@ extension AugmentedViewController: FilterViewControllerDelegate {
     func filterViewController(_filterViewController: FilterViewController, didSelectCategories categories: [FilterCategory]) {
         delegate?.hideFilters(_augmentedViewController: self)
         showingFilters = false
-        if let searchText = searchBar.text, searchText.count > 0  {
-            // warning: Doesn't apply selected categories to this search
-            print("using search term: \(searchText)")
-            // Fetch places
-            PlaceSearch().fetchPlaces(with: searchText, coordinates: currentCoordinates, success: { (places: [Place]?) in
-                if let places = places {
-                    self.removeExistingPins()
-                    self.placeArray = places
-                    if let places = self.placeArray {
-                        let end = min(places.count, self.numResults)
-                        self.addPlaces(places: Array(places[..<end]))
-                    }
-                }
-            }, failure: { (error: Error) in
-                print("error fetching places based on search term: \(searchText). Error: \(error)")
-            })
-        } else {
-            print("no search query, performing default search")
-            refreshPins(withCategories: categories)
-        }
+        print("no search query, performing default search")
+        refreshPins(withCategories: categories)
     }
     
     func filterViewController(_filterViewController: FilterViewController, didSelectList list: List) {

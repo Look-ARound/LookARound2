@@ -94,28 +94,29 @@ struct PlaceSearch {
         searchConnection.start()
     }
     
-    func fetchPlaces(with searchTerm:String, coordinates: CLLocationCoordinate2D, success: @escaping ([Place]?)->(), failure: @escaping (Error)->()) -> Void {
-        let placeSearchConnection = GraphRequestConnection()
-        
-        var placeSearchRequest = presetRequest()
-        print(searchTerm)
-        placeSearchRequest.graphPath = "/search?type=place&q=\(searchTerm)"
-        placeSearchRequest.parameters?["center"] = "\(coordinates.latitude), \(coordinates.longitude)"
-        placeSearchRequest.parameters?["distance"] = 1000
-        placeSearchRequest.parameters?["limit"] = 10
-        print(placeSearchRequest.parameters)
-        placeSearchConnection.add(placeSearchRequest,
-                                  batchEntryName: nil) { (response, result) in
-                                    switch result {
-                                    case .success(let response):
-                                        success(response.places)
-                                    case .failed(let error):
-                                        print("Failed to fetch place with term: \(searchTerm)")
-                                        failure(error)
-                                    }
-        }
-        placeSearchConnection.start()
-    }
+    // search term deprecated...testing if this breaks anything
+//    func fetchPlaces(with searchTerm:String, coordinates: CLLocationCoordinate2D, success: @escaping ([Place]?)->(), failure: @escaping (Error)->()) -> Void {
+//        let placeSearchConnection = GraphRequestConnection()
+//
+//        var placeSearchRequest = presetRequest()
+//        print(searchTerm)
+//        placeSearchRequest.graphPath = "/search?type=place&q=\(searchTerm)"
+//        placeSearchRequest.parameters?["center"] = "\(coordinates.latitude), \(coordinates.longitude)"
+//        placeSearchRequest.parameters?["distance"] = 1000
+//        placeSearchRequest.parameters?["limit"] = 10
+//        print(placeSearchRequest.parameters)
+//        placeSearchConnection.add(placeSearchRequest,
+//                                  batchEntryName: nil) { (response, result) in
+//                                    switch result {
+//                                    case .success(let response):
+//                                        success(response.places)
+//                                    case .failed(let error):
+//                                        print("Failed to fetch place with term: \(searchTerm)")
+//                                        failure(error)
+//                                    }
+//        }
+//        placeSearchConnection.start()
+//    }
     
     fileprivate func presetIDRequest() -> PlaceIDSearchRequest {
         var request = PlaceIDSearchRequest()
