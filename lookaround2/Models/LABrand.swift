@@ -11,9 +11,9 @@ import UIKit
 extension UIColor {
     struct LABrand {
         // USAGE: myButton.tintColor = UIColor.LABrand.primary
-        static let primary = UIColor(red:0.00, green:0.48, blue:1.00, alpha:1.0)    // navbar, icon outlines, buttons #007aff rgb(0, 122, 255)
+        static let primary = UIColor(red:0.00, green:0.59, blue:0.65, alpha:1.0)    // navbar, icon outlines, buttons #0097A7 rgb(0, 151, 167)
         static let unselected = UIColor.darkGray                                    // #555555 rgb(85, 85, 85)
-        static let accent = UIColor(red:1.00, green:0.18, blue:0.33, alpha:1.0)     // pins, highlighted info #ff2d55 rgb(255, 45, 85)
+        static let accent = UIColor(red:0.15, green:0.78, blue:0.85, alpha:1.0)     // pins, highlighted info #26C6DA rgb(38, 198, 218)
         static let buttons = UIColor.white // white UI buttons on clear background, #FFF rgb(255, 255, 255)
         static let standard = UIColor.black // black default text
         static let detail = UIColor.lightGray

@@ -19,10 +19,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="76N-GM-RQw">
-                                <rect key="frame" x="28.5" y="219" width="317" height="96"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="76N-GM-RQw">
+                                <rect key="frame" x="37" y="246" width="300" height="46"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="76N-GM-RQw" secondAttribute="height" multiplier="56:17" id="6vR-9e-bji"/>
+                                    <constraint firstAttribute="width" secondItem="76N-GM-RQw" secondAttribute="height" multiplier="1000:138" id="6vR-9e-bji"/>
                                 </constraints>
                             </imageView>
                         </subviews>
@@ -40,6 +40,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="logo" width="317" height="96"/>
+        <image name="logo" width="333" height="46"/>
     </resources>
 </document>
