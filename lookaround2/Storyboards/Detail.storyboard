@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3jc-yf-5N6">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3jc-yf-5N6">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -232,13 +232,6 @@
         <!--Place Detail View Controller-->
         <scene sceneID="oxE-nh-MYq">
             <objects>
-                <exit id="2jJ-na-qj5" userLabel="Exit" sceneMemberID="exit"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="78e-NZ-aRT" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="rX8-Hh-5kf">
-                    <connections>
-                        <action selector="onBGTap:" destination="lsg-RI-Zg0" id="Vch-Vn-bfS"/>
-                    </connections>
-                </tapGestureRecognizer>
                 <viewController modalPresentationStyle="overCurrentContext" id="lsg-RI-Zg0" customClass="PlaceDetailViewController" customModule="lookaround2" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Hv3-hC-FMX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -421,6 +414,13 @@
                                                     <segue destination="7TG-jw-AJm" kind="showDetail" identifier="addPlaceVC" action="showViewController:sender:" id="PvH-LR-omk"/>
                                                 </connections>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="udY-qT-NZK">
+                                                <rect key="frame" x="130.5" y="17" width="53" height="30"/>
+                                                <state key="normal" title="Add Tip"/>
+                                                <connections>
+                                                    <action selector="onAddTip:" destination="lsg-RI-Zg0" eventType="touchUpInside" id="BtI-PX-Sek"/>
+                                                </connections>
+                                            </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2dc-fW-BYH">
                                                 <rect key="frame" x="283" y="20" width="24" height="24"/>
                                                 <state key="normal" image="bookmark"/>
@@ -428,12 +428,23 @@
                                                     <action selector="onBookmarkToggle:" destination="lsg-RI-Zg0" eventType="touchUpInside" id="gbd-lF-lCc"/>
                                                 </connections>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wtx-FJ-NJO">
+                                                <rect key="frame" x="206" y="17" width="53" height="30"/>
+                                                <state key="normal" title="Fetch Tips"/>
+                                                <connections>
+                                                    <action selector="onFetchTips:" destination="lsg-RI-Zg0" eventType="touchUpInside" id="N5a-L2-as0"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" red="0.93754047929999995" green="0.93754047929999995" blue="0.93754047929999995" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstItem="2dc-fW-BYH" firstAttribute="centerY" secondItem="MUS-ed-P4y" secondAttribute="centerY" id="50l-F1-OkW"/>
+                                            <constraint firstItem="udY-qT-NZK" firstAttribute="leading" secondItem="CDF-sg-grL" secondAttribute="trailing" constant="8" id="97l-Ro-GzH"/>
                                             <constraint firstItem="CDF-sg-grL" firstAttribute="centerY" secondItem="MUS-ed-P4y" secondAttribute="centerY" id="KLd-py-cxa"/>
                                             <constraint firstAttribute="height" constant="64" id="LcE-pt-8ah"/>
+                                            <constraint firstItem="udY-qT-NZK" firstAttribute="centerY" secondItem="MUS-ed-P4y" secondAttribute="centerY" id="UzM-mH-feU"/>
+                                            <constraint firstItem="Wtx-FJ-NJO" firstAttribute="centerY" secondItem="MUS-ed-P4y" secondAttribute="centerY" id="fcl-ot-bnA"/>
+                                            <constraint firstItem="Wtx-FJ-NJO" firstAttribute="leading" secondItem="udY-qT-NZK" secondAttribute="trailing" constant="8" id="jdw-bC-ci5"/>
                                             <constraint firstAttribute="trailing" secondItem="2dc-fW-BYH" secondAttribute="trailing" constant="8" id="nnN-2U-2cv"/>
                                             <constraint firstItem="CDF-sg-grL" firstAttribute="leading" secondItem="MUS-ed-P4y" secondAttribute="leading" constant="8" id="yBR-vX-mRT"/>
                                         </constraints>
@@ -482,6 +493,13 @@
                         <outlet property="placeImageView" destination="vEa-OS-t8h" id="B9W-vl-xHP"/>
                     </connections>
                 </viewController>
+                <exit id="2jJ-na-qj5" userLabel="Exit" sceneMemberID="exit"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="78e-NZ-aRT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="rX8-Hh-5kf">
+                    <connections>
+                        <action selector="onBGTap:" destination="lsg-RI-Zg0" id="Vch-Vn-bfS"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="908" y="1469.4152923538231"/>
         </scene>

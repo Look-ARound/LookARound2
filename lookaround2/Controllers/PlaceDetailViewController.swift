@@ -41,6 +41,7 @@ internal class PlaceDetailViewController: UIViewController {
     // MARK: - Stored Properties
     
     internal var place: Place!
+    internal var tips: [Tip]?
     
     // MARK: - Computed Properties
     
@@ -132,6 +133,7 @@ internal class PlaceDetailViewController: UIViewController {
     private func setupBookMarkButton() {
         bookMarkButton.setImage(#imageLiteral(resourceName: "bookmark"), for: .normal)
         bookMarkButton.setImage(#imageLiteral(resourceName: "bookmarked"), for: .selected)
+        bookMarkButton.tintColor = UIColor.LABrand.primary
     }
     
     private func updateBookMarkSetup() {
@@ -217,6 +219,35 @@ internal class PlaceDetailViewController: UIViewController {
         updateBookmark(operation: isBookMarked ? .add : .remove)
     }
     
+    // TODO: MOVE this code with to the actual button we will use when Ali finishes creating the full VC
+    @IBAction func onAddTip(_ sender: Any) {
+        // Present a dialog for adding a tip. Limit to 200 characters in length.
+        // Pass the text from that dialog to the "text:" argument in Tip initializer below.
+        if let newTip = Tip(for: place.id, text: "Order the Black and Tan from the secret menu.") {
+            DatabaseRequests.shared.addTip(tip: newTip, success: { tip in
+                print("new tip added")
+                // Consider adding the returned tip to the tip row of TableView of tips
+            }, failure: { Error in
+                if let error = Error {
+                    _ = SweetAlert().showAlert("Error", subTitle: error.localizedDescription, style: .error)
+                }
+            })
+        }
+    }
+ 
+    // TODO: MOVE this code to help populate the Tips section of the detailVC when Ali finishes creating the full VC
+    @IBAction func onFetchTips(_ sender: Any) {
+        DatabaseRequests.shared.fetchTips(for: place.id, success: { tipsArray in
+            self.tips = tipsArray
+            // populate the TableView of tips
+            return
+        }, failure: {Error in
+            if let error = Error {
+                _ = SweetAlert().showAlert("Error", subTitle: error.localizedDescription, style: .error)
+            }
+        })
+    }
+
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

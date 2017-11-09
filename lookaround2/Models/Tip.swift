@@ -10,7 +10,6 @@ import UIKit
 import FacebookCore
 import SwiftyJSON
 
-var firebasePlaceIDKey = "placeID"
 var firebaseTipAuthorKey = "tipAuthorID"
 var firebaseTipTextKey = "tipText"
 
@@ -19,6 +18,7 @@ class Tip: NSObject {
     var placeID: String
     var tipAuthor: String
     var tipText: String
+    var tipID: String?
     
     override init() {
         placeID = ""
@@ -28,6 +28,7 @@ class Tip: NSObject {
     
     init?(for place: String, text: String) {
         guard let userID = AccessToken.current?.userId else {
+            _ = SweetAlert().showAlert("Error", subTitle: "You must log in to add tips", style: .error)
             return nil
         }
         
@@ -36,15 +37,17 @@ class Tip: NSObject {
         self.tipText = text
     }
     
-    init?(placeID: String, json: JSON) {
-        self.placeID = json[firebasePlaceIDKey].stringValue
+    init(by tipID: String, for placeID: String, json: JSON) {
+        self.tipID = tipID
+        self.placeID = placeID
         self.tipAuthor = json[firebaseTipAuthorKey].stringValue
         self.tipText = json[firebaseTipTextKey].stringValue
+        print(tipAuthor)
+        print(tipText)
     }
     
     func firebaseRepresenation() -> NSDictionary {
         let dict = NSMutableDictionary()
-        dict[firebasePlaceIDKey] = self.placeID
         dict[firebaseTipAuthorKey] = self.tipAuthor
         dict[firebaseTipTextKey] = self.tipText
         
