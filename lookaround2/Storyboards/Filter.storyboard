@@ -270,29 +270,57 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="8bg-YL-3Do">
-                                <rect key="frame" x="12" y="76" width="351" height="31"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="MFo-Ms-mOI">
+                                <rect key="frame" x="10" y="84" width="355" height="72"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Autogenerate Like Counts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tM9-lI-wrt">
-                                        <rect key="frame" x="0.0" y="0.0" width="294" height="31"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JvC-He-kXG">
-                                        <rect key="frame" x="302" y="0.0" width="51" height="31"/>
-                                        <connections>
-                                            <action selector="onAutoGenLikesSwitch:" destination="tfd-PA-zlV" eventType="valueChanged" id="p2Z-F4-lPx"/>
-                                        </connections>
-                                    </switch>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="8bg-YL-3Do">
+                                        <rect key="frame" x="0.0" y="0.0" width="355" height="31"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Autogenerate Like Counts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tM9-lI-wrt">
+                                                <rect key="frame" x="0.0" y="0.0" width="298" height="31"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JvC-He-kXG">
+                                                <rect key="frame" x="306" y="0.0" width="51" height="31"/>
+                                                <connections>
+                                                    <action selector="onAutoGenLikesSwitch:" destination="tfd-PA-zlV" eventType="valueChanged" id="p2Z-F4-lPx"/>
+                                                </connections>
+                                            </switch>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Eu5-77-SHL">
+                                        <rect key="frame" x="0.0" y="41" width="355" height="31"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20 places" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o6v-v5-MBo">
+                                                <rect key="frame" x="0.0" y="0.0" width="298" height="31"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ll8-dW-rKH">
+                                                <rect key="frame" x="306" y="0.0" width="51" height="31"/>
+                                                <connections>
+                                                    <action selector="onAutoGenLikesSwitch:" destination="tfd-PA-zlV" eventType="valueChanged" id="yYr-Gp-QU6"/>
+                                                    <action selector="onMorePlaces:" destination="tfd-PA-zlV" eventType="valueChanged" id="IOG-G0-DTc"/>
+                                                </connections>
+                                            </switch>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="8bg-YL-3Do" firstAttribute="width" secondItem="MFo-Ms-mOI" secondAttribute="width" id="UIe-wO-7IO"/>
+                                    <constraint firstItem="8bg-YL-3Do" firstAttribute="centerX" secondItem="MFo-Ms-mOI" secondAttribute="centerX" id="Y5f-dS-ttl"/>
+                                    <constraint firstItem="Eu5-77-SHL" firstAttribute="width" secondItem="MFo-Ms-mOI" secondAttribute="width" id="aAK-gc-xal"/>
+                                </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="CjN-Zy-y5q" firstAttribute="trailing" secondItem="8bg-YL-3Do" secondAttribute="trailing" constant="12" id="3Wq-yV-z0I"/>
-                            <constraint firstItem="8bg-YL-3Do" firstAttribute="leading" secondItem="CjN-Zy-y5q" secondAttribute="leading" constant="12" id="IhT-5V-LKo"/>
-                            <constraint firstItem="8bg-YL-3Do" firstAttribute="top" secondItem="CjN-Zy-y5q" secondAttribute="top" constant="12" id="sJq-5U-drs"/>
+                            <constraint firstItem="MFo-Ms-mOI" firstAttribute="centerX" secondItem="8L7-b0-xJl" secondAttribute="centerX" id="8qb-zQ-Djt"/>
+                            <constraint firstItem="MFo-Ms-mOI" firstAttribute="top" secondItem="CjN-Zy-y5q" secondAttribute="top" constant="20" id="aPi-8e-BB2"/>
+                            <constraint firstItem="MFo-Ms-mOI" firstAttribute="width" secondItem="CjN-Zy-y5q" secondAttribute="width" constant="-20" id="sfe-Ms-foD"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="CjN-Zy-y5q"/>
                     </view>
@@ -310,6 +338,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="autoGenLikesSwitch" destination="JvC-He-kXG" id="KS2-SX-t6J"/>
+                        <outlet property="moreSwitch" destination="Ll8-dW-rKH" id="63m-vk-bp2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="My2-03-ndQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
