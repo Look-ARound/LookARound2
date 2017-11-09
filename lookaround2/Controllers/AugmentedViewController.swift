@@ -26,6 +26,8 @@ protocol AugmentedViewControllerDelegate : NSObjectProtocol {
 }
 
 class AugmentedViewController: UIViewController {
+    
+    // MARK: - Outlets
     @IBOutlet weak var sceneView: ARSCNView!
     @IBOutlet weak var controlsContainerView: UIView!
     @IBOutlet weak var mapView: MGLMapView!
@@ -36,10 +38,12 @@ class AugmentedViewController: UIViewController {
     @IBOutlet weak var filterButton: UIButton!
     @IBOutlet var clearDirectionsButton: UIButton!
     
+    // MARK: - Stored Properties
     var delegate: AugmentedViewControllerDelegate?
     var filterVC: FilterViewController!
     var showingFilters: Bool = false
     var numResults = 10
+    var placeArray: [Place]?
     
     // Use this to control how ARKit aligns itself to the world
     // Often ARKit can determine the direction of North well enough for
@@ -51,13 +55,13 @@ class AugmentedViewController: UIViewController {
     // Create an instance of MapboxDirections to simplify querying the Mapbox Directions API
     let directions = Directions.shared
     var annotationManager: AnnotationManager!
-    
     var directionsAnnotations = [Annotation]()
     
     // Define a shape collection that will be used to hold the point geometries that define the
     // directions routeline
     var waypointShapeCollectionFeature: MGLShapeCollectionFeature?
     
+    // MARK - Computed Properties
     var currentLocation: CLLocation {
         get {
             guard let userLocation = mapView.userLocation, let coreLocation = userLocation.location else {
@@ -79,9 +83,8 @@ class AugmentedViewController: UIViewController {
             return currentLocation.coordinate
         }
     }
-    
-    var placeArray: [Place]?
 
+    // MARK: - Lifecycles
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -92,7 +95,7 @@ class AugmentedViewController: UIViewController {
         // sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWorldOrigin]
         sceneView.scene = SCNScene()
         
-        // Create an AR annotation manager and give it a reference to the AR scene view
+        // Create a Directions AR annotation manager and give it a reference to the AR scene view
         annotationManager = AnnotationManager(sceneView: sceneView)
         annotationManager.delegate = self
         
