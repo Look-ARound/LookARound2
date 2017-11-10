@@ -96,7 +96,7 @@ class AugmentedViewController: ARViewController {
         
         // SceneKit
         // sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWorldOrigin]
-        sceneView.removeFromSuperview()
+        sceneView.scene = SCNScene()
         
         // Create a Directions AR annotation manager and give it a reference to the AR scene view
         annotationManager = AnnotationManager(sceneView: sceneView)
@@ -140,6 +140,8 @@ class AugmentedViewController: ARViewController {
         self.view.layoutIfNeeded() // Do this, otherwise frame.height will be incorrect
         mapTop.constant = mapView.frame.height
         mapBottom.constant = mapView.frame.height
+        
+        view.bringSubview(toFront: controlsContainerView)
     }
     
     func isMapHidden() -> Bool {
@@ -257,7 +259,8 @@ class AugmentedViewController: ARViewController {
         }
         print(annotationsToAdd.count)
         self.setAnnotations(annotationsToAdd)
-        self.reload(reloadType: .annotationsChanged)
+        view.bringSubview(toFront: controlsContainerView)
+        view.sendSubview(toBack: sceneView)
      }
     
     func refreshPins(withList list: List) {
@@ -336,11 +339,27 @@ class AugmentedViewController: ARViewController {
     
     // MARK: - Directions
     
+    func getDirections(for place: Place) {
+        // manage views
+        if isMapHidden() {
+            slideMap()
+        }
+        clearARDirections()
+        clear2DMapDirections()
+        hidePlacesExcept(place: place)
+        view.bringSubview(toFront: sceneView)
+        startSession()
+        view.bringSubview(toFront: controlsContainerView)
+        view.bringSubview(toFront: clearDirectionsButton)
+        
+        // create directions
+        queryDirections(with: place.location)
+        clearDirectionsButton.isHidden = false
+    }
+    
     // Query the directions endpoint with waypoints that are the current center location of the map
     // as the start and the passed in location as the end
     func queryDirections(with endLocation: CLLocation) {
-        sceneView.scene = SCNScene()
-        startSession()
         let waypoints = [
             Waypoint(coordinate: CLLocationCoordinate2D(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude), name: "start"),
             Waypoint(coordinate: CLLocationCoordinate2D(latitude: endLocation.coordinate.latitude, longitude: endLocation.coordinate.longitude), name: "end"),
@@ -502,7 +521,7 @@ class AugmentedViewController: ARViewController {
         clearARDirections()
         clear2DMapDirections()
         sceneView.session.pause()
-        sceneView.removeFromSuperview()
+        view.sendSubview(toBack: sceneView)
         
         // Perform first search again since the user may have changed locations
         performFirstSearch()
@@ -761,19 +780,6 @@ extension AugmentedViewController: MGLMapViewDelegate {
         }
     }
     
-}
-
-extension AugmentedViewController {
-    func getDirections(for place: Place) {
-        if isMapHidden() {
-            slideMap()
-        }
-        clearARDirections()
-        clear2DMapDirections()
-        hidePlacesExcept(place: place)
-        queryDirections(with: place.location)
-        clearDirectionsButton.isHidden = false
-    }
 }
 
 // MARK: - FilterViewControllerDelegate
