@@ -140,11 +140,11 @@ extension AnnotationManager: ARSCNViewDelegate {
         var height: CGFloat = 0.0
         
         if image.size.width >= image.size.height {
-            width = 4.0 * (image.size.width / image.size.height)
-            height = 4.0
+            width = 2.0 * (image.size.width / image.size.height)
+            height = 2.0
         } else {
-            width = 4.0
-            height = 4.0 * (image.size.height / image.size.width)
+            width = 2.0
+            height = 2.0 * (image.size.height / image.size.width)
         }
         
         let calloutGeometry = SCNPlane(width: width, height: height)
@@ -178,6 +178,11 @@ extension AnnotationManager: ARSCNViewDelegate {
         }
         let title = SCNText(string: calloutString, extrusionDepth: 0)
         title.font = UIFont.systemFont(ofSize: 1.5, weight: .bold)
+        
+        let callout = AugmentedCalloutView(for: annotation)
+        
+        let calloutGeometry = SCNPlane(width: 2.0, height: 2.0)
+        calloutGeometry.firstMaterial?.diffuse.contents = callout
 
         let calloutNode = SCNNode(geometry: title)
         var nodePosition = node.position

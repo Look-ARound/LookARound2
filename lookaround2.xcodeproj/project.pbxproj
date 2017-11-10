@@ -26,6 +26,7 @@
 		7747FEF11F9B409300366D54 /* lookaround2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7747FEF01F9B409300366D54 /* lookaround2Tests.swift */; };
 		7747FEFC1F9B409300366D54 /* lookaround2UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7747FEFB1F9B409300366D54 /* lookaround2UITests.swift */; };
 		7761D2C31F9B471C004FDB15 /* AugmentedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7761D2C21F9B471C004FDB15 /* AugmentedViewController.swift */; };
+		777501C81FB5E02900C27E83 /* AugmentedCalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 777501C71FB5E02900C27E83 /* AugmentedCalloutView.swift */; };
 		77795EA51F9DD670004C9610 /* ARCalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77795EA41F9DD670004C9610 /* ARCalloutView.swift */; };
 		7789498F1F9B618300910FD1 /* PlaceDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7789498B1F9B618200910FD1 /* PlaceDetailTableViewController.swift */; };
 		778949901F9B618300910FD1 /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7789498C1F9B618300910FD1 /* SearchResultsViewController.swift */; };
@@ -99,6 +100,7 @@
 		7761D2C21F9B471C004FDB15 /* AugmentedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AugmentedViewController.swift; sourceTree = "<group>"; };
 		7761D2C41F9B4844004FDB15 /* FilterUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterUtilities.swift; sourceTree = "<group>"; };
 		7761D2C51F9B4844004FDB15 /* GraphRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphRequests.swift; sourceTree = "<group>"; };
+		777501C71FB5E02900C27E83 /* AugmentedCalloutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AugmentedCalloutView.swift; sourceTree = "<group>"; };
 		77795EA41F9DD670004C9610 /* ARCalloutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCalloutView.swift; sourceTree = "<group>"; };
 		778949811F9B603C00910FD1 /* LABrand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LABrand.swift; sourceTree = "<group>"; };
 		778949821F9B603C00910FD1 /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
@@ -275,6 +277,7 @@
 				702F12D51FA0471F00E86482 /* HeaderCell.swift */,
 				77BD47BC1FA1EB8200F485A8 /* DetailButton.swift */,
 				7791D8781FA2B0BB00DFD147 /* DirectionsButton.swift */,
+				777501C71FB5E02900C27E83 /* AugmentedCalloutView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -588,6 +591,7 @@
 				7789499C1F9B625100910FD1 /* DefaultCell.swift in Sources */,
 				778949951F9B623A00910FD1 /* LookAnchor.swift in Sources */,
 				7089677D1FAA2C950082F0DE /* DebugViewController.swift in Sources */,
+				777501C81FB5E02900C27E83 /* AugmentedCalloutView.swift in Sources */,
 				778949971F9B624100910FD1 /* Annotation.swift in Sources */,
 				778949901F9B618300910FD1 /* SearchResultsViewController.swift in Sources */,
 				7478B9C71F9D2BA100EB62F5 /* List.swift in Sources */,
@@ -765,7 +769,7 @@
 				DEVELOPMENT_TEAM = PUQ8TNP3W4;
 				INFOPLIST_FILE = lookaround2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.artek.LookARound.wangela;
+				PRODUCT_BUNDLE_IDENTIFIER = com.codepath.lookaround2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
@@ -786,7 +790,7 @@
 				INFOPLIST_FILE = lookaround2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.artek.LookARound.wangela;
+				PRODUCT_BUNDLE_IDENTIFIER = com.codepath.lookaround2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
