@@ -96,7 +96,7 @@ class AugmentedViewController: ARViewController {
         
         // SceneKit
         // sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWorldOrigin]
-        sceneView.scene = SCNScene()
+        sceneView.removeFromSuperview()
         
         // Create a Directions AR annotation manager and give it a reference to the AR scene view
         annotationManager = AnnotationManager(sceneView: sceneView)
@@ -339,6 +339,8 @@ class AugmentedViewController: ARViewController {
     // Query the directions endpoint with waypoints that are the current center location of the map
     // as the start and the passed in location as the end
     func queryDirections(with endLocation: CLLocation) {
+        sceneView.scene = SCNScene()
+        startSession()
         let waypoints = [
             Waypoint(coordinate: CLLocationCoordinate2D(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude), name: "start"),
             Waypoint(coordinate: CLLocationCoordinate2D(latitude: endLocation.coordinate.latitude, longitude: endLocation.coordinate.longitude), name: "end"),
@@ -499,6 +501,8 @@ class AugmentedViewController: ARViewController {
         // Remove all annotations related to directions
         clearARDirections()
         clear2DMapDirections()
+        sceneView.session.pause()
+        sceneView.removeFromSuperview()
         
         // Perform first search again since the user may have changed locations
         performFirstSearch()

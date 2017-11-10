@@ -66,7 +66,7 @@ class AnnotationView: ARAnnotationView {
             self.addSubview(subtitleLabel)
         }
         
-        self.backgroundColor = UIColor(white: 1.0, alpha: 0.6)
+        self.backgroundColor = UIColor(white: 1.0, alpha: 0.8)
         self.layer.cornerRadius = 5
         self.clipsToBounds = true
         updateViewFrame(view: self)
