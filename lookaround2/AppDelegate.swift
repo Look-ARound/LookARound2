@@ -42,7 +42,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         augmentedVC.delegate = hamburgerViewController
         augmentedVC.filterVC = filterViewController
         augmentedVC.uiOptions.closeButtonEnabled = false
-        augmentedVC.uiOptions.debugLabel = true
         augmentedVC.dataSource = augmentedVC
         augmentedVC.presenter.presenterTransform = ARPresenterStackTransform()
 

@@ -631,7 +631,7 @@ extension AugmentedViewController: MGLMapViewDelegate {
         performFirstSearch()
         
         // Add our own gesture recognizer to handle taps on our AR annotations.
-        sceneView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onMapTap(recognizer:))))
+        //sceneView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onMapTap(recognizer:))))
     }
     
     func mapView(_ mapView: MGLMapView, didFinishLoading style: MGLStyle) {
