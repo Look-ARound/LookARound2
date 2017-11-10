@@ -31,7 +31,7 @@ class AugmentedCalloutView: UIView {
     public init(for annotation: Annotation)
     {
         self.annotation = annotation
-        super.init(frame: CGRect.zero)
+        super.init()
         self.initializeInternal()
     }
     
