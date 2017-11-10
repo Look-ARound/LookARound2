@@ -830,7 +830,7 @@ extension AugmentedViewController {
             self.view.layoutIfNeeded()
         }, completion: nil)
         UIView.animate(withDuration: 0.3) {
-            self.modelDetailView.frame.origin.y = self.view.frame.height - 200
+            self.modelDetailView.frame.origin.y = self.view.frame.height - 230
         }
     }
     
@@ -853,19 +853,21 @@ extension AugmentedViewController {
     func addModelDetailView() {
         modelDetailView = UIView(frame: CGRect(x: 20, y: self.view.frame.height, width: self.view.frame.width - 40, height: 200))
         modelDetailView.backgroundColor = .white
-        let path = UIBezierPath(roundedRect:modelDetailView.bounds,
-                                byRoundingCorners:[.topRight, .topLeft],
-                                cornerRadii: CGSize(width: 20, height:  20))
-        let maskLayer = CAShapeLayer()
-        maskLayer.path = path.cgPath
-        modelDetailView.layer.mask = maskLayer
+        modelDetailView.layer.masksToBounds = true
+        modelDetailView.layer.cornerRadius = 20
+//        let path = UIBezierPath(roundedRect:modelDetailView.bounds,
+//                                byRoundingCorners:[.topRight, .topLeft],
+//                                cornerRadii: CGSize(width: 20, height:  20))
+//        let maskLayer = CAShapeLayer()
+//        maskLayer.path = path.cgPath
+//        modelDetailView.layer.mask = maskLayer
         modelDetailView.isUserInteractionEnabled = true
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(onShowMoreDetailTap))
         modelDetailView.addGestureRecognizer(tapGestureRecognizer)
         placeImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: modelDetailView.frame.width, height: modelDetailView.frame.height / 2))
         placeImageView.contentMode = .scaleAspectFill
         placeImageView.clipsToBounds = true
-        placeNameLabel = UILabel(frame: CGRect(x: 8, y: modelDetailView.frame.height / 2 + 8, width: modelDetailView.frame.width - 8, height: 40))
+        placeNameLabel = UILabel(frame: CGRect(x: 8, y: modelDetailView.frame.height / 2 + 8, width: modelDetailView.frame.width - 16, height: modelDetailView.frame.height / 2 - 16))
         placeNameLabel.numberOfLines = 0
         placeNameLabel.textAlignment = .center
         placeNameLabel.font = UIFont.systemFont(ofSize: 20, weight: .light)
