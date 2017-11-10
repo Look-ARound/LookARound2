@@ -31,7 +31,7 @@ class AugmentedCalloutView: UIView {
     public init(for annotation: Annotation)
     {
         self.annotation = annotation
-        super.init()
+        super.init(frame: CGRect(x: 0, y: 0, width: 150, height: 60))
         self.initializeInternal()
     }
     
@@ -65,7 +65,7 @@ class AugmentedCalloutView: UIView {
     /// Will always be called once, no need to call super
     open func initialize()
     {
-        
+        loadUI()
     }
     
     /// Called when distance/azimuth changes, intended to be used in subclasses
@@ -99,19 +99,19 @@ class AugmentedCalloutView: UIView {
         if let titleLabel = titleLabel {
             titleLabel.font = UIFont.systemFont(ofSize: 16)
             titleLabel.numberOfLines = 0
-            titleLabel.textColor = UIColor.LABrand.primary
+            titleLabel.textColor = UIColor.LABrand.accent
             updateLabelFrame(label: titleLabel)
             self.addSubview(titleLabel)
         }
         
         if let subtitleLabel = subtitleLabel {
             subtitleLabel.font = UIFont.systemFont(ofSize: 16)
-            subtitleLabel.textColor = UIColor.black
+            subtitleLabel.textColor = UIColor.white
             updateLabelFrame(label: subtitleLabel)
             self.addSubview(subtitleLabel)
         }
         
-        self.backgroundColor = UIColor(white: 1.0, alpha: 0.8)
+        self.backgroundColor = UIColor(white: 0.0, alpha: 0.6)
         self.layer.cornerRadius = 5
         self.clipsToBounds = true
         updateViewFrame(view: self)

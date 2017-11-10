@@ -104,6 +104,7 @@ extension AnnotationManager: ARSCNViewDelegate {
             // If the delegate supplied a node then use that, otherwise provide a basic default node
             if let suppliedNode = delegate?.node?(for: annotation) {
                 newNode = suppliedNode
+                //newNode = createDefaultNode()
             } else {
                 newNode = createDefaultNode()
             }
@@ -180,9 +181,12 @@ extension AnnotationManager: ARSCNViewDelegate {
         title.font = UIFont.systemFont(ofSize: 1.5, weight: .bold)
         
         let callout = AugmentedCalloutView(for: annotation)
+        let geoWidth = callout.frame.size.width / 20
+        let geoHeight = callout.frame.size.height / 20
         
-        let calloutGeometry = SCNPlane(width: 2.0, height: 2.0)
-        calloutGeometry.firstMaterial?.fillMode = .fill
+        let calloutGeometry = SCNPlane(width: geoWidth, height: geoHeight)
+        
+        //calloutGeometry.firstMaterial?.fillMode = .fill
         calloutGeometry.firstMaterial?.diffuse.contents = callout
 
         let calloutNode = SCNNode(geometry: calloutGeometry)
@@ -190,7 +194,7 @@ extension AnnotationManager: ARSCNViewDelegate {
         let (cmin, cmax) = calloutNode.boundingBox
         let (min, max) = node.boundingBox
         let calloutWidth = cmax.x - cmin.x
-        nodePosition.y = max.y + 0.5
+        nodePosition.y = max.y + 2.0
         nodePosition.x -= calloutWidth/2
         
         calloutNode.position = nodePosition
