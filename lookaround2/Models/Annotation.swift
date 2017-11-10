@@ -10,8 +10,9 @@
 import UIKit
 import CoreLocation
 import Mapbox
+import HDAugmentedReality
 
-public class Annotation: NSObject, MGLAnnotation {
+public class Annotation: ARAnnotation, MGLAnnotation {
     
     public var location: CLLocation
     public var nodeImage: UIImage?
@@ -31,6 +32,7 @@ public class Annotation: NSObject, MGLAnnotation {
         self.coordinate = coordinate
         self.title = title
         self.subtitle = subtitle
+        self.identifier = subtitle
         self.location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
     }
     
@@ -50,6 +52,7 @@ public class Annotation: NSObject, MGLAnnotation {
                     self.subtitle = nil
                 }
             }
+            self.identifier = self.subtitle
         }
         if let image = calloutImage {
             self.calloutImage = image
@@ -65,6 +68,7 @@ public class Annotation: NSObject, MGLAnnotation {
             if let friendCount = myPlace.contextCount {
                 if friendCount > 0 {
                     self.subtitle = "\(friendCount) friends like this"
+                    self.identifier = self.subtitle
                 }
             }
         }

@@ -15,6 +15,8 @@ import CoreLocation
 import FacebookCore
 import FacebookLogin
 
+import HDAugmentedReality
+
 import Mapbox
 import MapboxDirections
 import MapboxARKit
@@ -44,6 +46,7 @@ class AugmentedViewController: UIViewController {
     var showingFilters: Bool = false
     var numResults = 10
     var placeArray: [Place]?
+    fileprivate var arViewController: ARViewController!
     
     // Use this to control how ARKit aligns itself to the world
     // Often ARKit can determine the direction of North well enough for
@@ -90,6 +93,9 @@ class AugmentedViewController: UIViewController {
 
         // Configure and style the 2D map view
         configureMapboxMapView()
+        
+        // Configure HD Augmented VC
+        setupARVC()
         
         // SceneKit
         // sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWorldOrigin]
@@ -169,6 +175,15 @@ class AugmentedViewController: UIViewController {
         //mapView.setCenter(CLLocationCoordinate2DMake(23.7909714, 90.4014137), zoomLevel: 14, animated: true)
     }
     
+    //MARK: - ARVC setup
+    func setupARVC() {
+        arViewController = ARViewController()
+        
+        arViewController.dataSource = self
+        
+        self.present(arViewController, animated: true, completion: nil)
+    }
+    
     // MARK: - AR scene setup
     
     private func startSession() {
@@ -223,9 +238,19 @@ class AugmentedViewController: UIViewController {
         }
     }
     
+    // MARK: - Generate AR pins
+    func ar(_ viewController: ARViewController, viewForAnnotation: Annotation) -> AnnotationView
+    {
+        // Annotation views should be lightweight views, try to avoid xibs and autolayout all together.
+        let annotationView = AnnotationView()
+        annotationView.frame = CGRect(x: 0,y: 0,width: 150,height: 50)
+        return annotationView;
+    }
+    
     // MARK: - Manage Places and AR Pins
     func addPlaces( places: [Place] ) {
         print( "* places.count=\(places.count)")
+        var annotationsToAdd: [Annotation]
         
         for index in 0..<places.count {
             let place = places[index]
@@ -243,11 +268,16 @@ class AugmentedViewController: UIViewController {
             
             self.annotationManager.addAnnotation(annotation: annotation2D)
             
+            annotationsToAdd.append(annotation2D)
+            
             guard let placename = annotation2D.place?.name else {
                 return
             }
             print(placename)
         }
+
+        arViewController.setAnnotations(annotationsToAdd)
+        self.present(arViewController, animated: true, completion: nil)
     
     }
     
@@ -499,6 +529,24 @@ class AugmentedViewController: UIViewController {
         let detailVC = detailNavVC.topViewController as! PlaceDetailViewController
         detailVC.place = place
         present(detailNavVC, animated: true, completion: nil)
+    }
+}
+
+// MARK: - HD Augmented Data Source
+extension AugmentedViewController: ARDataSource {
+    func ar(_ arViewController: ARViewController, viewForAnnotation: ARAnnotation) -> ARAnnotationView {
+        let annotationView = AnnotationView()
+        annotationView.annotation = viewForAnnotation
+        annotationView.delegate = self
+        annotationView.frame = CGRect(x: 0, y: 0, width: 150, height: 50)
+        
+        return annotationView
+    }
+}
+
+extension ViewController: AnnotationViewDelegate {
+    func didTouch(annotationView: AnnotationView) {
+        print("Tapped view for POI: \(annotationView.titleLabel?.text)")
     }
 }
 
