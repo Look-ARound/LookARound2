@@ -10,6 +10,7 @@ import UIKit
 import FacebookCore
 import FacebookLogin
 import FirebaseCore
+import HDAugmentedReality
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -30,13 +31,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let augmentedNavController = storyboard.instantiateViewController(withIdentifier: "AugmentedNavigationController") as! UINavigationController
         
-        let augmentedVC = augmentedNavController.childViewControllers[0] as! AugmentedViewController
+        guard let augmentedVC = augmentedNavController.childViewControllers[0] as? AugmentedViewController else {
+            print("downcast of augmentedVC failed")
+            return true
+        }
         
         hamburgerViewController.filterViewController = filterViewController
         hamburgerViewController.contentViewController = augmentedNavController
+        filterViewController.delegate = augmentedVC
         augmentedVC.delegate = hamburgerViewController
         augmentedVC.filterVC = filterViewController
-        filterViewController.delegate = augmentedVC
+        augmentedVC.uiOptions.closeButtonEnabled = false
+        augmentedVC.uiOptions.debugLabel = true
+        augmentedVC.dataSource = augmentedVC
+        augmentedVC.presenter.presenterTransform = ARPresenterStackTransform()
+
         
         window?.rootViewController = hamburgerViewController
         return true

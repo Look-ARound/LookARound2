@@ -27,7 +27,7 @@ protocol AugmentedViewControllerDelegate : NSObjectProtocol {
     func hideFilters(_augmentedViewController: AugmentedViewController)
 }
 
-class AugmentedViewController: UIViewController {
+class AugmentedViewController: ARViewController {
     
     // MARK: - Outlets
     @IBOutlet weak var sceneView: ARSCNView!
@@ -46,7 +46,7 @@ class AugmentedViewController: UIViewController {
     var showingFilters: Bool = false
     var numResults = 10
     var placeArray: [Place]?
-    fileprivate var arViewController: ARViewController!
+    //fileprivate var arViewController: ARViewController!
     
     // Use this to control how ARKit aligns itself to the world
     // Often ARKit can determine the direction of North well enough for
@@ -94,9 +94,6 @@ class AugmentedViewController: UIViewController {
         // Configure and style the 2D map view
         configureMapboxMapView()
         
-        // Configure HD Augmented VC
-        setupARVC()
-        
         // SceneKit
         // sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWorldOrigin]
         sceneView.scene = SCNScene()
@@ -118,7 +115,7 @@ class AugmentedViewController: UIViewController {
         super.viewDidAppear(animated)
         
         // Start the AR session
-        startSession()
+        //startSession()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -173,14 +170,6 @@ class AugmentedViewController: UIViewController {
         
         // Uncomment this line to use Dhaka location
         //mapView.setCenter(CLLocationCoordinate2DMake(23.7909714, 90.4014137), zoomLevel: 14, animated: true)
-    }
-    
-    //MARK: - ARVC setup
-    func setupARVC() {
-        arViewController = ARViewController()
-        
-        arViewController.dataSource = self
-        arViewController.presenter.presenterTransform = ARPresenterStackTransform()
     }
     
     // MARK: - AR scene setup
@@ -266,10 +255,10 @@ class AugmentedViewController: UIViewController {
                 print(placename)
             }
         }
-
-        arViewController.setAnnotations(annotationsToAdd)
-        self.present(arViewController, animated: true, completion: nil)
-    }
+        print(annotationsToAdd.count)
+        self.setAnnotations(annotationsToAdd)
+        self.reload(reloadType: .annotationsChanged)
+     }
     
     func refreshPins(withList list: List) {
         removeExistingPins()
@@ -334,8 +323,7 @@ class AugmentedViewController: UIViewController {
         
         // Remove existing pins from HDAR view
         let noAnnotations: [Annotation] = []
-        arViewController.setAnnotations(noAnnotations)
-        arViewController.dismiss(animated: true, completion: nil)
+        self.setAnnotations(noAnnotations)
     }
     
     func hidePlacesExcept(place: Place) {
@@ -534,16 +522,19 @@ extension AugmentedViewController: ARDataSource {
     func ar(_ arViewController: ARViewController, viewForAnnotation: ARAnnotation) -> ARAnnotationView {
         let annotationView = AnnotationView()
         annotationView.annotation = viewForAnnotation
-        annotationView.delegate = self as? AnnotationViewDelegate
+        annotationView.delegate = self
         annotationView.frame = CGRect(x: 0, y: 0, width: 150, height: 50)
         
         return annotationView
     }
 }
 
-extension ViewController: AnnotationViewDelegate {
+extension AugmentedViewController: AnnotationViewDelegate {
     func didTouch(annotationView: AnnotationView) {
         print("Tapped view for POI: \(annotationView.titleLabel?.text)")
+        if let annotation = annotationView.annotation as? Annotation, let tappedPlace = annotation.place {
+            showDetailVC(forPlace: tappedPlace)
+        }
     }
 }
 
@@ -637,11 +628,10 @@ extension AugmentedViewController: MGLMapViewDelegate {
     
     func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
         annotationManager.originLocation = currentLocation
+        performFirstSearch()
         
         // Add our own gesture recognizer to handle taps on our AR annotations.
         sceneView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onMapTap(recognizer:))))
-
-        performFirstSearch()
     }
     
     func mapView(_ mapView: MGLMapView, didFinishLoading style: MGLStyle) {
