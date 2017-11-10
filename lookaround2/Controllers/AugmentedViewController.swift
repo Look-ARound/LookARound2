@@ -180,8 +180,7 @@ class AugmentedViewController: UIViewController {
         arViewController = ARViewController()
         
         arViewController.dataSource = self
-        
-        self.present(arViewController, animated: true, completion: nil)
+        arViewController.presenter.presenterTransform = ARPresenterStackTransform()
     }
     
     // MARK: - AR scene setup
@@ -238,19 +237,10 @@ class AugmentedViewController: UIViewController {
         }
     }
     
-    // MARK: - Generate AR pins
-    func ar(_ viewController: ARViewController, viewForAnnotation: Annotation) -> AnnotationView
-    {
-        // Annotation views should be lightweight views, try to avoid xibs and autolayout all together.
-        let annotationView = AnnotationView()
-        annotationView.frame = CGRect(x: 0,y: 0,width: 150,height: 50)
-        return annotationView;
-    }
-    
     // MARK: - Manage Places and AR Pins
     func addPlaces( places: [Place] ) {
         print( "* places.count=\(places.count)")
-        var annotationsToAdd: [Annotation]
+        var annotationsToAdd: [Annotation] = []
         
         for index in 0..<places.count {
             let place = places[index]
@@ -263,22 +253,22 @@ class AugmentedViewController: UIViewController {
             //}
             // let distanceStr = "\(distance) meters"
             
-            let annotation2D = Annotation(location: location, nodeImage: #imageLiteral(resourceName: "pin"), calloutImage: nil, place: place)
-            mapView.addAnnotation(annotation2D)
-            
-            self.annotationManager.addAnnotation(annotation: annotation2D)
-            
-            annotationsToAdd.append(annotation2D)
-            
-            guard let placename = annotation2D.place?.name else {
-                return
+            if let annotation2D = Annotation(location: location, nodeImage: #imageLiteral(resourceName: "pin"), calloutImage: nil, place: place) {
+                mapView.addAnnotation(annotation2D)
+                
+                //self.annotationManager.addAnnotation(annotation: annotation2D)
+                
+                annotationsToAdd.append(annotation2D)
+                
+                guard let placename = annotation2D.place?.name else {
+                    return
+                }
+                print(placename)
             }
-            print(placename)
         }
 
         arViewController.setAnnotations(annotationsToAdd)
         self.present(arViewController, animated: true, completion: nil)
-    
     }
     
     func refreshPins(withList list: List) {
@@ -341,6 +331,11 @@ class AugmentedViewController: UIViewController {
         if let existingAnnotations = mapView.annotations {
             mapView.removeAnnotations(existingAnnotations)
         }
+        
+        // Remove existing pins from HDAR view
+        let noAnnotations: [Annotation] = []
+        arViewController.setAnnotations(noAnnotations)
+        arViewController.dismiss(animated: true, completion: nil)
     }
     
     func hidePlacesExcept(place: Place) {
@@ -387,8 +382,9 @@ class AugmentedViewController: UIViewController {
                         self.updateShapeCollectionFeature(&self.waypointShapeCollectionFeature, with: stepLocation, typeKey: "waypoint-type", typeAttribute: "big")
                         
                         // Add an AR node
-                        let annotation = Annotation(location: stepLocation, calloutImage: self.calloutImage(for: step.description), place: nil)
-                        self.directionsAnnotations.append(annotation)
+                        if let annotation = Annotation(location: stepLocation, calloutImage: self.calloutImage(for: step.description), place: nil) {
+                            self.directionsAnnotations.append(annotation)
+                        }
                     }
                 }
                 
@@ -405,8 +401,9 @@ class AugmentedViewController: UIViewController {
                         self.updateShapeCollectionFeature(&self.waypointShapeCollectionFeature, with: interpolatedStepLocation, typeKey: "waypoint-type", typeAttribute: "small")
                         
                         // Add an AR node
-                        let annotation = Annotation(location: interpolatedStepLocation, calloutImage: nil, place: nil)
-                        self.directionsAnnotations.append(annotation)
+                        if let annotation = Annotation(location: interpolatedStepLocation, calloutImage: nil, place: nil) {
+                            self.directionsAnnotations.append(annotation)
+                        }
                     }
                 }
                 
@@ -537,7 +534,7 @@ extension AugmentedViewController: ARDataSource {
     func ar(_ arViewController: ARViewController, viewForAnnotation: ARAnnotation) -> ARAnnotationView {
         let annotationView = AnnotationView()
         annotationView.annotation = viewForAnnotation
-        annotationView.delegate = self
+        annotationView.delegate = self as? AnnotationViewDelegate
         annotationView.frame = CGRect(x: 0, y: 0, width: 150, height: 50)
         
         return annotationView

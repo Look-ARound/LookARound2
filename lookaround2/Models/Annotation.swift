@@ -14,34 +14,35 @@ import HDAugmentedReality
 
 public class Annotation: ARAnnotation, MGLAnnotation {
     
-    public var location: CLLocation
+    //public var location: CLLocation
     public var nodeImage: UIImage?
     public var calloutImage: UIImage?
     public var anchor: LookAnchor?
     var place: Place?
     
     public var coordinate: CLLocationCoordinate2D
-    public var title: String?
+    //public var title: String?
     public var subtitle: String?
     
     // Custom properties that we will use to customize the annotation's image.
     var image: UIImage?
     var reuseIdentifier: String?
     
-    init(coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?) {
+    init?(coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?) {
         self.coordinate = coordinate
-        self.title = title
+        //self.title = title
         self.subtitle = subtitle
-        self.identifier = subtitle
-        self.location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        let loc = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        super.init(identifier: subtitle, title: title, location: loc)
     }
     
-    init(location: CLLocation, calloutImage: UIImage?, place: Place?) {
-        self.location = location
+    init?(location: CLLocation, calloutImage: UIImage?, place: Place?) {
+        //self.location = location
+        var placeTitle = ""
         self.coordinate = location.coordinate
         if let myPlace = place {
             self.place = myPlace
-            self.title = myPlace.name
+            placeTitle = myPlace.name
             if let friendCount = myPlace.contextCount {
                 switch friendCount {
                 case 1:
@@ -52,23 +53,23 @@ public class Annotation: ARAnnotation, MGLAnnotation {
                     self.subtitle = nil
                 }
             }
-            self.identifier = self.subtitle
         }
         if let image = calloutImage {
             self.calloutImage = image
         }
+        super.init(identifier: subtitle, title: placeTitle, location: location)
     }
     
-    init(location: CLLocation, nodeImage: UIImage?, calloutImage: UIImage?, place: Place?) {
-        self.location = location
+    init?(location: CLLocation, nodeImage: UIImage?, calloutImage: UIImage?, place: Place?) {
+        //self.location = location
+        var placeTitle = ""
         self.coordinate = location.coordinate
         if let myPlace = place {
             self.place = myPlace
-            self.title = myPlace.name
+            placeTitle = myPlace.name
             if let friendCount = myPlace.contextCount {
                 if friendCount > 0 {
                     self.subtitle = "\(friendCount) friends like this"
-                    self.identifier = self.subtitle
                 }
             }
         }
@@ -78,6 +79,7 @@ public class Annotation: ARAnnotation, MGLAnnotation {
         if let calloutImage = calloutImage {
             self.calloutImage = calloutImage
         }
+        super.init(identifier: subtitle, title: placeTitle, location: location)
     }
     
 }
