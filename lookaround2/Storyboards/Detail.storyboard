@@ -265,7 +265,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kHX-hx-nFi" userLabel="Modal View">
                                 <rect key="frame" x="30" y="124" width="315" height="483"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MUS-ed-P4y">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MUS-ed-P4y" userLabel="Header View">
                                         <rect key="frame" x="0.0" y="0.0" width="315" height="64"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CDF-sg-grL">
@@ -285,6 +285,12 @@
                                                 <state key="normal" title="Add Tip">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="masksToBounds" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                        <integer key="value" value="5"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
                                                 <connections>
                                                     <action selector="onAddTip:" destination="lsg-RI-Zg0" eventType="touchUpInside" id="tH6-MA-s2L"/>
                                                 </connections>
@@ -312,6 +318,11 @@
                                         <rect key="frame" x="0.0" y="64" width="315" height="419"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <view key="tableFooterView" contentMode="scaleToFill" id="e1P-WK-x6T" userLabel="Hide Extra Rows View">
+                                            <rect key="frame" x="0.0" y="429" width="315" height="0.0"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </view>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="placeImageCell" rowHeight="150" id="zb1-2W-JnV" customClass="PlaceImageTableViewCell" customModule="lookaround2" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="315" height="150"/>
