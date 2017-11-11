@@ -38,6 +38,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         augmentedVC.filterVC = filterViewController
         filterViewController.delegate = augmentedVC
         
+        let dStoryboard = UIStoryboard(name: "Detail", bundle: nil)
+        let detailNavVC = dStoryboard.instantiateViewController(withIdentifier: "PlaceDetailNavVC") as! UINavigationController
+        let detailVC = detailNavVC.childViewControllers[0] as! PlaceDetailViewController
+        hamburgerViewController.detailNavController = detailNavVC
+        hamburgerViewController.detailViewController = detailVC
+        
         window?.rootViewController = hamburgerViewController
         return true
     }

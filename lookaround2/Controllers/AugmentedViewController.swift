@@ -23,6 +23,7 @@ import Turf
 protocol AugmentedViewControllerDelegate : NSObjectProtocol {
     func revealFilters(_augmentedViewController: AugmentedViewController)
     func hideFilters(_augmentedViewController: AugmentedViewController)
+    func showDetail(place: Place)
 }
 
 class AugmentedViewController: UIViewController {
@@ -810,7 +811,7 @@ extension AugmentedViewController {
     }
 }
 
-// MARK: - Something
+// MARK: - Place Detail presentation
 
 extension AugmentedViewController {
     func changePlaceDetailForDetailModelView(place: Place) {
@@ -843,11 +844,9 @@ extension AugmentedViewController {
     @objc func onShowMoreDetailTap() {
         dismissDetailView()
         guard let place = currSelectedPlace else { return }
-        let storyboard = UIStoryboard(name: "Detail", bundle: nil)
-        let detailNavVC = storyboard.instantiateViewController(withIdentifier: "PlaceDetailNavVC") as! UINavigationController
-        let detailVC = detailNavVC.topViewController as! PlaceDetailViewController
-        detailVC.place = place
-        present(detailNavVC, animated: true, completion: nil)
+
+        delegate?.showDetail(place: place)
+        
     }
     
     func addModelDetailView() {
