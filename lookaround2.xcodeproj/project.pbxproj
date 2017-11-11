@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		411C2EB31FB38FE60011C8CE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 411C2EB21FB38FE60011C8CE /* GoogleService-Info.plist */; };
 		411C2EB91FB3907A0011C8CE /* PlaceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411C2EB81FB3907A0011C8CE /* PlaceDetailViewController.swift */; };
-		416D9B361FB638A300C5C001 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 416D9B351FB638A300C5C001 /* GoogleService-Info.plist */; };
 		416D9B381FB63D2600C5C001 /* PlaceImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416D9B371FB63D2600C5C001 /* PlaceImageTableViewCell.swift */; };
 		416D9B3B1FB63D7700C5C001 /* PlaceDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416D9B3A1FB63D7700C5C001 /* PlaceDetailCell.swift */; };
 		416D9B3D1FB63FF500C5C001 /* PlaceTipsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416D9B3C1FB63FF500C5C001 /* PlaceTipsCell.swift */; };
@@ -78,7 +77,6 @@
 		0E5AFF4092DEDBCD196BF743 /* Pods_lookaround2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_lookaround2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		411C2EB21FB38FE60011C8CE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		411C2EB81FB3907A0011C8CE /* PlaceDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceDetailViewController.swift; sourceTree = "<group>"; };
-		416D9B351FB638A300C5C001 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		416D9B371FB63D2600C5C001 /* PlaceImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceImageTableViewCell.swift; sourceTree = "<group>"; };
 		416D9B3A1FB63D7700C5C001 /* PlaceDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailCell.swift; sourceTree = "<group>"; };
 		416D9B3C1FB63FF500C5C001 /* PlaceTipsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceTipsCell.swift; sourceTree = "<group>"; };
@@ -215,7 +213,6 @@
 				7737274C1FA0805A00975D68 /* fb_access */,
 				7737274D1FA0805A00975D68 /* mapbox_access_token */,
 				411C2EB21FB38FE60011C8CE /* GoogleService-Info.plist */,
-				416D9B351FB638A300C5C001 /* GoogleService-Info.plist */,
 				497B925B1F9DADA200052A77 /* 3rd Party Libraries */,
 				7747FF0A1F9B415100366D54 /* API */,
 				7747FF0E1F9B416A00366D54 /* Models */,
@@ -445,7 +442,6 @@
 				778949A01F9B626700910FD1 /* Login.storyboard in Resources */,
 				7789499F1F9B626400910FD1 /* Filter.storyboard in Resources */,
 				411C2EB31FB38FE60011C8CE /* GoogleService-Info.plist in Resources */,
-				416D9B361FB638A300C5C001 /* GoogleService-Info.plist in Resources */,
 				7747FEE11F9B409300366D54 /* Main.storyboard in Resources */,
 				7789499E1F9B626100910FD1 /* Detail.storyboard in Resources */,
 			);
@@ -790,7 +786,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = M6ZVBN5V88;
+				DEVELOPMENT_TEAM = PUQ8TNP3W4;
 				INFOPLIST_FILE = lookaround2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codepath.lookaround2;
@@ -810,7 +806,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = M6ZVBN5V88;
+				DEVELOPMENT_TEAM = PUQ8TNP3W4;
 				INFOPLIST_FILE = lookaround2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
