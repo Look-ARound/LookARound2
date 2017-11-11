@@ -79,7 +79,7 @@ class AugmentedViewController: UIViewController {
             return coreLocation // SETLOCATION(1/2) uncomment this line to use actual current location
             //return CLLocation(latitude: 37.48443, longitude: -122.14819) // uncomment this line to use Facebook building 15
             //return CLLocation(latitude: 37.7837851, longitude: -122.4334173) // uncomment this line to use SF location
-            //return CLLocation(latitude: 35.6600201, longitude: 139.697973) // uncomment this line to use Tokyo location
+            //return CLLocation(latitude: 35.6471564, longitude: 139.7075507) // uncomment this line to use Tokyo location
             //return CLLocation(latitude: 40.7408932, longitude: -74.0070035) // uncomment this line to use NYC location
             //return CLLocation(latitude: 36.1815789, longitude: -86.7348512) // uncomment this line to use Nashville location
             //return CLLocation(latitude: 23.7909714, longitude: 90.4014137) // uncomment this line to use Dhaka location
@@ -171,8 +171,8 @@ class AugmentedViewController: UIViewController {
         // Uncomment this line to use SF location
         //mapView.setCenter(CLLocationCoordinate2DMake(37.7837851, -122.4334173), zoomLevel: 12, animated: true)
         
-        // Uncomment this line to use Tokyo location
-        //mapView.setCenter(CLLocationCoordinate2DMake(35.6600201, 139.697973), zoomLevel: 15, animated: true)
+        // Uncomment this line to use Tokyo-Ebisu location
+        //mapView.setCenter(CLLocationCoordinate2DMake(35.6471564, 139.7075507), zoomLevel: 15, animated: true)
         
         // Uncomment this line to use NYC location
         //mapView.setCenter(CLLocationCoordinate2DMake(40.7408932, -74.0070035), zoomLevel: 14, animated: true)
