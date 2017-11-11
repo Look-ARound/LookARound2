@@ -19,29 +19,20 @@ fileprivate enum OperationType {
     case remove
 }
 
-internal class PlaceDetailViewController: UIViewController {
+internal class PlaceDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     // MARK: - Outlets
     
     @IBOutlet private var modalView: UIView!
-    @IBOutlet private var placeImageView: UIImageView!
-    @IBOutlet private var nameLabel: UILabel!
-    @IBOutlet private var categoryLabel: UILabel!
-    @IBOutlet private var checkinsCountLabel: UILabel!
-    @IBOutlet private var friendsCountLabel: UILabel!
-    @IBOutlet private var facebookLikeButtonView: UIView!
-    @IBOutlet private var addressLabel: UILabel!
-    @IBOutlet private var aboutLabel: UILabel!
-    @IBOutlet private var directionsButton: UIButton!
-    @IBOutlet private var checkInImageView: UIImageView!
-    @IBOutlet private var likeImageView: UIImageView!
     @IBOutlet private var bookMarkButton: UIButton!
-    @IBOutlet private var mapView: MGLMapView!
+    @IBOutlet private var tableView: UITableView!
+    @IBOutlet weak var addTipButton: UIButton!
+    @IBOutlet weak var addListButton: UIButton!
     
     // MARK: - Stored Properties
     
     internal var place: Place!
-    internal var tips: [Tip]?
+    internal var tips = [Tip]()
     
     // MARK: - Computed Properties
     
@@ -56,11 +47,14 @@ internal class PlaceDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        fetchTips()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
+        fetchTips()
+        tableView.reloadData()
         updateBookMarkSetup()
     }
     
@@ -74,60 +68,9 @@ internal class PlaceDetailViewController: UIViewController {
     private func setupViews() {
         modalView.layer.cornerRadius = 10
         modalView.layer.masksToBounds = true
-        self.placeImageView.image = #imageLiteral(resourceName: "placeholder")
-        if let imageURLString = place.picture {
-            if let imageURL = URL(string: imageURLString) {
-                self.placeImageView.setImageWith(imageURL, placeholderImage: #imageLiteral(resourceName: "placeholder"))
-            }
-        }
-        nameLabel.text = place.name
-        checkinsCountLabel.text = "\(place.checkins ?? 0) checkins"
-        addressLabel.text = place.address
-        categoryLabel.text = place.category
-        aboutLabel.text = place.about
-        directionsButton.layer.cornerRadius = directionsButton.frame.size.height * 0.5
-        directionsButton.clipsToBounds = true
-        setupThemeColors()
-        setupMapView()
-        addLikeControl()
+        addTipButton.backgroundColor = UIColor.LABrand.primary
+        addListButton.tintColor = UIColor.LABrand.primary
         setupBookMarkButton()
-        setupFriendsCountLabel()
-//        bookmarkSetup()
-    }
-    
-    private func setupFriendsCountLabel() {
-        // FIXME: - Correct this
-        friendsCountLabel.text = "\(place.contextCount ?? 0) friends like this"
-    }
-    
-    private func addLikeControl() {
-        let likeControl = FBSDKLikeControl()
-        likeControl.likeControlStyle = FBSDKLikeControlStyle.standard
-        likeControl.objectType = .openGraph
-        likeControl.frame = facebookLikeButtonView.bounds
-        likeControl.likeControlHorizontalAlignment = .left
-        likeControl.objectID = place.id
-        facebookLikeButtonView.addSubview(likeControl)
-    }
-    
-    private func setupThemeColors() {
-        categoryLabel.textColor = UIColor.LABrand.detail
-        checkinsCountLabel.textColor = UIColor.LABrand.detail
-        friendsCountLabel.textColor = UIColor.LABrand.detail
-        addressLabel.textColor = UIColor.LABrand.detail
-        checkInImageView.tintColor = UIColor.LABrand.detail
-        likeImageView.tintColor = UIColor.LABrand.detail
-        directionsButton.tintColor = UIColor.white
-        directionsButton.backgroundColor = UIColor.LABrand.primary
-    }
-    
-    private func setupMapView() {
-        let annotation = MGLPointAnnotation()
-        annotation.coordinate = place.coordinate
-        mapView.addAnnotation(annotation)
-        mapView.zoomLevel = 14
-        mapView.setCenter(place.coordinate, animated: true)
-        mapView.styleURL = MGLStyle.streetsStyleURL()
     }
     
     private func setupBookMarkButton() {
@@ -152,6 +95,37 @@ internal class PlaceDetailViewController: UIViewController {
     }
     
     // MARK: - Helpers
+    
+    private func addTip(text: String) {
+        Tip.CreateTip(for: place.id, text: text) {
+            tip, error in
+            if let tip = tip {
+                DatabaseRequests.shared.addTip(tip: tip)
+                self.tips.append(tip)
+                let indexPath = IndexPath(row: self.tips.count - 1, section: 2)
+                self.tableView.beginUpdates()
+                self.tableView.insertRows(at: [indexPath], with: .automatic)
+                self.tableView.endUpdates()
+            } else {
+                _ = SweetAlert().showAlert("Error", subTitle: error!.localizedDescription, style: .error)
+            }
+        }
+    }
+    
+    private func fetchTips() {
+        DatabaseRequests.shared.fetchTips(for: place.id, success: { tipsArray in
+            if let tips = tipsArray {
+                self.tips = tips
+                self.tableView.reloadData()
+            }
+            return
+        }, failure: {
+            error  in
+            if let error = error {
+                _ = SweetAlert().showAlert("Error", subTitle: error.localizedDescription, style: .error)
+            }
+        })
+    }
     
     private func updateBookmark(operation: OperationType) {
         switch operation {
@@ -219,33 +193,21 @@ internal class PlaceDetailViewController: UIViewController {
         updateBookmark(operation: isBookMarked ? .add : .remove)
     }
     
-    // TODO: MOVE this code with to the actual button we will use when Ali finishes creating the full VC
-    @IBAction func onAddTip(_ sender: Any) {
-        // Present a dialog for adding a tip. Limit to 200 characters in length.
-        // Pass the text from that dialog to the "text:" argument in Tip initializer below.
-        if let newTip = Tip(for: place.id, text: "Order the Black and Tan from the secret menu.") {
-            DatabaseRequests.shared.addTip(tip: newTip, success: { tip in
-                print("new tip added")
-                // Consider adding the returned tip to the tip row of TableView of tips
-            }, failure: { Error in
-                if let error = Error {
-                    _ = SweetAlert().showAlert("Error", subTitle: error.localizedDescription, style: .error)
-                }
-            })
+    @IBAction private func onAddTip(_ sender: Any) {
+        let alertVC = UIAlertController(title: "Add a tip", message: nil, preferredStyle: .alert)
+        alertVC.addTextField {
+            textField in
+            textField.placeholder = "Type your tip here"
         }
-    }
- 
-    // TODO: MOVE this code to help populate the Tips section of the detailVC when Ali finishes creating the full VC
-    @IBAction func onFetchTips(_ sender: Any) {
-        DatabaseRequests.shared.fetchTips(for: place.id, success: { tipsArray in
-            self.tips = tipsArray
-            // populate the TableView of tips
-            return
-        }, failure: {Error in
-            if let error = Error {
-                _ = SweetAlert().showAlert("Error", subTitle: error.localizedDescription, style: .error)
+        let saveAction = UIAlertAction(title: "Save", style: .default) {
+            _ in
+            if let text =  alertVC.textFields?[0].text {
+                self.addTip(text: text)
             }
-        })
+        }
+        alertVC.addAction(saveAction)
+        alertVC.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alertVC, animated: true, completion: nil)
     }
 
     // MARK: - Navigation
@@ -254,6 +216,40 @@ internal class PlaceDetailViewController: UIViewController {
         if segue.identifier == "addPlaceVC" {
             let addPlaceVC = segue.destination as! AddPlaceViewController
             addPlaceVC.place = self.place
+        }
+    }
+    
+    // MARK: - UITableView Setup
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 3
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch section {
+        case 0:
+            return 1
+        case 1:
+            return 1
+        default:
+            return tips.count
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch indexPath.section {
+        case 0:
+            let placeImageCell = tableView.dequeueReusableCell(withIdentifier: "placeImageCell", for: indexPath) as! PlaceImageTableViewCell
+            placeImageCell.imageURLString = place.picture
+            return placeImageCell
+        case 1:
+            let placeDetailCell = tableView.dequeueReusableCell(withIdentifier: "placeDetailCell", for: indexPath) as! PlaceDetailCell
+            placeDetailCell.initCell(with: place)
+            return placeDetailCell
+        default:
+            let tipsCell = tableView.dequeueReusableCell(withIdentifier: "placeTipsCell", for: indexPath) as! PlaceTipsCell
+            tipsCell.tip = tips[indexPath.row]
+            return tipsCell
         }
     }
     

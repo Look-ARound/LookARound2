@@ -20,12 +20,12 @@ internal extension simd_float4x4 {
     func transformMatrix(originLocation: CLLocation, location: CLLocation) -> simd_float4x4 {
         // Determine the distance and bearing between the start and end locations
         let distance = Float(location.distance(from: originLocation))
-        let scaledHeight = (distance / 100) * 1.3
+        let scaledHeight = (distance / 100) * 1.5
         let bearing = GLKMathDegreesToRadians(Float(originLocation.coordinate.direction(to: location.coordinate)))
         
         // Effectively copy the position of the start location, rotate it about
         // the bearing of the end location and instesad of "pushing" it out, lift it up in altitude
-        let position = vector_float4(0.0, scaledHeight, -40.0, 0.0)
+        let position = vector_float4(0.0, scaledHeight, -30.0, 0.0)
         let translationMatrix = matrix_identity_float4x4.translationMatrix(position)
         let rotationMatrix = matrix_identity_float4x4.rotationAroundY(radians: bearing)
         let transformMatrix = simd_mul(rotationMatrix, translationMatrix)
