@@ -559,11 +559,11 @@ extension AugmentedViewController: AnnotationManagerDelegate {
             var height: CGFloat = 0.0
             
             if image.size.width >= image.size.height {
-                width = 5.0 * (image.size.width / image.size.height)
-                height = 5.0
+                width = 3.0 * (image.size.width / image.size.height)
+                height = 3.0
             } else {
-                width = 5.0
-                height = 5.0 * (image.size.height / image.size.width)
+                width = 3.0
+                height = 3.0 * (image.size.height / image.size.width)
             }
             
             let calloutGeometry = SCNPlane(width: width, height: height)
