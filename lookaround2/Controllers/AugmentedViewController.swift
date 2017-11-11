@@ -843,7 +843,10 @@ extension AugmentedViewController {
     
     @objc func onShowMoreDetailTap() {
         dismissDetailView()
-        guard let place = currSelectedPlace else { return }
+        guard let place = currSelectedPlace else {
+            print("no selected place")
+            return
+        }
 
         delegate?.showDetail(place: place)
         
