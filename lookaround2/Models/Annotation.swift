@@ -42,7 +42,7 @@ public class Annotation: ARAnnotation, MGLAnnotation {
         self.coordinate = location.coordinate
         if let myPlace = place {
             self.place = myPlace
-            self.title = myPlace.name
+            placeTitle = myPlace.name
             if let checkinCount = myPlace.checkins {
                 if let friendCount = myPlace.contextCount {
                     switch friendCount {
@@ -70,7 +70,7 @@ public class Annotation: ARAnnotation, MGLAnnotation {
         self.coordinate = location.coordinate
         if let myPlace = place {
             self.place = myPlace
-            self.title = myPlace.name
+            placeTitle = myPlace.name
             if let checkinCount = myPlace.checkins {
                 if let friendCount = myPlace.contextCount {
                     switch friendCount {

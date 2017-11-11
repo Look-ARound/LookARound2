@@ -48,7 +48,6 @@ class AugmentedViewController: ARViewController {
     var showingFilters: Bool = false
     var placeArray: [Place]?
     var numResults = 10
-    var placeArray: [Place]?
     //fileprivate var arViewController: ARViewController!
 
     var placeImageView: UIImageView!
