@@ -180,7 +180,8 @@ extension AnnotationManager: ARSCNViewDelegate {
         let title = SCNText(string: calloutString, extrusionDepth: 0)
         title.font = UIFont.systemFont(ofSize: 1.5, weight: .bold)
         
-        let callout = AugmentedCalloutView(for: annotation)
+        let callout = AugmentedCalloutView(frame: CGRect(x: 0, y: 0, width: 150, height: 60))
+        callout.annotation = annotation
         let geoWidth = callout.frame.size.width / 20
         let geoHeight = callout.frame.size.height / 20
         
@@ -188,13 +189,14 @@ extension AnnotationManager: ARSCNViewDelegate {
         
         //calloutGeometry.firstMaterial?.fillMode = .fill
         calloutGeometry.firstMaterial?.diffuse.contents = callout
+        calloutGeometry.firstMaterial?.transparency = 0.8
 
         let calloutNode = SCNNode(geometry: calloutGeometry)
         var nodePosition = node.position
         let (cmin, cmax) = calloutNode.boundingBox
         let (min, max) = node.boundingBox
         let calloutWidth = cmax.x - cmin.x
-        nodePosition.y = max.y + 2.0
+        nodePosition.y = max.y + 1.8
         nodePosition.x -= calloutWidth/2
         
         calloutNode.position = nodePosition
