@@ -98,17 +98,12 @@ class DatabaseRequests {
         }
     }
     
-    func addTip(tip: Tip, success: @escaping (Tip)->(), failure: @escaping (Error?)->()) -> Void {
+    func addTip(tip: Tip) -> Void {
         let place = tip.placeID
         let tipID = ref.child(placesPath).child(place).childByAutoId().key
         let tipDict = tip.firebaseRepresenation()
         let childUpdates = ["\(place)/\(tipID)": tipDict]
         self.ref.child(placesPath).updateChildValues(childUpdates)
-        self.ref.child(placesPath).child(place).child(tipID).observeSingleEvent(of: .value, with: { snapshot in
-            let tipDict = JSON(snapshot.value)
-            let tip = Tip(by: tipID, for: place, json: tipDict)
-            success(tip)
-        })
     }
     
     func fetchTips(for placeID: String, success: @escaping ([Tip]?)->(), failure: @escaping (Error?)->()) -> Void {

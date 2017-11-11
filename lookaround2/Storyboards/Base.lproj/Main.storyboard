@@ -24,7 +24,7 @@
                                 <rect key="frame" x="0.0" y="301.5" width="375" height="365"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yzd-SX-HSI" customClass="MGLMapView">
-                                        <rect key="frame" x="0.0" y="42" width="375" height="323"/>
+                                        <rect key="frame" x="0.0" y="41.5" width="375" height="323"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <gestureRecognizers/>
                                         <userDefinedRuntimeAttributes>
@@ -67,6 +67,15 @@
                                             <action selector="onFilterButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="weW-UP-QlT"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q9O-aw-kh9">
+                                        <rect key="frame" x="157.5" y="0.0" width="44" height="30"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" title="Refresh"/>
+                                        <connections>
+                                            <action selector="onRefreshButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Cx9-Rn-4KF"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NWZ-Be-KzA">
                                         <rect key="frame" x="329" y="0.0" width="30" height="30"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -84,6 +93,7 @@
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="7Ma-8d-EH7" secondAttribute="trailing" id="34Y-4s-4En"/>
                             <constraint firstItem="Z9v-Wv-VBd" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="4Xh-3x-Gzb"/>
@@ -106,6 +116,7 @@
                         <outlet property="filterButton" destination="AB3-rY-gO6" id="wsq-Jb-goH"/>
                         <outlet property="mapButton" destination="NWZ-Be-KzA" id="Xs3-07-BCc"/>
                         <outlet property="mapView" destination="yzd-SX-HSI" id="bqy-zc-2nT"/>
+                        <outlet property="refreshButton" destination="Q9O-aw-kh9" id="P4O-VY-jBz"/>
                         <outlet property="sceneView" destination="7Ma-8d-EH7" id="phs-4C-o7N"/>
                     </connections>
                 </viewController>
@@ -151,7 +162,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tex-b6-cI8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-906" y="33"/>
+            <point key="canvasLocation" x="-1169" y="33"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="WM6-Fh-nHf">
