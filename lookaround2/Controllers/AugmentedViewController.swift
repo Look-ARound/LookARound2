@@ -149,7 +149,7 @@ class AugmentedViewController: UIViewController {
         mapBottom.constant = mapView.frame.height
         
         let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(screenEdgeSwiped(_:)))
-        edgePan.edges = .bottom
+        edgePan.edges = .left
         
         view.addGestureRecognizer(edgePan)
     }
