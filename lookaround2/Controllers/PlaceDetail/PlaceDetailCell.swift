@@ -37,24 +37,43 @@ class PlaceDetailCell: UITableViewCell {
     }
     
     private func setupFriendsCountLabel(contextCount: Int) {
-        // FIXME: - Correct this
-        friendsCountLabel.text = "\(contextCount) friends like this"
+        switch contextCount {
+        case 1:
+            friendsCountLabel.text = "\(contextCount) friend likes this"
+            friendsCountLabel.isHidden = false
+            likeImageView.isHidden = false
+        case _ where contextCount > 1:
+            friendsCountLabel.text = "\(contextCount) friends like this"
+            friendsCountLabel.isHidden = false
+            likeImageView.isHidden = false
+        case 0:
+            friendsCountLabel.isHidden = true
+            likeImageView.isHidden = true
+        default:
+            friendsCountLabel.isHidden = true
+            likeImageView.isHidden = true
+        }
     }
     
     private func addLikeControl(objectID: String) {
+
         let likeControl = FBSDKLikeControl()
         likeControl.likeControlStyle = FBSDKLikeControlStyle.standard
         likeControl.objectType = .openGraph
         likeControl.frame = facebookLikeButtonView.bounds
         likeControl.likeControlHorizontalAlignment = .left
         likeControl.objectID = objectID
+        if facebookLikeButtonView.subviews.count > 0 {
+            let oldView = facebookLikeButtonView.subviews[0]
+            oldView.removeFromSuperview()
+        }
         facebookLikeButtonView.addSubview(likeControl)
     }
     
     private func setupThemeColors() {
         categoryLabel.textColor = UIColor.LABrand.detail
         checkinsCountLabel.textColor = UIColor.LABrand.detail
-        friendsCountLabel.textColor = UIColor.LABrand.detail
+        friendsCountLabel.textColor = UIColor.LABrand.standard
         checkInImageView.tintColor = UIColor.LABrand.detail
         likeImageView.tintColor = UIColor.LABrand.detail
     }
