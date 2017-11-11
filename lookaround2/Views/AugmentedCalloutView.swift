@@ -9,79 +9,21 @@
 import UIKit
 
 class AugmentedCalloutView: UIView {
-    var annotation: Annotation?
+    var annotation: Annotation? {
+        didSet {
+            loadUI()
+        }
+    }
     var titleLabel: UILabel?
     var subtitleLabel: UILabel?
-    
-    //===== Public
-    /**
-     Normally, center of annotationView points to real location of POI, but this property can be used to alter that.
-     E.g. if bottom-left edge of annotationView should point to real location, centerOffset should be (0, 1)
-     */
-    open var centerOffset = CGPoint(x: 0.5, y: 0.5)
-    
-    fileprivate var initialized: Bool = false
-    
-    public init()
-    {
-        super.init(frame: CGRect.zero)
-        self.initializeInternal()
-    }
-    
-    public init(for annotation: Annotation)
-    {
-        self.annotation = annotation
-        super.init(frame: CGRect(x: 0, y: 0, width: 150, height: 60))
-        self.initializeInternal()
-    }
     
     public required init?(coder aDecoder: NSCoder)
     {
         super.init(coder: aDecoder)
-        self.initializeInternal()
     }
     
-    override init(frame: CGRect)
-    {
+    override init(frame: CGRect) {
         super.init(frame: frame)
-        self.initializeInternal()
-    }
-    
-    fileprivate func initializeInternal()
-    {
-        if self.initialized
-        {
-            return
-        }
-        self.initialized = true;
-        self.initialize()
-    }
-    
-    open override func awakeFromNib()
-    {
-        self.bindUi()
-    }
-    
-    /// Will always be called once, no need to call super
-    open func initialize()
-    {
-        loadUI()
-    }
-    
-    /// Called when distance/azimuth changes, intended to be used in subclasses
-    open func bindUi()
-    {
-        
-    }
-    
-    override func didMoveToSuperview() {
-        super.didMoveToSuperview()
-        
-        loadUI()
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
     }
     
     func loadUI() {
@@ -99,19 +41,19 @@ class AugmentedCalloutView: UIView {
         if let titleLabel = titleLabel {
             titleLabel.font = UIFont.systemFont(ofSize: 16)
             titleLabel.numberOfLines = 0
-            titleLabel.textColor = UIColor.LABrand.accent
+            titleLabel.textColor = UIColor.LABrand.primary
             updateLabelFrame(label: titleLabel)
             self.addSubview(titleLabel)
         }
         
         if let subtitleLabel = subtitleLabel {
             subtitleLabel.font = UIFont.systemFont(ofSize: 16)
-            subtitleLabel.textColor = UIColor.white
+            subtitleLabel.textColor = UIColor.black
             updateLabelFrame(label: subtitleLabel)
             self.addSubview(subtitleLabel)
         }
         
-        self.backgroundColor = UIColor(white: 0.0, alpha: 0.6)
+        self.backgroundColor = UIColor(white: 1.0, alpha: 1.0)
         self.layer.cornerRadius = 5
         self.clipsToBounds = true
         updateViewFrame(view: self)
