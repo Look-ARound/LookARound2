@@ -114,8 +114,10 @@ extension AnnotationManager: ARSCNViewDelegate {
                 newNode.addChildNode(calloutNode)
             }
             else {
-                let calloutNode = createDefaultCallout(using: annotation, for: newNode)
-                newNode.addChildNode(calloutNode)
+                DispatchQueue.main.async {
+                    let calloutNode = self.createDefaultCallout(using: annotation, for: newNode)
+                    newNode.addChildNode(calloutNode)
+                }
             }
             
             node.addChildNode(newNode)
