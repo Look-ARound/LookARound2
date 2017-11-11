@@ -27,6 +27,8 @@ protocol AugmentedViewControllerDelegate : NSObjectProtocol {
 }
 
 class AugmentedViewController: UIViewController {
+    
+    // MARK: - Outlets
     @IBOutlet weak var sceneView: ARSCNView!
     @IBOutlet weak var controlsContainerView: UIView!
     @IBOutlet weak var mapView: MGLMapView!
@@ -35,13 +37,15 @@ class AugmentedViewController: UIViewController {
     
     @IBOutlet weak var mapButton: UIButton!
     @IBOutlet weak var filterButton: UIButton!
+    @IBOutlet weak var refreshButton: UIButton!
     @IBOutlet var clearDirectionsButton: UIButton!
     
+    // MARK: - Stored Properties
     var delegate: AugmentedViewControllerDelegate?
     var filterVC: FilterViewController!
     var showingFilters: Bool = false
+    var placeArray: [Place]?
     var numResults = 10
-    
     
     var placeImageView: UIImageView!
     var placeNameLabel: UILabel!
@@ -65,6 +69,7 @@ class AugmentedViewController: UIViewController {
     // directions routeline
     var waypointShapeCollectionFeature: MGLShapeCollectionFeature?
     
+    // MARK: - Computed Properties
     var currentLocation: CLLocation {
         get {
             guard let userLocation = mapView.userLocation, let coreLocation = userLocation.location else {
@@ -86,9 +91,8 @@ class AugmentedViewController: UIViewController {
             return currentLocation.coordinate
         }
     }
-    
-    var placeArray: [Place]?
 
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -105,7 +109,7 @@ class AugmentedViewController: UIViewController {
         
         // Set up the UI elements as per the app theme
         filterButton.setImage(#imageLiteral(resourceName: "hamburger-on"), for: .selected)
-        prepButtonsWithARTheme(buttons: [mapButton,clearDirectionsButton])
+        prepButtonsWithARTheme(buttons: [mapButton, clearDirectionsButton, refreshButton])
         
         clearDirectionsButton.isHidden = true
         
@@ -463,6 +467,11 @@ class AugmentedViewController: UIViewController {
     @IBAction func onMapButton(_ sender: Any) {
         slideMap()
         dismissDetailView()
+    }
+    
+    @IBAction func onRefreshButton(_ sender: Any) {
+        removeExistingPins()
+        performFirstSearch()
     }
     
     func slideMap() {
