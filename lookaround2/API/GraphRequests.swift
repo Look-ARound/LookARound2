@@ -293,8 +293,23 @@ private struct PlaceIDSearchResponse: GraphResponseProtocol {
 
 // MARK: - Profile Graph Request
 var LAFBUserIDKey : String = "FBUserIDKey"
+var LAFBUserNameKey: String = "FBUserNameKey"
 
 class ProfileRequest {
+    func fetchCurrentUserName(success: @escaping (String!)->(), failure: @escaping (Error)->()) -> Void {
+        // TODO: Include a check later to see if the name has changed from what was saved on disk
+        if let defaultsUserName = UserDefaults.standard.string(forKey: LAFBUserNameKey) {
+            success(defaultsUserName)
+        } else {
+            // Fetch user profile first, then get the Name
+            fetchCurrentUser(success: { (user: User) in
+                success(user.name)
+            }, failure: { (error: Error) in
+                failure(error)
+            })
+        }
+    }
+    
     func fetchCurrentUserID(success: @escaping (String!)->(), failure: @escaping (Error)->()) -> Void {
         if let defaultsUserID = UserDefaults.standard.string(forKey: LAFBUserIDKey) {
             success(defaultsUserID)
@@ -315,13 +330,15 @@ class ProfileRequest {
         currentUserConnection.add(currentUserRequest) { (response, result: GraphRequestResult) in
             switch result {
             case .success(let response):
-                // Save userID in defaults
+                // Save userID and name in defaults
                 UserDefaults.standard.set(response.user.id, forKey: LAFBUserIDKey)
+                UserDefaults.standard.set(response.user.name, forKey: LAFBUserNameKey)
                 
                 success(response.user)
             case .failed(let error):
-                // Remove userID from defaults
+                // Remove userID and name from defaults
                 UserDefaults.standard.removeObject(forKey: LAFBUserIDKey)
+                UserDefaults.standard.removeObject(forKey: LAFBUserNameKey)
                 
                 failure(error)
             }
