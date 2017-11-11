@@ -26,6 +26,8 @@ internal class PlaceDetailViewController: UIViewController, UITableViewDelegate,
     @IBOutlet private var modalView: UIView!
     @IBOutlet private var bookMarkButton: UIButton!
     @IBOutlet private var tableView: UITableView!
+    @IBOutlet weak var addTipButton: UIButton!
+    @IBOutlet weak var addListButton: UIButton!
     
     // MARK: - Stored Properties
     
@@ -66,6 +68,8 @@ internal class PlaceDetailViewController: UIViewController, UITableViewDelegate,
     private func setupViews() {
         modalView.layer.cornerRadius = 10
         modalView.layer.masksToBounds = true
+        addTipButton.backgroundColor = UIColor.LABrand.primary
+        addListButton.tintColor = UIColor.LABrand.primary
         setupBookMarkButton()
     }
     

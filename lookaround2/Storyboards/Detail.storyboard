@@ -515,6 +515,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="0LF-5l-DhP"/>
                     <connections>
+                        <outlet property="addListButton" destination="CDF-sg-grL" id="FMH-dq-b94"/>
+                        <outlet property="addTipButton" destination="udY-qT-NZK" id="AYk-AL-gNs"/>
                         <outlet property="bookMarkButton" destination="2dc-fW-BYH" id="AfL-2V-DJ1"/>
                         <outlet property="modalView" destination="kHX-hx-nFi" id="9SW-EX-Khu"/>
                         <outlet property="tableView" destination="NPl-xq-lSm" id="ExI-ya-tye"/>
