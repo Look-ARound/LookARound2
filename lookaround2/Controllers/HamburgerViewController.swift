@@ -27,6 +27,9 @@ class HamburgerViewController: UIViewController {
         }
     }
     
+    var detailNavController: UIViewController!
+    var detailViewController: PlaceDetailViewController!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -62,5 +65,10 @@ extension HamburgerViewController: AugmentedViewControllerDelegate {
     
     func hideFilters(_augmentedViewController: AugmentedViewController) {
         hideFilters()
+    }
+    
+    func showDetail(place: Place) {
+        detailViewController.place = place
+        present(detailNavController, animated: true, completion: nil)
     }
 }

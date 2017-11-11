@@ -51,6 +51,7 @@ internal class PlaceDetailViewController: UIViewController, UITableViewDelegate,
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
+        tableView.reloadData()
         updateBookMarkSetup()
     }
     
