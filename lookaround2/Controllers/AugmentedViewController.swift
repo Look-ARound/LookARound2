@@ -147,6 +147,11 @@ class AugmentedViewController: UIViewController {
         self.view.layoutIfNeeded() // Do this, otherwise frame.height will be incorrect
         mapTop.constant = mapView.frame.height
         mapBottom.constant = mapView.frame.height
+        
+        let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(screenEdgeSwiped(_:)))
+        edgePan.edges = .bottom
+        
+        view.addGestureRecognizer(edgePan)
     }
     
     func isMapHidden() -> Bool {
@@ -462,6 +467,13 @@ class AugmentedViewController: UIViewController {
         }
         print("found place")
         showDetailVC(forPlace: tappedPlace)
+    }
+    
+    @objc func screenEdgeSwiped(_ recognizer: UIScreenEdgePanGestureRecognizer) {
+        if recognizer.state == .recognized {
+            print("Screen edge swiped!")
+            onMapButton(self)
+        }
     }
     
     @IBAction func onMapButton(_ sender: Any) {
