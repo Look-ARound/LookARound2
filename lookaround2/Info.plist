@@ -36,7 +36,7 @@
 	<key>FacebookClientToken</key>
 	<string>a10a58a73b4ec85e0c11c67969166134</string>
 	<key>FacebookDisplayName</key>
-	<string>LookARound2</string>
+	<string>LookAround</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
@@ -53,7 +53,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This application will use location for Augmented Reality.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>LookARound needs to access your photo library.</string>
+	<string>LookAround needs to access your photo library.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -63,8 +63,10 @@
 		<string>armv7</string>
 		<string>arkit</string>
 	</array>
+	<key>UIStatusBarHidden</key>
+	<true/>
 	<key>UIStatusBarStyle</key>
-	<string>UIStatusBarStyleLightContent</string>
+	<string>UIStatusBarStyleDefault</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
