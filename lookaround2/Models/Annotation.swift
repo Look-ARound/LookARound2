@@ -40,14 +40,18 @@ public class Annotation: NSObject, MGLAnnotation {
         if let myPlace = place {
             self.place = myPlace
             self.title = myPlace.name
-            if let friendCount = myPlace.contextCount {
-                switch friendCount {
-                case 1:
-                    self.subtitle = "\(friendCount) friend likes this"
-                case _ where friendCount > 1:
-                    self.subtitle = "\(friendCount) friends like this"
-                default:
-                    self.subtitle = nil
+            if let checkinCount = myPlace.checkins {
+                if let friendCount = myPlace.contextCount {
+                    switch friendCount {
+                    case 1:
+                        self.subtitle = "\(friendCount) friend likes this"
+                    case _ where friendCount > 1:
+                        self.subtitle = "\(friendCount) friends like this"
+                    case 0:
+                        self.subtitle = "\(checkinCount) checkins here"
+                    default:
+                        self.subtitle = nil
+                    }
                 }
             }
         }
@@ -62,9 +66,18 @@ public class Annotation: NSObject, MGLAnnotation {
         if let myPlace = place {
             self.place = myPlace
             self.title = myPlace.name
-            if let friendCount = myPlace.contextCount {
-                if friendCount > 0 {
-                    self.subtitle = "\(friendCount) friends like this"
+            if let checkinCount = myPlace.checkins {
+                if let friendCount = myPlace.contextCount {
+                    switch friendCount {
+                    case 1:
+                        self.subtitle = "\(friendCount) friend likes this"
+                    case _ where friendCount > 1:
+                        self.subtitle = "\(friendCount) friends like this"
+                    case 0:
+                        self.subtitle = "\(checkinCount) checkins here"
+                    default:
+                        self.subtitle = nil
+                    }
                 }
             }
         }
