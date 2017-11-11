@@ -44,7 +44,7 @@ class AnnotationView: ARAnnotationView {
         subtitleLabel?.removeFromSuperview()
         
         titleLabel = UILabel(frame: CGRect(x: 10, y: 0, width: self.frame.size.width, height: 30))
-        subtitleLabel = UILabel(frame: CGRect(x: 10, y: 30, width: self.frame.size.width, height: 20))
+        subtitleLabel = UILabel(frame: CGRect(x: 10, y: 30, width: self.frame.size.width, height: 30))
         
         if let annotation = annotation {
             titleLabel?.text = annotation.title
