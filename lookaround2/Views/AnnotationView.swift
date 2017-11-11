@@ -54,19 +54,19 @@ class AnnotationView: ARAnnotationView {
         if let titleLabel = titleLabel {
             titleLabel.font = UIFont.systemFont(ofSize: 16)
             titleLabel.numberOfLines = 0
-            titleLabel.textColor = UIColor.LABrand.primary
+            titleLabel.textColor = UIColor.black
             updateLabelFrame(label: titleLabel)
             self.addSubview(titleLabel)
         }
 
         if let subtitleLabel = subtitleLabel {
-            subtitleLabel.font = UIFont.systemFont(ofSize: 12)
-            subtitleLabel.textColor = UIColor.black
+            subtitleLabel.font = UIFont.systemFont(ofSize: 16)
+            subtitleLabel.textColor = UIColor.white
             updateLabelFrame(label: subtitleLabel)
             self.addSubview(subtitleLabel)
         }
         
-        self.backgroundColor = UIColor(white: 1.0, alpha: 0.8)
+        self.backgroundColor = UIColor(red:0.15, green:0.78, blue:0.85, alpha:0.6)
         self.layer.cornerRadius = 5
         self.clipsToBounds = true
         updateViewFrame(view: self)
