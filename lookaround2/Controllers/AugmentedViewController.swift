@@ -41,6 +41,12 @@ class AugmentedViewController: UIViewController {
     var showingFilters: Bool = false
     var numResults = 10
     
+    
+    var placeImageView: UIImageView!
+    var placeNameLabel: UILabel!
+    var modelDetailView: UIView!
+    var currSelectedPlace: Place?
+    
     // Use this to control how ARKit aligns itself to the world
     // Often ARKit can determine the direction of North well enough for
     // the demo to work. However, its accuracy can be poor and it can
@@ -103,6 +109,8 @@ class AugmentedViewController: UIViewController {
         clearDirectionsButton.isHidden = true
         
         initMap()
+        
+        addModelDetailView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -422,7 +430,7 @@ class AugmentedViewController: UIViewController {
     @objc func onMapTap(recognizer: UITapGestureRecognizer) {
         print("tapped")
         let location = recognizer.location(in: sceneView)
-        
+        dismissDetailView()
         let hitResults = sceneView.hitTest(location, options: nil)
         if hitResults.count > 0 {
             print("hit")
@@ -453,6 +461,7 @@ class AugmentedViewController: UIViewController {
     
     @IBAction func onMapButton(_ sender: Any) {
         slideMap()
+        dismissDetailView()
     }
     
     func slideMap() {
@@ -491,11 +500,13 @@ class AugmentedViewController: UIViewController {
     // MARK: - Navigation
 
     func showDetailVC(forPlace place: Place) {
-        let storyboard = UIStoryboard(name: "Detail", bundle: nil)
+        /*let storyboard = UIStoryboard(name: "Detail", bundle: nil)
         let detailNavVC = storyboard.instantiateViewController(withIdentifier: "PlaceDetailNavVC") as! UINavigationController
         let detailVC = detailNavVC.topViewController as! PlaceDetailViewController
         detailVC.place = place
-        present(detailNavVC, animated: true, completion: nil)
+        present(detailNavVC, animated: true, completion: nil)*/
+        changePlaceDetailForDetailModelView(place: place)
+        showDetailView()
     }
 }
 
@@ -796,5 +807,72 @@ extension AugmentedViewController {
             let place = placeDetailVC.place!
             getDirections(for: place)
         }
+    }
+}
+
+// MARK: - Something
+
+extension AugmentedViewController {
+    func changePlaceDetailForDetailModelView(place: Place) {
+        placeImageView?.image = #imageLiteral(resourceName: "placeholder")
+        placeNameLabel?.text = place.name
+        if let url = URL(string: place.picture ?? "") {
+            placeImageView?.setImageWith(url, placeholderImage: #imageLiteral(resourceName: "placeholder"))
+        }
+        currSelectedPlace = place
+    }
+    
+    func showDetailView() {
+        let distance = mapView.frame.height
+        self.mapBottom?.constant = distance
+        self.mapTop?.constant = distance
+        UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseOut], animations: {
+            self.view.layoutIfNeeded()
+        }, completion: nil)
+        UIView.animate(withDuration: 0.3) {
+            self.modelDetailView.frame.origin.y = self.view.frame.height - 230
+        }
+    }
+    
+    func dismissDetailView() {
+        UIView.animate(withDuration: 0.3) {
+            self.modelDetailView.frame.origin.y = self.view.frame.height
+        }
+    }
+    
+    @objc func onShowMoreDetailTap() {
+        dismissDetailView()
+        guard let place = currSelectedPlace else { return }
+        let storyboard = UIStoryboard(name: "Detail", bundle: nil)
+        let detailNavVC = storyboard.instantiateViewController(withIdentifier: "PlaceDetailNavVC") as! UINavigationController
+        let detailVC = detailNavVC.topViewController as! PlaceDetailViewController
+        detailVC.place = place
+        present(detailNavVC, animated: true, completion: nil)
+    }
+    
+    func addModelDetailView() {
+        modelDetailView = UIView(frame: CGRect(x: 20, y: self.view.frame.height, width: self.view.frame.width - 40, height: 200))
+        modelDetailView.backgroundColor = .white
+        modelDetailView.layer.masksToBounds = true
+        modelDetailView.layer.cornerRadius = 20
+//        let path = UIBezierPath(roundedRect:modelDetailView.bounds,
+//                                byRoundingCorners:[.topRight, .topLeft],
+//                                cornerRadii: CGSize(width: 20, height:  20))
+//        let maskLayer = CAShapeLayer()
+//        maskLayer.path = path.cgPath
+//        modelDetailView.layer.mask = maskLayer
+        modelDetailView.isUserInteractionEnabled = true
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(onShowMoreDetailTap))
+        modelDetailView.addGestureRecognizer(tapGestureRecognizer)
+        placeImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: modelDetailView.frame.width, height: modelDetailView.frame.height / 2))
+        placeImageView.contentMode = .scaleAspectFill
+        placeImageView.clipsToBounds = true
+        placeNameLabel = UILabel(frame: CGRect(x: 8, y: modelDetailView.frame.height / 2 + 8, width: modelDetailView.frame.width - 16, height: modelDetailView.frame.height / 2 - 16))
+        placeNameLabel.numberOfLines = 0
+        placeNameLabel.textAlignment = .center
+        placeNameLabel.font = UIFont.systemFont(ofSize: 20, weight: .light)
+        modelDetailView.addSubview(placeImageView)
+        modelDetailView.addSubview(placeNameLabel)
+        self.view.addSubview(modelDetailView)
     }
 }
