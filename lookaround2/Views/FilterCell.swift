@@ -10,6 +10,7 @@ import UIKit
 
 class FilterCell: UITableViewCell {
     @IBOutlet weak var filterNameLabel: UILabel!
+    @IBOutlet var authorName: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -136,6 +136,7 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         case .filters:
             cell = tableView.dequeueReusableCell(withIdentifier: "FilterCell", for: indexPath)
             (cell as! FilterCell).filterNameLabel.text = FilterCategoryDisplayString(category: FilterCategory(rawValue: indexPath.row)!)
+            (cell as! FilterCell).authorName.isHidden = true
         case .login:
             cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
             (cell as! DefaultCell).titleLabel.text = "Login to Facebook"
@@ -143,6 +144,7 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
             let listItem = sectionItems[indexPath.section] as! ListItem
             cell = tableView.dequeueReusableCell(withIdentifier: "FilterCell", for: indexPath)
             (cell as! FilterCell).filterNameLabel.text  = listItem.lists[indexPath.row].name
+            (cell as! FilterCell).authorName.text  = listItem.lists[indexPath.row].createdByUserName
             cell.accessoryType = .none
 
         case .searchResults:
