@@ -35,15 +35,25 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mOR-F4-8wx">
+                                                    <rect key="frame" x="25" y="35.5" width="33" height="16"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="mOR-F4-8wx" firstAttribute="top" secondItem="e4g-Hd-vDh" secondAttribute="bottom" constant="6" id="0NT-D9-jdw"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="mOR-F4-8wx" secondAttribute="trailing" constant="16" id="Cbp-bR-4Jv"/>
                                                 <constraint firstItem="e4g-Hd-vDh" firstAttribute="top" secondItem="ZQA-sB-zw7" secondAttribute="top" constant="8" id="LfV-tg-A4v"/>
+                                                <constraint firstItem="mOR-F4-8wx" firstAttribute="leading" secondItem="ZQA-sB-zw7" secondAttribute="leading" constant="25" id="Rwc-Is-gOf"/>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="e4g-Hd-vDh" secondAttribute="trailing" constant="16" id="Yi8-JI-lss"/>
-                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="e4g-Hd-vDh" secondAttribute="bottom" constant="8" id="Zob-zD-2RA"/>
+                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="mOR-F4-8wx" secondAttribute="bottom" constant="12" id="bdw-g8-nUZ"/>
                                                 <constraint firstItem="e4g-Hd-vDh" firstAttribute="leading" secondItem="ZQA-sB-zw7" secondAttribute="leading" constant="25" id="vT1-KE-HRj"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="authorName" destination="mOR-F4-8wx" id="Khe-hM-hFJ"/>
                                             <outlet property="filterNameLabel" destination="e4g-Hd-vDh" id="e5j-Ql-q8u"/>
                                         </connections>
                                     </tableViewCell>

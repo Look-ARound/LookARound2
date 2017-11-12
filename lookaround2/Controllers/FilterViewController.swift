@@ -143,6 +143,7 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
             let listItem = sectionItems[indexPath.section] as! ListItem
             cell = tableView.dequeueReusableCell(withIdentifier: "FilterCell", for: indexPath)
             (cell as! FilterCell).filterNameLabel.text  = listItem.lists[indexPath.row].name
+            (cell as! FilterCell).authorName.text  = listItem.lists[indexPath.row].createdByUserName
             cell.accessoryType = .none
 
         case .searchResults:
