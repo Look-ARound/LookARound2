@@ -12,6 +12,15 @@ class FilterCell: UITableViewCell {
     @IBOutlet weak var filterNameLabel: UILabel!
     @IBOutlet var authorName: UILabel!
     
+    var listElement: List! {
+        didSet {
+            filterNameLabel.text = listElement.name
+            if authorName.isHidden == false {
+                authorName.text = listElement.createdByUserName
+            }
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

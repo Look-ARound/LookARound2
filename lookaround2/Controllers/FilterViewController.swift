@@ -54,6 +54,7 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
         myListItem = ListItem(title: "My Lists")
         publicListItem = ListItem(title: "Public Lists")
+        publicListItem.showAuthor = true
         searchResultsItem = SearchResultsItem(title: "Search Results" )
         searchResultsItem.places = self.places
         
@@ -143,8 +144,11 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         case .discoverLists:
             let listItem = sectionItems[indexPath.section] as! ListItem
             cell = tableView.dequeueReusableCell(withIdentifier: "FilterCell", for: indexPath)
-            (cell as! FilterCell).filterNameLabel.text  = listItem.lists[indexPath.row].name
-            (cell as! FilterCell).authorName.text  = listItem.lists[indexPath.row].createdByUserName
+            
+            if listItem.showAuthor == false {
+                (cell as! FilterCell).authorName.isHidden = true
+            }
+            (cell as! FilterCell).listElement = listItem.lists[indexPath.row]
             cell.accessoryType = .none
 
         case .searchResults:
@@ -277,6 +281,7 @@ class LoginItem: SectionItem {
 
 class ListItem: SectionItem {
     var lists: [List]!
+    var showAuthor: Bool = false
     
     override var type: SectionType {
         return SectionType.discoverLists
