@@ -245,21 +245,12 @@ class AugmentedViewController: ARViewController {
             let place = places[index]
 
             let location = CLLocation(coordinate: place.coordinate, altitude: 50, horizontalAccuracy: 5, verticalAccuracy: 5, timestamp: Date())
-            // set user's current location to get the distance
-            // place.userLocation = currentLocation
-            // guard let distance = place.distance else {
-            //    return
-            //}
-            // let distanceStr = "\(distance) meters"
-
-            if let annotation2D = Annotation(location: location, nodeImage: #imageLiteral(resourceName: "pin"), calloutImage: nil, place: place) {
-                mapView.addAnnotation(annotation2D)
-
-                //self.annotationManager.addAnnotation(annotation: annotation2D)
-
-                annotationsToAdd.append(annotation2D)
-
-                guard let placename = annotation2D.place?.name else {
+            let annotation2d = LAAnnotation2D(location: location, nodeImage: #imageLiteral(resourceName: "pin"), calloutImage: nil, place: place)
+            mapView.addAnnotation(annotation2d)
+            
+            if let annotation = Annotation(location: location, nodeImage: #imageLiteral(resourceName: "pin"), calloutImage: nil, place: place) {
+                annotationsToAdd.append(annotation)
+                guard let placename = annotation.place?.name else {
                     return
                 }
                 print(placename)
@@ -722,7 +713,7 @@ extension AugmentedViewController: MGLMapViewDelegate {
     }
 
     func mapView(_ mapView: MGLMapView, leftCalloutAccessoryViewFor annotation: MGLAnnotation) -> UIView? {
-        guard let augmentedAnnotation = annotation as? Annotation, let place = augmentedAnnotation.place else {
+        guard let augmentedAnnotation = annotation as? LAAnnotation2D, let place = augmentedAnnotation.place else {
             return UIView()
         }
         let detailButton = DetailButton(type: .detailDisclosure)
@@ -733,7 +724,7 @@ extension AugmentedViewController: MGLMapViewDelegate {
     }
 
     func mapView(_ mapView: MGLMapView, rightCalloutAccessoryViewFor annotation: MGLAnnotation) -> UIView? {
-        guard let augmentedAnnotation = annotation as? Annotation, let place = augmentedAnnotation.place else {
+        guard let augmentedAnnotation = annotation as? LAAnnotation2D, let place = augmentedAnnotation.place else {
             return UIView()
         }
         let directionsButton = DirectionsButton(type: .detailDisclosure)
@@ -744,7 +735,7 @@ extension AugmentedViewController: MGLMapViewDelegate {
     }
 
     func mapView(_ mapView: MGLMapView, tapOnCalloutFor annotation: MGLAnnotation) {
-        guard let augmentedAnnotation = annotation as? Annotation, let place = augmentedAnnotation.place else {
+        guard let augmentedAnnotation = annotation as? LAAnnotation2D, let place = augmentedAnnotation.place else {
             return
         }
         showDetailVC(forPlace: place)
