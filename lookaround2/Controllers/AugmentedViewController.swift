@@ -71,7 +71,11 @@ class AugmentedViewController: ARViewController {
     // Define a shape collection that will be used to hold the point geometries that define the
     // directions routeline
     var waypointShapeCollectionFeature: MGLShapeCollectionFeature?
+    
+    var detailVCs: [PlaceDetailViewController] = []
+    var currentIndex = 0
 
+    // MARK: - Computed Properties
     var currentLocation: CLLocation {
         get {
             guard let userLocation = mapView.userLocation, let coreLocation = userLocation.location else {
@@ -271,11 +275,17 @@ class AugmentedViewController: ARViewController {
                 }
                 print(placename)
             }
+            
+            let placeVC = PlaceDetailViewController()
+            detailVCs.append(placeVC)
         }
         print(annotationsToAdd.count)
         self.setAnnotations(annotationsToAdd)
         view.bringSubview(toFront: controlsContainerView)
         view.sendSubview(toBack: sceneView)
+        
+        let pageVC = detailContainerView.subviews[0] as! DetailPageViewController
+        pageVC.detailVCs = detailVCs
      }
 
     func refreshPins(withList list: List) {
@@ -342,6 +352,9 @@ class AugmentedViewController: ARViewController {
         // Remove existing pins from HDAR view
         let noAnnotations: [Annotation] = []
         self.setAnnotations(noAnnotations)
+        
+        // Empty out placeDetailVCs
+        detailVCs = []
     }
 
     func hidePlacesExcept(place: Place) {

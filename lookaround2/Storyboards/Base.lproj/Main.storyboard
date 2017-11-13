@@ -82,7 +82,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SBa-a9-fTk">
                                 <rect key="frame" x="0.0" y="334" width="375" height="333"/>
                                 <connections>
-                                    <segue destination="KH1-Tb-guc" kind="embed" id="nbQ-MT-hN5"/>
+                                    <segue destination="CTN-ln-Soz" kind="embed" id="ona-jR-BJD"/>
                                 </connections>
                             </containerView>
                         </subviews>
@@ -183,16 +183,24 @@
             </objects>
             <point key="canvasLocation" x="-223.75" y="36.684999999999995"/>
         </scene>
-        <!--View Controller-->
+        <!--Detail View Controller-->
+        <scene sceneID="ySG-hp-TTx">
+            <objects>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="CTN-ln-Soz" customClass="DetailViewController" customModule="lookaround2" customModuleProvider="target" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8Mz-bh-tm4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="736" y="247"/>
+        </scene>
+        <!--Place Detail View Controller-->
         <scene sceneID="GOY-du-Swp">
             <objects>
-                <viewController id="KH1-Tb-guc" sceneMemberID="viewController">
+                <viewController id="KH1-Tb-guc" customClass="PlaceDetailViewController" customModule="lookaround2" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="115-xq-CXy">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="333"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="N7R-nz-VEM">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="333"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="qPS-d9-bOp" customClass="PlaceImageTableViewCell" customModule="lookaround2" customModuleProvider="target">
@@ -234,7 +242,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VeB-wY-ljU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="964" y="37"/>
+            <point key="canvasLocation" x="1203" y="182"/>
         </scene>
     </scenes>
     <resources>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="PlaceNameCell" customModule="lookaround2" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="Delfina Pizzeria" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0nG-KT-WTR">
+                    <rect key="frame" x="123" y="157.5" width="129.5" height="440"/>
+                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Italian" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3la-si-j1t">
+                    <rect key="frame" x="165" y="601.5" width="45.5" height="20.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Iy2-yi-arN">
+                    <rect key="frame" x="8" y="642" width="359" height="17"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="bgl-UC-ahE">
+                            <rect key="frame" x="0.0" y="0.0" width="184.5" height="17"/>
+                            <subviews>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkin" translatesAutoresizingMaskIntoConstraints="NO" id="o6u-x6-JVf">
+                                    <rect key="frame" x="0.0" y="0.0" width="17" height="17"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="17" id="b8o-8E-c21"/>
+                                        <constraint firstAttribute="width" constant="17" id="hFt-JD-Wm0"/>
+                                    </constraints>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Checkins" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RbA-je-m1a">
+                                    <rect key="frame" x="17" y="0.0" width="167.5" height="17"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PCM-od-wB0">
+                            <rect key="frame" x="192.5" y="0.0" width="166.5" height="17"/>
+                            <subviews>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="like" translatesAutoresizingMaskIntoConstraints="NO" id="1Kw-e4-awS">
+                                    <rect key="frame" x="0.0" y="0.0" width="17" height="17"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="17" id="EXH-oJ-YkZ"/>
+                                        <constraint firstAttribute="width" constant="17" id="LIa-Ty-hgd"/>
+                                    </constraints>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Friends" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MaR-ou-PFL">
+                                    <rect key="frame" x="17" y="0.0" width="149.5" height="17"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                        </stackView>
+                    </subviews>
+                </stackView>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="24Y-IX-OBk">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="149.5"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="149.5" id="CVt-s8-fxf"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="Iy2-yi-arN" firstAttribute="width" secondItem="vUN-kp-3ea" secondAttribute="width" constant="-16" id="23A-GV-OcU"/>
+                <constraint firstItem="Iy2-yi-arN" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="2g3-2j-b6b"/>
+                <constraint firstItem="Iy2-yi-arN" firstAttribute="top" secondItem="3la-si-j1t" secondAttribute="bottom" constant="20" id="3T0-o9-Lua"/>
+                <constraint firstItem="3la-si-j1t" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="4wf-6C-tVt"/>
+                <constraint firstItem="0nG-KT-WTR" firstAttribute="top" secondItem="24Y-IX-OBk" secondAttribute="bottom" constant="8" id="KrB-2s-XVE"/>
+                <constraint firstItem="3la-si-j1t" firstAttribute="top" secondItem="0nG-KT-WTR" secondAttribute="bottom" constant="4" id="dPP-4O-JId"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Iy2-yi-arN" secondAttribute="bottom" constant="8" id="egK-1U-1dd"/>
+                <constraint firstItem="24Y-IX-OBk" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="oIx-xq-rVY"/>
+                <constraint firstItem="24Y-IX-OBk" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="uFJ-aa-h7F"/>
+                <constraint firstItem="24Y-IX-OBk" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="xvy-FJ-V0r"/>
+                <constraint firstItem="0nG-KT-WTR" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="ynp-6T-W3l"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="categoryLabel" destination="3la-si-j1t" id="dZg-Zc-jAA"/>
+                <outlet property="checkInImageView" destination="o6u-x6-JVf" id="TSh-1p-cwz"/>
+                <outlet property="checkinsCountLabel" destination="RbA-je-m1a" id="grq-Za-DPE"/>
+                <outlet property="friendsCountLabel" destination="MaR-ou-PFL" id="hxj-En-oEB"/>
+                <outlet property="likeImageView" destination="1Kw-e4-awS" id="H1u-1V-ha0"/>
+                <outlet property="nameLabel" destination="0nG-KT-WTR" id="xX7-zS-6Ge"/>
+                <outlet property="placeImageView" destination="24Y-IX-OBk" id="LRk-d6-Yy3"/>
+            </connections>
+            <point key="canvasLocation" x="197" y="167"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="checkin" width="24" height="24"/>
+        <image name="like" width="25" height="25"/>
+        <image name="placeholder" width="600" height="400"/>
+    </resources>
+</document>
