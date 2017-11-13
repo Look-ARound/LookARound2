@@ -556,6 +556,8 @@ class AugmentedViewController: ARViewController {
         let detailVC = storyboard.instantiateViewController(withIdentifier: "PlaceDetailVC") as! PlaceDetailViewController
         detailVC.place = place
         addChildViewController(detailVC)
+        print("add child")
+        detailVC.view.frame = CGRect(x: 0, y: 0, width: detailContainerView.bounds.size.width, height: detailContainerView.bounds.size.height)
         detailContainerView.addSubview(detailVC.view)
         detailVC.didMove(toParentViewController: self)
         //changePlaceDetailForDetailModelView(place: place)

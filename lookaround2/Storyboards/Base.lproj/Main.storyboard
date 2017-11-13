@@ -46,7 +46,6 @@
                                             <constraint firstAttribute="width" constant="40" id="Ik1-x0-Psk"/>
                                             <constraint firstAttribute="height" constant="40" id="Zwd-Jq-ck1"/>
                                         </constraints>
-                                        <inset key="titleEdgeInsets" minX="10" minY="4" maxX="10" maxY="4"/>
                                         <state key="normal" image="hamburger-off"/>
                                         <connections>
                                             <action selector="onFilterButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="weW-UP-QlT"/>
@@ -192,6 +191,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="333"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="iRz-Ih-OYC"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VeB-wY-ljU" userLabel="First Responder" sceneMemberID="firstResponder"/>

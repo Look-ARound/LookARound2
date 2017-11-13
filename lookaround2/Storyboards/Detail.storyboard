@@ -232,7 +232,7 @@
         <!--Place Detail View Controller-->
         <scene sceneID="oxE-nh-MYq">
             <objects>
-                <viewController modalPresentationStyle="overCurrentContext" id="lsg-RI-Zg0" customClass="PlaceDetailViewController" customModule="lookaround2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PlaceDetailVC" modalPresentationStyle="overCurrentContext" id="lsg-RI-Zg0" customClass="PlaceDetailViewController" customModule="lookaround2" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Hv3-hC-FMX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -502,14 +502,14 @@
                             </view>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="gkO-bX-PKM" firstAttribute="bottom" secondItem="kHX-hx-nFi" secondAttribute="bottom" constant="60" id="BvY-XD-HKs"/>
-                            <constraint firstItem="gkO-bX-PKM" firstAttribute="trailing" secondItem="kHX-hx-nFi" secondAttribute="trailing" constant="30" id="LDr-MZ-Nl4"/>
-                            <constraint firstItem="v1S-2f-4mi" firstAttribute="bottom" secondItem="gkO-bX-PKM" secondAttribute="bottom" id="R47-Sb-v8e"/>
-                            <constraint firstItem="v1S-2f-4mi" firstAttribute="leading" secondItem="gkO-bX-PKM" secondAttribute="leading" id="aIj-sj-dFz"/>
+                            <constraint firstItem="v1S-2f-4mi" firstAttribute="bottom" secondItem="kHX-hx-nFi" secondAttribute="bottom" constant="60" id="BvY-XD-HKs"/>
+                            <constraint firstItem="v1S-2f-4mi" firstAttribute="trailing" secondItem="kHX-hx-nFi" secondAttribute="trailing" constant="30" id="LDr-MZ-Nl4"/>
+                            <constraint firstItem="v1S-2f-4mi" firstAttribute="bottom" secondItem="Hv3-hC-FMX" secondAttribute="bottom" id="R47-Sb-v8e"/>
+                            <constraint firstItem="v1S-2f-4mi" firstAttribute="leading" secondItem="Hv3-hC-FMX" secondAttribute="leading" id="aIj-sj-dFz"/>
                             <constraint firstItem="v1S-2f-4mi" firstAttribute="top" secondItem="Hv3-hC-FMX" secondAttribute="top" id="bql-eb-Zjm"/>
-                            <constraint firstItem="kHX-hx-nFi" firstAttribute="top" secondItem="gkO-bX-PKM" secondAttribute="top" constant="60" id="jYS-XF-eEu"/>
-                            <constraint firstItem="v1S-2f-4mi" firstAttribute="trailing" secondItem="gkO-bX-PKM" secondAttribute="trailing" id="ma4-wh-JAr"/>
-                            <constraint firstItem="kHX-hx-nFi" firstAttribute="leading" secondItem="gkO-bX-PKM" secondAttribute="leading" constant="30" id="o0O-ci-o6Y"/>
+                            <constraint firstItem="kHX-hx-nFi" firstAttribute="top" secondItem="v1S-2f-4mi" secondAttribute="top" constant="80" id="jYS-XF-eEu"/>
+                            <constraint firstItem="v1S-2f-4mi" firstAttribute="trailing" secondItem="Hv3-hC-FMX" secondAttribute="trailing" id="ma4-wh-JAr"/>
+                            <constraint firstItem="kHX-hx-nFi" firstAttribute="leading" secondItem="v1S-2f-4mi" secondAttribute="leading" constant="30" id="o0O-ci-o6Y"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="gkO-bX-PKM"/>
                     </view>
