@@ -7,15 +7,47 @@
 //
 
 import UIKit
+import AZEmptyState
 
 class AddTipCell: UITableViewCell {
+    @IBOutlet weak var addButton: UIButton!
     
     internal func initCell(for numTips: Int) {
         if numTips == 0 {
-        //empty state
+            setupEmptyState()
         } else {
-        // not empty state
+            setupView()
         }
+        
+    }
+    
+    private func setupEmptyState() {
+        //init var
+        emptyStateView = AZEmptyStateView()
+        
+        //customize
+        emptyStateView.image = #imageLiteral(resourceName: "arrived")
+        emptyStateView.message = "Nobody has left a tip about this place yet"
+        emptyStateView.buttonText = "Add an Insider Tip"
+        emptyStateView.addTarget(self, action: #selector(onAddTip(_:)), for: .touchUpInside)
+        
+        //add subview
+        addButton.removeFromSuperview()
+        view.addSubview(emptyStateView)
+        
+        //add autolayout
+        emptyStateView.translatesAutoresizingMaskIntoConstraints = false
+        emptyStateView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        emptyStateView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        emptyStateView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6).isActive = true
+        emptyStateView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.55).isActive = true
+    }
+    
+    private func setupView() {
+        addButton.backgroundColor = UIColor.LABrand.primary
+        addButton.titleLabel?.textColor = UIColor.white
+        addButton.layer.cornerRadius = 5
+        addButton.clipsToBounds = true
     }
 
     override func awakeFromNib() {

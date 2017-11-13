@@ -17,8 +17,28 @@
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qez-nT-HDZ">
+                        <rect key="frame" x="92" y="12" width="136" height="19.5"/>
+                        <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
+                        <state key="normal" title="Add your own tip"/>
+                        <connections>
+                            <action selector="onAddTip:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="16p-hi-RO9"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                <constraints>
+                    <constraint firstItem="Qez-nT-HDZ" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="2RL-C3-IvV"/>
+                    <constraint firstAttribute="bottom" secondItem="Qez-nT-HDZ" secondAttribute="bottom" constant="12" id="Lof-ge-epF"/>
+                    <constraint firstItem="Qez-nT-HDZ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="c1v-7O-gBH"/>
+                    <constraint firstItem="Qez-nT-HDZ" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="g9n-Ju-I01"/>
+                </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="addButton" destination="Qez-nT-HDZ" id="JhT-Or-Vzi"/>
+            </connections>
         </tableViewCell>
     </objects>
 </document>
