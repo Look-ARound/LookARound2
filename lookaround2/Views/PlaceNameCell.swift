@@ -28,6 +28,16 @@ class PlaceNameCell: UITableViewCell {
         }
     }
     
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        initSubviews()
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        initSubviews()
+    }
+    
     internal func initCell(with place: Place) {
         setupViews(with: place)
     }
