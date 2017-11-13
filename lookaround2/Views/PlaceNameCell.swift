@@ -24,7 +24,12 @@ class PlaceNameCell: UITableViewCell {
     @IBOutlet private var directionsButton: UIButton!
     
     internal var delegate: PlaceNameCellDelegate?
-    internal var thisPlace: Place!
+    internal var place: Place? {
+        didSet {
+            setupViews()
+        }
+    }
+    
     internal var imageURLString: String? {
         didSet {
             self.placeImageView.image = #imageLiteral(resourceName: "placeholder")
@@ -36,12 +41,21 @@ class PlaceNameCell: UITableViewCell {
         }
     }
     
-    internal func initCell(with place: Place) {
-        thisPlace = place
-        setupViews(with: place)
+    required init?(coder aDecoder: NSCoder) {
+        print("coder init")
+        super.init(coder: aDecoder)
     }
     
-    private func setupViews(with place: Place) {
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        print("style init")
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    }
+    
+    private func setupViews() {
+        guard let place = place else {
+            print("nil place")
+            return
+        }
         nameLabel.text = place.name
         checkinsCountLabel.text = "\(place.checkins ?? 0) checkins"
         categoryLabel.text = place.category
@@ -80,20 +94,29 @@ class PlaceNameCell: UITableViewCell {
     }
     
     @IBAction func onDirectionsButton(_ sender: Any) {
-        delegate?.getDirections?(for: thisPlace)
+        guard let place = place else {
+            print("nil place")
+            return
+        }
+        delegate?.getDirections?(for: place)
     }
     
     // On "Add List" button
     func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "addPlaceVC" {
             let addPlaceVC = segue.destination as! AddPlaceViewController
-            addPlaceVC.place = self.thisPlace
+            guard let place = place else {
+                print ("nil place")
+                return
+            }
+            addPlaceVC.place = place
         }
     }
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        print("nameCell awake")
+       // setupViews()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

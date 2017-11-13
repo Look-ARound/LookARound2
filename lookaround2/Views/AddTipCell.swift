@@ -52,15 +52,14 @@ class AddTipCell: UITableViewCell {
     }
     
     private func setupView() {
-        addButton.backgroundColor = UIColor.LABrand.primary
-        addButton.titleLabel?.textColor = UIColor.white
+        addButton.backgroundColor = UIColor.LABrand.accent
         addButton.layer.cornerRadius = 5
         addButton.clipsToBounds = true
     }
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        print("add awake")
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

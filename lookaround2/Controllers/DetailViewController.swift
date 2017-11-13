@@ -36,7 +36,6 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         let cellNib = UINib(nibName: "AddTipCell", bundle: Bundle.main)
         tableView.register(cellNib, forCellReuseIdentifier: "AddTipCell")
 
-        
         print("load finish")
     }
     
@@ -44,6 +43,11 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         print("will appear")
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        print("did appear")
+        super.viewDidAppear(animated)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -62,8 +66,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         view.layer.cornerRadius = 10
         view.layer.masksToBounds = true
         
-        // The didTap: method will be defined in Step 3 below.
-        let tapGestureRecognizer = UITapGestureRecognizer(target: tableView, action: #selector(didTapTable(sender:)))
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapTable(sender:)))
         
         // Attach it to a view of your choice. If it's a UIImageView, remember to enable user interaction
         view.isUserInteractionEnabled = true
@@ -106,13 +109,16 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     
     @objc func didTapTable(sender: UITapGestureRecognizer) {
         expanded = !expanded
+        print("expanded = \(expanded)")
         tableView.reloadData()
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         if expanded {
+            print("5 sections")
             return 5
         } else {
+            print("1 section")
             return 1
         }
     }
@@ -137,13 +143,13 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            let placeNameCell = PlaceNameCell()
+            let placeNameCell = tableView.dequeueReusableCell(withIdentifier: "PlaceNameCell", for: indexPath) as! PlaceNameCell
             placeNameCell.delegate = self
-            placeNameCell.initCell(with: place)
+            placeNameCell.place = place
             return placeNameCell
         case 1:
             let placeExpandedCell = tableView.dequeueReusableCell(withIdentifier: "PlaceExpandedCell", for: indexPath) as! PlaceExpandedCell
-            placeExpandedCell.initCell(with: place)
+            placeExpandedCell.place = place
             return placeExpandedCell
         case 2:
             let addTipCell = tableView.dequeueReusableCell(withIdentifier: "AddTipCell", for: indexPath) as! AddTipCell
@@ -165,9 +171,8 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             }
             return placeLinkCell
         default:
-            let tipsCell = tableView.dequeueReusableCell(withIdentifier: "placeTipsCell", for: indexPath) as! PlaceTipsCell
-            tipsCell.tip = tips[indexPath.row]
-            return tipsCell
+            print("hit default switch")
+            return UITableViewCell()
         }
     }
 }

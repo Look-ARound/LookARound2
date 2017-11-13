@@ -18,11 +18,17 @@ class PlaceLinkCell: UITableViewCell {
     
     internal func initCell(with id: Int) {
         idNum = id
+        if let categoryLabel = visitButton.titleLabel, var buttonText = categoryLabel.text {
+            buttonText = buttonText + " \(idNum)"
+        }
     }
     
     internal func initCell(with id: Int, or pageLink: String) {
         idNum = id
         link = pageLink
+        if let categoryLabel = visitButton.titleLabel, var buttonText = categoryLabel.text {
+            buttonText = buttonText + " \(idNum)"
+        }
     }
     
     override func awakeFromNib() {
