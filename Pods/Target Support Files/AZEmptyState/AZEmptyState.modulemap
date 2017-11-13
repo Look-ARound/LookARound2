@@ -1,0 +1,6 @@
+framework module AZEmptyState {
+  umbrella header "AZEmptyState-umbrella.h"
+
+  export *
+  module * { export * }
+}
