@@ -9,7 +9,7 @@
 import UIKit
 
 class DetailPageViewController: UIPageViewController {
-    var detailVCs: [PlaceDetailViewController]?
+    var detailVCs: [DetailViewController]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +35,7 @@ class DetailPageViewController: UIPageViewController {
 
 }
 
-extension DetailViewController: UIPageViewControllerDataSource {
+extension DetailPageViewController: UIPageViewControllerDataSource {
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
         guard let detailVCs = detailVCs else {
             return 0
@@ -44,7 +44,7 @@ extension DetailViewController: UIPageViewControllerDataSource {
     }
     
     func presentationIndex(for pageViewController: UIPageViewController) -> Int {
-        guard let firstViewController = pageViewController.viewControllers?[0], let firstViewControllerIndex = detailVCs?.index(of: firstViewController as! PlaceDetailViewController) else {
+        guard let firstViewController = pageViewController.viewControllers?[0], let firstViewControllerIndex = detailVCs?.index(of: firstViewController as! DetailViewController) else {
             return 0
         }
         return firstViewControllerIndex
@@ -54,7 +54,7 @@ extension DetailViewController: UIPageViewControllerDataSource {
         guard let detailVCs = detailVCs else {
             return nil
         }
-        guard let currentPage = viewController as? PlaceDetailViewController else {
+        guard let currentPage = viewController as? DetailViewController else {
             return nil
         }
         guard let currentIndex = detailVCs.index(of: currentPage) else {
@@ -73,7 +73,7 @@ extension DetailViewController: UIPageViewControllerDataSource {
         guard let detailVCs = detailVCs else {
             return nil
         }
-        guard let currentPage = viewController as? PlaceDetailViewController else {
+        guard let currentPage = viewController as? DetailViewController else {
             return nil
         }
         guard let currentIndex = detailVCs.index(of: currentPage) else {

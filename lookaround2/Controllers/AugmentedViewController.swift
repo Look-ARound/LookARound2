@@ -72,7 +72,7 @@ class AugmentedViewController: ARViewController {
     // directions routeline
     var waypointShapeCollectionFeature: MGLShapeCollectionFeature?
     
-    var detailVCs: [PlaceDetailViewController] = []
+    var detailVCs: [DetailViewController] = []
     var currentIndex = 0
 
     // MARK: - Computed Properties
@@ -150,7 +150,8 @@ class AugmentedViewController: ARViewController {
         
         
         // SETLOCATION(2/2) Comment all these lines out to use actual current location
-    
+        mapView.setCenter(currentCoordinates, zoomLevel: 14, animated: true)
+        
         // Uncomment this line to use Facebook location - building 15
         //mapView.setCenter(CLLocationCoordinate2DMake(37.48443, -122.14819), zoomLevel: 15, animated: true)
         
@@ -276,16 +277,16 @@ class AugmentedViewController: ARViewController {
                 print(placename)
             }
             
-            let placeVC = PlaceDetailViewController()
-            detailVCs.append(placeVC)
+            //let placeVC = PlaceDetailViewController()
+            //detailVCs.append(placeVC)
         }
         print(annotationsToAdd.count)
         self.setAnnotations(annotationsToAdd)
         view.bringSubview(toFront: controlsContainerView)
         view.sendSubview(toBack: sceneView)
         
-        let pageVC = detailContainerView.subviews[0] as! DetailPageViewController
-        pageVC.detailVCs = detailVCs
+//        let pageVC = detailContainerView.subviews[0] as! DetailPageViewController
+//        pageVC.detailVCs = detailVCs
      }
 
     func refreshPins(withList list: List) {
@@ -565,14 +566,26 @@ class AugmentedViewController: ARViewController {
         if !isMapHidden() {
             slideMap()
         }
-        let storyboard = UIStoryboard(name: "Detail", bundle: nil)
-        let detailVC = storyboard.instantiateViewController(withIdentifier: "PlaceDetailVC") as! PlaceDetailViewController
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let detailVC = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         detailVC.place = place
-        addChildViewController(detailVC)
-        print("add child")
-        detailVC.view.frame = CGRect(x: 0, y: 0, width: detailContainerView.bounds.size.width, height: detailContainerView.bounds.size.height)
-        detailContainerView.addSubview(detailVC.view)
-        detailVC.didMove(toParentViewController: self)
+        detailVCs.append(detailVC)
+        
+        let pageVC = detailContainerView.subviews[0] as! DetailPageViewController
+        pageVC.detailVCs = detailVCs
+        
+        detailContainerView.isHidden = false
+        
+//        let storyboard = UIStoryboard(name: "Detail", bundle: nil)
+//        let detailVC = storyboard.instantiateViewController(withIdentifier: "PlaceDetailVC") as! PlaceDetailViewController
+//        detailVC.place = place
+//        addChildViewController(detailVC)
+//        print("add child")
+//        detailVC.view.frame = CGRect(x: 0, y: 0, width: detailContainerView.bounds.size.width, height: detailContainerView.bounds.size.height)
+//        detailContainerView.addSubview(detailVC.view)
+//        detailVC.didMove(toParentViewController: self)
+        
         //changePlaceDetailForDetailModelView(place: place)
         //showDetailView()
     }
