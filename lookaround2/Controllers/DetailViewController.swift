@@ -162,12 +162,11 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         case 4:
             let placeLinkCell = tableView.dequeueReusableCell(withIdentifier: "PlaceLinkCell", for: indexPath) as! PlaceLinkCell
             
-            if let idNum = Int(place.id) {
+            if let idNum = place.id {
                 if let link = place.link {
-                    placeLinkCell.initCell(with: idNum, or: link)
-                } else {
-                    placeLinkCell.initCell(with: idNum)
+                    placeLinkCell.link = link
                 }
+                placeLinkCell.idNum = idNum
             }
             return placeLinkCell
         default:

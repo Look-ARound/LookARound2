@@ -36,7 +36,8 @@ class AugmentedViewController: ARViewController {
     @IBOutlet weak var detailContainerView: UIView!
     @IBOutlet weak var mapTop: NSLayoutConstraint!
     @IBOutlet weak var mapBottom: NSLayoutConstraint!
-
+    @IBOutlet weak var detailTop: NSLayoutConstraint!
+    
     @IBOutlet weak var mapButton: UIButton!
     @IBOutlet weak var filterButton: UIButton!
     @IBOutlet weak var refreshButton: UIButton!
@@ -574,13 +575,19 @@ class AugmentedViewController: ARViewController {
         }
         let detailVC = storyboard.instantiateViewController(withIdentifier: "DetailVC") as! DetailViewController
         detailVC.place = place
-        detailVC.delegate = self
-        detailVCs.append(detailVC)
-        
-        let pageVC = DetailPageViewController()
-        pageVC.detailVCs = detailVCs
-        addPageVC(viewController: pageVC)
+        addChildViewController(detailVC)
+        print("add child")
+        detailVC.view.frame = CGRect(x: 0, y: 0, width: detailContainerView.frame.size.width, height: detailContainerView.frame.size.height)
+        detailContainerView.addSubview(detailVC.view)
+        detailVC.didMove(toParentViewController: self)
         detailContainerView.isHidden = false
+//        detailVC.delegate = self
+//        detailVCs.append(detailVC)
+//
+//        let pageVC = DetailPageViewController()
+//        pageVC.detailVCs = detailVCs
+//        addPageVC(viewController: pageVC)
+//        detailContainerView.isHidden = false
         
 //        let storyboard = UIStoryboard(name: "Detail", bundle: nil)
 //        let detailVC = storyboard.instantiateViewController(withIdentifier: "PlaceDetailVC") as! PlaceDetailViewController

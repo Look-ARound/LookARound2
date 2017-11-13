@@ -42,12 +42,12 @@ class PlaceNameCell: UITableViewCell {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        print("coder init")
+        print("coder name init")
         super.init(coder: aDecoder)
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        print("style init")
+        print("style name init")
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
     

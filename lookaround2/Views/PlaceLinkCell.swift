@@ -13,23 +13,12 @@ class PlaceLinkCell: UITableViewCell {
     @IBOutlet weak var detailButton: UIButton!
     @IBOutlet weak var visitButton: UIButton!
     
-    internal var idNum: Int!
+    internal var idNum: String? {
+        didSet {
+            setupViews()
+        }
+    }
     internal var link: String?
-    
-    internal func initCell(with id: Int) {
-        idNum = id
-        if let categoryLabel = visitButton.titleLabel, var buttonText = categoryLabel.text {
-            buttonText = buttonText + " \(idNum)"
-        }
-    }
-    
-    internal func initCell(with id: Int, or pageLink: String) {
-        idNum = id
-        link = pageLink
-        if let categoryLabel = visitButton.titleLabel, var buttonText = categoryLabel.text {
-            buttonText = buttonText + " \(idNum)"
-        }
-    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -40,6 +29,12 @@ class PlaceLinkCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
         
         // Configure the view for the selected state
+    }
+    
+    private func setupViews() {
+        if let categoryLabel = visitButton.titleLabel, var buttonText = categoryLabel.text {
+            buttonText = buttonText + " \(idNum)"
+        }
     }
     
     private func setupThemeColors() {
