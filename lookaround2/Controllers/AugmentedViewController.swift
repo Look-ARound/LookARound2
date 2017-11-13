@@ -25,7 +25,7 @@ import Turf
 protocol AugmentedViewControllerDelegate : NSObjectProtocol {
     func revealFilters(_augmentedViewController: AugmentedViewController)
     func hideFilters(_augmentedViewController: AugmentedViewController)
-    func showDetail(place: Place)
+    // func showDetail(place: Place)
 }
 
 class AugmentedViewController: ARViewController {
@@ -33,9 +33,9 @@ class AugmentedViewController: ARViewController {
     // MARK: - Outlets
     @IBOutlet weak var sceneView: ARSCNView!
     @IBOutlet weak var controlsContainerView: UIView!
-    @IBOutlet weak var mapView: MGLMapView!
-    var mapTop: NSLayoutConstraint!
-    var mapBottom: NSLayoutConstraint!
+    @IBOutlet weak var detailContainerView: UIView!
+    @IBOutlet weak var mapTop: NSLayoutConstraint!
+    @IBOutlet weak var mapBottom: NSLayoutConstraint!
 
     @IBOutlet weak var mapButton: UIButton!
     @IBOutlet weak var filterButton: UIButton!
@@ -43,6 +43,7 @@ class AugmentedViewController: ARViewController {
     @IBOutlet var clearDirectionsButton: UIButton!
 
     // MARK: - Stored Properties
+    var mapView: MGLMapView = MGLMapView(frame: CGRect.zero)
     var delegate: AugmentedViewControllerDelegate?
     var filterVC: FilterViewController!
     var showingFilters: Bool = false
@@ -96,7 +97,8 @@ class AugmentedViewController: ARViewController {
     // MARK: - Lifecycles
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        detailContainerView.isHidden = true
+        
         // Configure and style the 2D map view
         configureMapboxMapView()
 
@@ -134,14 +136,42 @@ class AugmentedViewController: ARViewController {
     }
 
     // MARK: - 2D Map setup
+    
+    private func configureMapboxMapView() {
+        mapView = MGLMapView(frame: controlsContainerView.bounds, styleURL: MGLStyle.streetsStyleURL())
+        mapView.delegate = self
+        mapView.userTrackingMode = .followWithHeading
+        controlsContainerView.addSubview(mapView)
+        mapView.layer.cornerRadius = 10
+        
+        
+        // SETLOCATION(2/2) Comment all these lines out to use actual current location
+    
+        // Uncomment this line to use Facebook location - building 15
+        //mapView.setCenter(CLLocationCoordinate2DMake(37.48443, -122.14819), zoomLevel: 15, animated: true)
+        
+        // Uncomment this line to use SF location
+        //mapView.setCenter(CLLocationCoordinate2DMake(37.7837851, -122.4334173), zoomLevel: 12, animated: true)
+        
+        // Uncomment this line to use Tokyo-Ebisu location
+        //mapView.setCenter(CLLocationCoordinate2DMake(35.6471564, 139.7075507), zoomLevel: 15, animated: true)
+        
+        // Uncomment this line to use NYC location
+        //mapView.setCenter(CLLocationCoordinate2DMake(40.7408932, -74.0070035), zoomLevel: 14, animated: true)
+        
+        // Uncomment this line to use Nashville location
+        //mapView.setCenter(CLLocationCoordinate2DMake(36.1815789, -86.7348512), zoomLevel: 14, animated: true)
+        
+        // Uncomment this line to use Dhaka location
+        //mapView.setCenter(CLLocationCoordinate2DMake(23.7909714, 90.4014137), zoomLevel: 14, animated: true)
+    }
+    
     func initMap()
     {
         mapView.alpha = 0.9
 
         controlsContainerView.translatesAutoresizingMaskIntoConstraints = false
-        mapTop = controlsContainerView.topAnchor.constraint(equalTo: view.centerYAnchor)
         mapTop.isActive = true
-        mapBottom = controlsContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         mapBottom.isActive = true
 
         // Move mapView offscreen (below view)
@@ -155,31 +185,17 @@ class AugmentedViewController: ARViewController {
     func isMapHidden() -> Bool {
         return !(self.mapBottom?.constant == 0)
     }
-
-    private func configureMapboxMapView() {
-        mapView.delegate = self
-        mapView.styleURL = MGLStyle.streetsStyleURL()
-        mapView.userTrackingMode = .followWithHeading
-        mapView.layer.cornerRadius = 10
-
-        // Uncomment this line to use Facebook location - building 15
-         //mapView.setCenter(CLLocationCoordinate2DMake(37.48443, -122.14819), zoomLevel: 15, animated: true)
-
-        // SETLOCATION(2/2) Comment all these lines out to use actual current location
-        // Uncomment this line to use SF location
-        //mapView.setCenter(CLLocationCoordinate2DMake(37.7837851, -122.4334173), zoomLevel: 12, animated: true)
-
-        // Uncomment this line to use Tokyo-Ebisu location
-        //mapView.setCenter(CLLocationCoordinate2DMake(35.6471564, 139.7075507), zoomLevel: 15, animated: true)
-
-        // Uncomment this line to use NYC location
-        //mapView.setCenter(CLLocationCoordinate2DMake(40.7408932, -74.0070035), zoomLevel: 14, animated: true)
-
-        // Uncomment this line to use Nashville location
-        //mapView.setCenter(CLLocationCoordinate2DMake(36.1815789, -86.7348512), zoomLevel: 14, animated: true)
-
-        // Uncomment this line to use Dhaka location
-        //mapView.setCenter(CLLocationCoordinate2DMake(23.7909714, 90.4014137), zoomLevel: 14, animated: true)
+    
+    
+    func slideMap() {
+        // Slide map up/down from bottom
+        let distance = self.mapBottom?.constant == 0 ? controlsContainerView.frame.height : 0
+        self.mapBottom?.constant = distance
+        self.mapTop?.constant = distance
+        
+        UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseOut], animations: {
+            self.view.layoutIfNeeded()
+        }, completion: nil)
     }
 
     // MARK: - AR scene setup
@@ -506,17 +522,6 @@ class AugmentedViewController: ARViewController {
         performFirstSearch()
     }
 
-    func slideMap() {
-        // Slide map up/down from bottom
-        let distance = self.mapBottom?.constant == 0 ? mapView.frame.height : 0
-        self.mapBottom?.constant = distance
-        self.mapTop?.constant = distance
-
-        UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseOut], animations: {
-            self.view.layoutIfNeeded()
-        }, completion: nil)
-    }
-
     @IBAction func onFilterButton(_ sender: Any) {
         if showingFilters {
             delegate?.hideFilters(_augmentedViewController: self)
@@ -544,13 +549,17 @@ class AugmentedViewController: ARViewController {
     // MARK: - Navigation
 
     func showDetailVC(forPlace place: Place) {
-        /*let storyboard = UIStoryboard(name: "Detail", bundle: nil)
-        let detailNavVC = storyboard.instantiateViewController(withIdentifier: "PlaceDetailNavVC") as! UINavigationController
-        let detailVC = detailNavVC.topViewController as! PlaceDetailViewController
+        if !isMapHidden() {
+            slideMap()
+        }
+        let storyboard = UIStoryboard(name: "Detail", bundle: nil)
+        let detailVC = storyboard.instantiateViewController(withIdentifier: "PlaceDetailVC") as! PlaceDetailViewController
         detailVC.place = place
-        present(detailNavVC, animated: true, completion: nil)*/
-        changePlaceDetailForDetailModelView(place: place)
-        showDetailView()
+        addChildViewController(detailVC)
+        detailContainerView.addSubview(detailVC.view)
+        detailVC.didMove(toParentViewController: self)
+        //changePlaceDetailForDetailModelView(place: place)
+        //showDetailView()
     }
 }
 
@@ -664,6 +673,7 @@ extension AugmentedViewController: AnnotationManagerDelegate {
 extension AugmentedViewController: MGLMapViewDelegate {
 
     func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
+        mapView.setCenter(currentCoordinates, zoomLevel: 14, animated: true)
         annotationManager.originLocation = currentLocation
         performFirstSearch()
 
@@ -874,9 +884,9 @@ extension AugmentedViewController {
     }
 
     func showDetailView() {
-        let distance = mapView.frame.height
-        self.mapBottom?.constant = distance
-        self.mapTop?.constant = distance
+        if !isMapHidden() {
+            slideMap()
+        }
         UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseOut], animations: {
             self.view.layoutIfNeeded()
         }, completion: nil)
@@ -898,7 +908,7 @@ extension AugmentedViewController {
             return
         }
 
-        delegate?.showDetail(place: place)
+        //delegate?.showDetail(place: place)
 
     }
 
