@@ -13,7 +13,17 @@ class PlaceLinkCell: UITableViewCell {
     @IBOutlet weak var detailButton: UIButton!
     @IBOutlet weak var visitButton: UIButton!
     
-    internal var place: Place!
+    internal var idNum: Int!
+    internal var link: String?
+    
+    internal func initCell(with id: Int) {
+        idNum = id
+    }
+    
+    internal func initCell(with id: Int, or link: String) {
+        idNum = id
+        link = link
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -32,10 +42,13 @@ class PlaceLinkCell: UITableViewCell {
     }
     
     @IBAction func onVisitPageButton(_ sender: Any) {
-        let idNum = place.id
-        
         let fbURLString = "fb://page/\(idNum)"
-        let pageURLString = "http://facebook.com/page/\(idNum)"
+        var pageURLString = ""
+        if link != nil {
+            pageURLString = link
+        } else {
+            pageURLString = "http://facebook.com/page/\(idNum)"
+        }
         
         guard let fbURL = URL(string: fbURLString), let pageURL = URL(string: pageURLString) else {
             return

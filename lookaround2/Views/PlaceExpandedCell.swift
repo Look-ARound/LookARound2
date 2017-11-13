@@ -12,9 +12,23 @@ class PlaceExpandedCell: UITableViewCell {
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var aboutLabel: UILabel!
     
+    internal func initCell(with place: Place) {
+        setupViews(with: place)
+    }
+    
+    private func setupViews(with place: Place) {
+        addressLabel.text = place.address
+        aboutLabel.text = place.description
+        setupThemeColors()
+    }
+    
+    private func setupThemeColors() {
+        addressLabel.textColor = UIColor.LABrand.detail
+        aboutLabel.textColor = UIColor.LABrand.detail
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        setupThemeColors()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -22,10 +36,8 @@ class PlaceExpandedCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+
     
-    private func setupThemeColors() {
-        addressLabel.textColor = UIColor.LABrand.detail
-        aboutLabel.textColor = UIColor.LABrand.detail
-    }
+    
 
 }

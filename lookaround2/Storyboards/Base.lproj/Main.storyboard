@@ -455,6 +455,7 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="N7R-nz-VEM" firstAttribute="trailing" secondItem="iRz-Ih-OYC" secondAttribute="trailing" id="3SS-Sp-fOG"/>
                             <constraint firstItem="N7R-nz-VEM" firstAttribute="leading" secondItem="iRz-Ih-OYC" secondAttribute="leading" id="Dl8-5y-z3m"/>
@@ -463,6 +464,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="iRz-Ih-OYC"/>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="N7R-nz-VEM" id="q2F-IT-7vx"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VeB-wY-ljU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

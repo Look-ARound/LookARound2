@@ -26,12 +26,12 @@ struct PlaceSearch {
         
         if let token = AccessToken.current {
             request.accessToken = token
-            request.parameters?["fields"] = "id, name, about, location, category_list, checkins, picture, cover, single_line_address, context"
+            request.parameters?["fields"] = "id, name, about, location, category_list, checkins, picture, cover, single_line_address, link, context"
         } else {
             print("search with logged out user")
             request.accessToken = nil
             request.parameters?["access_token"] = Bundle.main.object(forInfoDictionaryKey: "FacebookAppSecret")
-            request.parameters?["fields"] = "id, name, about, location, category_list, checkins, picture, cover, single_line_address"
+            request.parameters?["fields"] = "id, name, about, location, category_list, checkins, picture, cover, single_line_address, link"
         }
         
         request.parameters?["limit"] = 30
@@ -123,12 +123,12 @@ struct PlaceSearch {
         
         if let token = AccessToken.current {
             request.accessToken = token
-            request.parameters?["fields"] = "id, name, about, location, category_list, checkins, picture, cover, single_line_address, context"
+            request.parameters?["fields"] = "id, name, about, location, category_list, checkins, picture, cover, single_line_address, link, context"
         } else {
             print("search with logged out user")
             request.accessToken = nil
             request.parameters?["access_token"] = Bundle.main.object(forInfoDictionaryKey: "FacebookAppSecret")
-            request.parameters?["fields"] = "id, name, about, location, category_list, checkins, picture, cover, single_line_address"
+            request.parameters?["fields"] = "id, name, about, location, category_list, checkins, picture, cover, single_line_address, link"
         }
         
         return request
@@ -215,7 +215,7 @@ private struct PlaceSearchRequest: GraphRequestProtocol {
     var graphPath: String = "" // This string will be populated with the graphPathString function which is called by PlaceSearch().fetchPlaces.
     
     // Places available fields documentation at https://developers.facebook.com/docs/places/fields
-    var parameters: [String: Any]? = ["fields": "id, name, about, location, category_list, checkins, picture, cover, single_line_address"]
+    var parameters: [String: Any]? = ["fields": "id, name, about, location, category_list, checkins, picture, cover, single_line_address, link"]
     
     // Access documented at https://developers.facebook.com/docs/places/access-tokens
     // Default access token is the public client token, used for logged-out users
@@ -234,7 +234,7 @@ private struct PlaceIDSearchRequest: GraphRequestProtocol {
     var graphPath: String = "" // This string will be populated with the graphPathString function which is called by PlaceSearch().fetchPlaces.
     
     // Places available fields documentation at https://developers.facebook.com/docs/places/fields
-    var parameters: [String: Any]? = ["fields": "id, name, about, location, category_list, checkins, picture, cover, single_line_address"]
+    var parameters: [String: Any]? = ["fields": "id, name, about, location, category_list, checkins, picture, cover, single_line_address, link"]
     
     // Access documented at https://developers.facebook.com/docs/places/access-tokens
     // Default access token is the public client token, used for logged-out users
