@@ -477,10 +477,6 @@
                                                     </constraints>
                                                 </tableViewCellContentView>
                                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                <connections>
-                                                    <outlet property="authorLabel" destination="jhS-TE-9yF" id="ehK-Wm-6Z4"/>
-                                                    <outlet property="tipTextLabel" destination="ytb-dl-fWA" id="utB-Vn-33m"/>
-                                                </connections>
                                             </tableViewCell>
                                         </prototypes>
                                         <connections>
@@ -534,7 +530,7 @@
         <!--Add Place-->
         <scene sceneID="veh-43-oLH">
             <objects>
-                <viewController title="Add Place" id="7TG-jw-AJm" customClass="AddPlaceViewController" customModule="lookaround2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddPlaceViewController" title="Add Place" id="7TG-jw-AJm" customClass="AddPlaceViewController" customModule="lookaround2" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="g6p-YR-QRq">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

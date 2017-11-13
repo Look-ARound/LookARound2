@@ -23,6 +23,8 @@
 		7478B9CB1F9D2BEF00EB62F5 /* DatabaseRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478B9CA1F9D2BEF00EB62F5 /* DatabaseRequests.swift */; };
 		770769EE1FB517B000D1FAF4 /* AnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 770769ED1FB517B000D1FAF4 /* AnnotationView.swift */; };
 		771469F41FB7C1A600255D88 /* AugmentedCalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771469F31FB7C1A600255D88 /* AugmentedCalloutView.swift */; };
+		773068051FB96BC9005026BF /* PlaceExpandedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773068041FB96BC9005026BF /* PlaceExpandedCell.swift */; };
+		773068071FB96BDF005026BF /* PlaceLinkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773068061FB96BDF005026BF /* PlaceLinkCell.swift */; };
 		7747FEDC1F9B409300366D54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7747FEDB1F9B409300366D54 /* AppDelegate.swift */; };
 		7747FEDE1F9B409300366D54 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7747FEDD1F9B409300366D54 /* ViewController.swift */; };
 		7747FEE11F9B409300366D54 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7747FEDF1F9B409300366D54 /* Main.storyboard */; };
@@ -94,6 +96,8 @@
 		75C23D866F9CF839D25CBACE /* Pods-lookaround2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lookaround2.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lookaround2/Pods-lookaround2.debug.xcconfig"; sourceTree = "<group>"; };
 		770769ED1FB517B000D1FAF4 /* AnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationView.swift; sourceTree = "<group>"; };
 		771469F31FB7C1A600255D88 /* AugmentedCalloutView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AugmentedCalloutView.swift; path = lookaround2/Views/AugmentedCalloutView.swift; sourceTree = SOURCE_ROOT; };
+		773068041FB96BC9005026BF /* PlaceExpandedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceExpandedCell.swift; sourceTree = "<group>"; };
+		773068061FB96BDF005026BF /* PlaceLinkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceLinkCell.swift; sourceTree = "<group>"; };
 		7737274C1FA0805A00975D68 /* fb_access */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fb_access; sourceTree = "<group>"; };
 		7747FED81F9B409300366D54 /* lookaround2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lookaround2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7747FEDB1F9B409300366D54 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -177,7 +181,6 @@
 			children = (
 				411C2EB81FB3907A0011C8CE /* PlaceDetailViewController.swift */,
 				416D9B3A1FB63D7700C5C001 /* PlaceDetailCell.swift */,
-				416D9B3C1FB63FF500C5C001 /* PlaceTipsCell.swift */,
 				416D9B371FB63D2600C5C001 /* PlaceImageTableViewCell.swift */,
 			);
 			path = PlaceDetail;
@@ -304,6 +307,9 @@
 				771469F31FB7C1A600255D88 /* AugmentedCalloutView.swift */,
 				770769ED1FB517B000D1FAF4 /* AnnotationView.swift */,
 				77AB831E1FB95FB9005A3733 /* PlaceNameCell.swift */,
+				773068041FB96BC9005026BF /* PlaceExpandedCell.swift */,
+				416D9B3C1FB63FF500C5C001 /* PlaceTipsCell.swift */,
+				773068061FB96BDF005026BF /* PlaceLinkCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -608,7 +614,9 @@
 				77AB831F1FB95FB9005A3733 /* PlaceNameCell.swift in Sources */,
 				702F12D61FA0471F00E86482 /* HeaderCell.swift in Sources */,
 				778949931F9B623100910FD1 /* Place.swift in Sources */,
+				773068051FB96BC9005026BF /* PlaceExpandedCell.swift in Sources */,
 				778949991F9B624700910FD1 /* GraphRequests.swift in Sources */,
+				773068071FB96BDF005026BF /* PlaceLinkCell.swift in Sources */,
 				7761D2C31F9B471C004FDB15 /* AugmentedViewController.swift in Sources */,
 				771469F41FB7C1A600255D88 /* AugmentedCalloutView.swift in Sources */,
 				7770D6781FB96398008300E2 /* DetailViewController.swift in Sources */,

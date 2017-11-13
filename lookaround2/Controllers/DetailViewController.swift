@@ -9,27 +9,42 @@
 import UIKit
 
 class DetailViewController: UIViewController {
+    // MARK: - Stored Properties
+    
+    internal var place: Place!
+    internal var tips = [Tip]()
 
+    // MARK: - Lifecycles
+    
     override func viewDidLoad() {
+        print("load start")
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        setupViews()
+        fetchTips()
+        print("load finish")
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        print("will appear")
+        super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.isNavigationBarHidden = false
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // MARK: - Setup Views
+    
+    private func setupViews() {
+        view.layer.cornerRadius = 10
+        view.layer.masksToBounds = true
     }
-    */
 
 }
