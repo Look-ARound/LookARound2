@@ -8,8 +8,7 @@
 
 import UIKit
 
-@objc protocol DetailViewControllerDelegate {
-    @objc optional func getDirections( destLat: Double, destLong: Double )
+@objc protocol PlaceNameCellDelegate {
     @objc optional func getDirections(for place: Place)
 }
 
@@ -24,6 +23,8 @@ class PlaceNameCell: UITableViewCell {
     @IBOutlet weak var addListButton: UIButton!
     @IBOutlet private var directionsButton: UIButton!
     
+    internal var delegate: PlaceNameCellDelegate?
+    internal var thisPlace: Place!
     internal var imageURLString: String? {
         didSet {
             self.placeImageView.image = #imageLiteral(resourceName: "placeholder")
@@ -35,17 +36,8 @@ class PlaceNameCell: UITableViewCell {
         }
     }
     
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        initSubviews()
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        initSubviews()
-    }
-    
     internal func initCell(with place: Place) {
+        thisPlace = place
         setupViews(with: place)
     }
     
@@ -88,15 +80,14 @@ class PlaceNameCell: UITableViewCell {
     }
     
     @IBAction func onDirectionsButton(_ sender: Any) {
-        delegate?.getDirections?(for: place)
-        dismiss(animated: true, completion: nil)
+        delegate?.getDirections?(for: thisPlace)
     }
     
     // On "Add List" button
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "addPlaceVC" {
             let addPlaceVC = segue.destination as! AddPlaceViewController
-            addPlaceVC.place = self.place
+            addPlaceVC.place = self.thisPlace
         }
     }
 

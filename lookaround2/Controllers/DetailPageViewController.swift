@@ -13,8 +13,11 @@ class DetailPageViewController: UIPageViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        setViewControllers(detailVCs, direction: .forward, animated: true, completion: nil)
+        guard let detailVC = detailVCs else {
+            print ("nil cards")
+            return
+        }
+        setViewControllers(detailVC, direction: .forward, animated: true, completion: nil)
     }
 
     override func didReceiveMemoryWarning() {

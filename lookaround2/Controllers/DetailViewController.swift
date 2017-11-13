@@ -8,11 +8,16 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
+@objc protocol DetailViewControllerDelegate {
+    @objc optional func getDelDirections(for place: Place)
+}
+
+class DetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
     
     // MARK: - Stored Properties
     
+    internal var delegate: DetailViewControllerDelegate?
     internal var place: Place!
     internal var tips = [Tip]()
     internal var expanded: Bool = false
@@ -24,8 +29,14 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         setupViews()
         fetchTips()
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.estimatedRowHeight = 200
+        tableView.rowHeight = UITableViewAutomaticDimension
         let cellNib = UINib(nibName: "AddTipCell", bundle: Bundle.main)
-        tableView.registerNib(cellNib, forCellReuseIdentifier: "AddTipCell")
+        tableView.register(cellNib, forCellReuseIdentifier: "AddTipCell")
+
+        
         print("load finish")
     }
     
@@ -93,7 +104,7 @@ class DetailViewController: UIViewController {
     
     // MARK: - UITableView Setup
     
-    func didTapTable(sender: UITapGestureRecognizer) {
+    @objc func didTapTable(sender: UITapGestureRecognizer) {
         expanded = !expanded
         tableView.reloadData()
     }
@@ -126,7 +137,8 @@ class DetailViewController: UIViewController {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            let placeNameCell = tableView.dequeueReusableCell(withIdentifier: "PlaceNameCell", for: indexPath) as! PlaceNameCell
+            let placeNameCell = PlaceNameCell()
+            placeNameCell.delegate = self
             placeNameCell.initCell(with: place)
             return placeNameCell
         case 1:
@@ -143,10 +155,13 @@ class DetailViewController: UIViewController {
             return tipsCell
         case 4:
             let placeLinkCell = tableView.dequeueReusableCell(withIdentifier: "PlaceLinkCell", for: indexPath) as! PlaceLinkCell
-            if let link = place.link {
-                placeLinkCell.initCell(with: place.id, or: link)
-            } else {
-                placeLinkCell.initCell(with: place.id)
+            
+            if let idNum = Int(place.id) {
+                if let link = place.link {
+                    placeLinkCell.initCell(with: idNum, or: link)
+                } else {
+                    placeLinkCell.initCell(with: idNum)
+                }
             }
             return placeLinkCell
         default:
@@ -155,4 +170,21 @@ class DetailViewController: UIViewController {
             return tipsCell
         }
     }
+}
+
+extension DetailViewController: PlaceNameCellDelegate {
+    func getDirections(for place: Place) {
+        delegate?.getDelDirections?(for: place)
+    }
+}
+
+extension DetailViewController: AddTipCellDelegate {    
+    func presentVC(viewController: UIAlertController) {
+        present(viewController, animated: true, completion: nil)
+    }
+    
+    func refreshTips() {
+        tableView.reloadSections([3], with: UITableViewRowAnimation.automatic)
+    }
+
 }

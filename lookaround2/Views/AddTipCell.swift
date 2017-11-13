@@ -9,8 +9,16 @@
 import UIKit
 import AZEmptyState
 
+@objc protocol AddTipCellDelegate {
+    func presentVC(viewController: UIAlertController)
+    func refreshTips()
+}
+
 class AddTipCell: UITableViewCell {
     @IBOutlet weak var addButton: UIButton!
+    
+    internal var place: Place!
+    internal var delegate: AddTipCellDelegate?
     
     internal func initCell(for numTips: Int) {
         if numTips == 0 {
@@ -23,7 +31,7 @@ class AddTipCell: UITableViewCell {
     
     private func setupEmptyState() {
         //init var
-        emptyStateView = AZEmptyStateView()
+        let emptyStateView = AZEmptyStateView()
         
         //customize
         emptyStateView.image = #imageLiteral(resourceName: "arrived")
@@ -33,14 +41,14 @@ class AddTipCell: UITableViewCell {
         
         //add subview
         addButton.removeFromSuperview()
-        view.addSubview(emptyStateView)
+        self.contentView.addSubview(emptyStateView)
         
         //add autolayout
         emptyStateView.translatesAutoresizingMaskIntoConstraints = false
-        emptyStateView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        emptyStateView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        emptyStateView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6).isActive = true
-        emptyStateView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.55).isActive = true
+        emptyStateView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        emptyStateView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        emptyStateView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.6).isActive = true
+        emptyStateView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.55).isActive = true
     }
     
     private func setupView() {
@@ -75,7 +83,7 @@ class AddTipCell: UITableViewCell {
         }
         alertVC.addAction(saveAction)
         alertVC.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        present(alertVC, animated: true, completion: nil)
+        delegate?.presentVC(viewController: alertVC)
     }
     
     private func addTip(text: String) {
@@ -83,11 +91,7 @@ class AddTipCell: UITableViewCell {
             tip, error in
             if let tip = tip {
                 DatabaseRequests.shared.addTip(tip: tip)
-                self.tips.append(tip)
-                let indexPath = IndexPath(row: self.tips.count - 1, section: 2)
-                self.tableView.beginUpdates()
-                self.tableView.insertRows(at: [indexPath], with: .automatic)
-                self.tableView.endUpdates()
+                self.delegate?.refreshTips()
             } else {
                 _ = SweetAlert().showAlert("Error", subTitle: error!.localizedDescription, style: .error)
             }

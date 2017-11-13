@@ -81,9 +81,6 @@
                             </stackView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SBa-a9-fTk">
                                 <rect key="frame" x="0.0" y="334" width="375" height="333"/>
-                                <connections>
-                                    <segue destination="CTN-ln-Soz" kind="embed" id="ona-jR-BJD"/>
-                                </connections>
                             </containerView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -182,14 +179,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qzo-WX-enG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-223.75" y="36.684999999999995"/>
-        </scene>
-        <!--Detail Page View Controller-->
-        <scene sceneID="ySG-hp-TTx">
-            <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="CTN-ln-Soz" userLabel="Detail Page View Controller" customClass="DetailPageViewController" customModule="lookaround2" customModuleProvider="target" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="8Mz-bh-tm4" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="736" y="247"/>
         </scene>
         <!--Detail View Controller-->
         <scene sceneID="GOY-du-Swp">
@@ -470,7 +459,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VeB-wY-ljU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1202.5" y="181.5"/>
+            <point key="canvasLocation" x="746" y="37"/>
         </scene>
         <!--AddPlaceViewController-->
         <scene sceneID="IdZ-cS-Jk1">
@@ -480,7 +469,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fVz-R8-jZ9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1619" y="181"/>
+            <point key="canvasLocation" x="1224" y="36"/>
         </scene>
     </scenes>
     <resources>

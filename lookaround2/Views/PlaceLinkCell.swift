@@ -20,9 +20,9 @@ class PlaceLinkCell: UITableViewCell {
         idNum = id
     }
     
-    internal func initCell(with id: Int, or link: String) {
+    internal func initCell(with id: Int, or pageLink: String) {
         idNum = id
-        link = link
+        link = pageLink
     }
     
     override func awakeFromNib() {
@@ -45,7 +45,7 @@ class PlaceLinkCell: UITableViewCell {
         let fbURLString = "fb://page/\(idNum)"
         var pageURLString = ""
         if link != nil {
-            pageURLString = link
+            pageURLString = link!
         } else {
             pageURLString = "http://facebook.com/page/\(idNum)"
         }

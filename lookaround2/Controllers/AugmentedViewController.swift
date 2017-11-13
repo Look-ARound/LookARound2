@@ -150,7 +150,7 @@ class AugmentedViewController: ARViewController {
         
         
         // SETLOCATION(2/2) Comment all these lines out to use actual current location
-        mapView.setCenter(currentCoordinates, zoomLevel: 14, animated: true)
+        //mapView.setCenter(currentCoordinates, zoomLevel: 14, animated: true)
         
         // Uncomment this line to use Facebook location - building 15
         //mapView.setCenter(CLLocationCoordinate2DMake(37.48443, -122.14819), zoomLevel: 15, animated: true)
@@ -565,16 +565,21 @@ class AugmentedViewController: ARViewController {
     func showDetailVC(forPlace place: Place) {
         if !isMapHidden() {
             slideMap()
+            print("sliding")
         }
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let detailVC = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
+        guard let storyboard = self.storyboard else {
+            print("nil storyboard")
+            return
+        }
+        let detailVC = storyboard.instantiateViewController(withIdentifier: "DetailVC") as! DetailViewController
         detailVC.place = place
+        detailVC.delegate = self
         detailVCs.append(detailVC)
         
-        let pageVC = detailContainerView.subviews[0] as! DetailPageViewController
+        let pageVC = DetailPageViewController()
         pageVC.detailVCs = detailVCs
-        
+        addPageVC(viewController: pageVC)
         detailContainerView.isHidden = false
         
 //        let storyboard = UIStoryboard(name: "Detail", bundle: nil)
@@ -589,6 +594,14 @@ class AugmentedViewController: ARViewController {
         //changePlaceDetailForDetailModelView(place: place)
         //showDetailView()
     }
+    
+    private func addPageVC(viewController: UIViewController) {
+        self.addChildViewController(viewController)
+        viewController.view.frame = CGRect(x: 0, y: 0, width: detailContainerView.frame.size.width, height: detailContainerView.frame.size.height)
+        detailContainerView.addSubview(viewController.view)
+        viewController.didMove(toParentViewController: self)
+    }
+    
 }
 
 // MARK: - HD Augmented Data Source
@@ -900,6 +913,12 @@ extension AugmentedViewController {
 }
 
 // MARK: - Place Detail presentation
+
+extension AugmentedViewController: DetailViewControllerDelegate {
+    func getDelDirections(for place: Place) {
+        getDirections(for: place)
+    }
+}
 
 extension AugmentedViewController {
     func changePlaceDetailForDetailModelView(place: Place) {
