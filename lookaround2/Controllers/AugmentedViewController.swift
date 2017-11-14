@@ -34,9 +34,9 @@ class AugmentedViewController: ARViewController {
     @IBOutlet weak var sceneView: ARSCNView!
     @IBOutlet weak var controlsContainerView: UIView!
     @IBOutlet weak var detailContainerView: UIView!
-    @IBOutlet weak var mapTop: NSLayoutConstraint!
-    @IBOutlet weak var mapBottom: NSLayoutConstraint!
     @IBOutlet weak var detailTop: NSLayoutConstraint!
+    @IBOutlet weak var containerTop: NSLayoutConstraint!
+    @IBOutlet weak var containerBottom: NSLayoutConstraint!
     
     @IBOutlet weak var mapButton: UIButton!
     @IBOutlet weak var filterButton: UIButton!
@@ -44,6 +44,8 @@ class AugmentedViewController: ARViewController {
     @IBOutlet var clearDirectionsButton: UIButton!
 
     // MARK: - Stored Properties
+    var mapTop: NSLayoutConstraint!
+    var mapBottom: NSLayoutConstraint!
     var mapView: MGLMapView = MGLMapView(frame: CGRect.zero)
     var delegate: AugmentedViewControllerDelegate?
     var filterVC: FilterViewController!
@@ -177,13 +179,18 @@ class AugmentedViewController: ARViewController {
         mapView.alpha = 0.9
 
         controlsContainerView.translatesAutoresizingMaskIntoConstraints = false
+        mapTop = controlsContainerView.topAnchor.constraint(equalTo: view.centerYAnchor)
         mapTop.isActive = true
+        containerTop.isActive = false
+        mapBottom = controlsContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         mapBottom.isActive = true
+        containerBottom.isActive = false
 
         // Move mapView offscreen (below view)
         self.view.layoutIfNeeded() // Do this, otherwise frame.height will be incorrect
-        mapTop.constant = mapView.frame.height
-        mapBottom.constant = mapView.frame.height
+        mapTop.constant = controlsContainerView.bounds.size.height
+        mapBottom.constant = controlsContainerView.bounds.size.height
+        print ("\(mapBottom.constant)")
 
         view.bringSubview(toFront: controlsContainerView)
     }
@@ -575,11 +582,15 @@ class AugmentedViewController: ARViewController {
         }
         let detailVC = storyboard.instantiateViewController(withIdentifier: "DetailVC") as! DetailViewController
         detailVC.place = place
+        detailVC.delegate = self
         addChildViewController(detailVC)
         print("add child")
         detailVC.view.frame = CGRect(x: 0, y: 0, width: detailContainerView.frame.size.width, height: detailContainerView.frame.size.height)
+        detailContainerView.translatesAutoresizingMaskIntoConstraints = false
         detailContainerView.addSubview(detailVC.view)
         detailVC.didMove(toParentViewController: self)
+        detailVCs.append(detailVC)
+        
         detailContainerView.isHidden = false
 //        detailVC.delegate = self
 //        detailVCs.append(detailVC)
@@ -924,6 +935,22 @@ extension AugmentedViewController {
 extension AugmentedViewController: DetailViewControllerDelegate {
     func getDelDirections(for place: Place) {
         getDirections(for: place)
+    }
+    
+    func hasExpanded() {
+        detailTop.isActive = false
+        detailTop = detailContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50)
+        detailTop.isActive = true
+        print(" detail top at \(detailContainerView.frame.origin.y)")
+        //detailVCs.last?.view.layoutIfNeeded()
+    }
+    
+    func hasCollapsed() {
+        detailTop.isActive = false
+        detailTop = detailContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor, constant: 0)
+        detailTop.isActive = true
+        print(" detail top at \(detailContainerView.frame.origin.y)")
+        //detailVCs.last?.view.layoutIfNeeded()
     }
 }
 

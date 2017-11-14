@@ -32,7 +32,7 @@ class PlaceLinkCell: UITableViewCell {
     }
     
     private func setupViews() {
-        if let categoryLabel = visitButton.titleLabel, var buttonText = categoryLabel.text {
+        if let categoryLabel = visitButton.titleLabel, var buttonText = categoryLabel.text, let idNum = idNum {
             buttonText = buttonText + " \(idNum)"
         }
     }
@@ -43,6 +43,10 @@ class PlaceLinkCell: UITableViewCell {
     }
     
     @IBAction func onVisitPageButton(_ sender: Any) {
+        guard let idNum = idNum else {
+            print("invalid ID")
+            return
+        }
         let fbURLString = "fb://page/\(idNum)"
         var pageURLString = ""
         if link != nil {

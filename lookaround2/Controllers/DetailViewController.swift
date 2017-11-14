@@ -10,6 +10,8 @@ import UIKit
 
 @objc protocol DetailViewControllerDelegate {
     @objc optional func getDelDirections(for place: Place)
+    @objc optional func hasExpanded()
+    @objc optional func hasCollapsed()
 }
 
 class DetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -35,7 +37,6 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.rowHeight = UITableViewAutomaticDimension
         let cellNib = UINib(nibName: "AddTipCell", bundle: Bundle.main)
         tableView.register(cellNib, forCellReuseIdentifier: "AddTipCell")
-
         print("load finish")
     }
     
@@ -43,6 +44,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         print("will appear")
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
+        tableView.reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -109,7 +111,16 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     
     @objc func didTapTable(sender: UITapGestureRecognizer) {
         expanded = !expanded
+        if expanded {
+            print("starting delegate")
+            delegate?.hasExpanded?()
+        } else {
+            print("starting delegate")
+            delegate?.hasCollapsed?()
+        }
         print("expanded = \(expanded)")
+        self.view.layoutIfNeeded()
+        self.view.layoutSubviews()
         tableView.reloadData()
     }
     
@@ -137,6 +148,27 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             return 1
         default:
             return 1
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case 0:
+            return nil
+        case 1:
+            return nil
+        case 2:
+            return nil
+        case 3:
+            if tips.count > 0 {
+                return "Tips"
+            } else {
+                return nil
+            }
+        case 4:
+            return nil
+        default:
+            return nil
         }
     }
     

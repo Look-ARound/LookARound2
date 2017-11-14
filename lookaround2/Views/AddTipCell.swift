@@ -31,11 +31,7 @@ class AddTipCell: UITableViewCell {
     
     private func setupEmptyState() {
         //init var
-        guard let superV = self.superview else {
-            print ("no superview")
-            return
-        }
-        let emptyFrame = CGRect(x: 0, y: 0, width: superV.frame.size.width, height: 300)
+        let emptyFrame = CGRect(x: 0, y: 0, width: contentView.frame.size.width, height: 300)
         let emptyStateView = AZEmptyStateView(frame: emptyFrame)
         
         //customize

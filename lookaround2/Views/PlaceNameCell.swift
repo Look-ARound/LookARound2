@@ -59,8 +59,10 @@ class PlaceNameCell: UITableViewCell {
         nameLabel.text = place.name
         checkinsCountLabel.text = "\(place.checkins ?? 0) checkins"
         categoryLabel.text = place.category
+        imageURLString = place.picture
         setupThemeColors()
         setupFriendsCountLabel(contextCount: place.contextCount ?? 0)
+        self.contentView.layoutIfNeeded()
     }
     
     private func setupThemeColors() {
