@@ -38,10 +38,15 @@ class AddTipCell: UITableViewCell {
         emptyStateView.image = #imageLiteral(resourceName: "arrived")
         emptyStateView.message = "Nobody has left a tip about this place yet"
         emptyStateView.buttonText = "Add an Insider Tip"
+        emptyStateView.buttonTint = UIColor.white
+        emptyStateView.button.titleLabel?.textColor = UIColor.black
+        emptyStateView.button.backgroundColor = UIColor.LABrand.accent
         emptyStateView.addTarget(self, action: #selector(onAddTip(_:)), for: .touchUpInside)
         
         //add subview
-        contentView.sendSubview(toBack: addButton)
+        if let add = addButton {
+            add.removeFromSuperview()
+        }
         self.contentView.addSubview(emptyStateView)
         
         //add autolayout
@@ -53,7 +58,7 @@ class AddTipCell: UITableViewCell {
     }
     
     private func setupView() {
-        addButton.backgroundColor = UIColor.LABrand.accent
+        addButton.backgroundColor = UIColor.LABrand.primary
         addButton.layer.cornerRadius = 5
         addButton.clipsToBounds = true
     }

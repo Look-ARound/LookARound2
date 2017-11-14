@@ -63,7 +63,9 @@ class PlaceNameCell: UITableViewCell {
         setupThemeColors()
         setupFriendsCountLabel(contextCount: place.contextCount ?? 0)
         //self.contentView.layoutIfNeeded()
-        self.layoutIfNeeded()
+        //self.layoutIfNeeded()
+        //self.layoutSubviews()
+        self.contentView.layoutSubviews()
     }
     
     private func setupThemeColors() {
@@ -119,7 +121,7 @@ class PlaceNameCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         print("nameCell awake")
-       setupViews()
+        setupViews()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

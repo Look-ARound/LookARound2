@@ -175,19 +175,20 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            let placeNameCell = tableView.dequeueReusableCell(withIdentifier: "PlaceNameCell", for: indexPath) as! PlaceNameCell
+            //let placeNameCell = tableView.dequeueReusableCell(withIdentifier: "PlaceNameCell", for: indexPath) as! PlaceNameCell
+            let placeNameCell = PlaceNameCell(style: .default, reuseIdentifier: "PlaceNameCell")
             placeNameCell.delegate = self
             placeNameCell.place = place
-            placeNameCell.setupViews()
             return placeNameCell
         case 1:
             let placeExpandedCell = tableView.dequeueReusableCell(withIdentifier: "PlaceExpandedCell", for: indexPath) as! PlaceExpandedCell
-            //let placeExpandedCell = PlaceExpandedCell(style: .default, reuseIdentifier: "PlaceExpandedCell")
             placeExpandedCell.place = place
             placeExpandedCell.setupViews()
             return placeExpandedCell
         case 2:
             let addTipCell = tableView.dequeueReusableCell(withIdentifier: "AddTipCell", for: indexPath) as! AddTipCell
+            addTipCell.place = place
+            addTipCell.delegate = self
             addTipCell.initCell(for: tips.count)
             return addTipCell
         case 3:

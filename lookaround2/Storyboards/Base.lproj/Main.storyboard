@@ -191,7 +191,7 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="LLy-DN-9Vc">
-                                    <rect key="frame" x="0.0" y="204" width="375" height="44"/>
+                                    <rect key="frame" x="0.0" y="204" width="375" height="0.0"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </view>
@@ -335,16 +335,16 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="8wX-Pq-Wff">
-                                                    <rect key="frame" x="8" y="4" width="375" height="39.5"/>
+                                                    <rect key="frame" x="8" y="8" width="375" height="27.5"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address Text" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qCY-Q0-kWv">
-                                                            <rect key="frame" x="0.0" y="0.0" width="375" height="16"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="375" height="11.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About Text" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7kp-gc-IhX">
-                                                            <rect key="frame" x="0.0" y="24" width="375" height="15.5"/>
+                                                            <rect key="frame" x="0.0" y="19.5" width="375" height="8"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -357,10 +357,10 @@
                                                 </stackView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="8wX-Pq-Wff" secondAttribute="bottom" id="g0K-IN-KLF"/>
+                                                <constraint firstAttribute="bottom" secondItem="8wX-Pq-Wff" secondAttribute="bottom" constant="8" id="g0K-IN-KLF"/>
                                                 <constraint firstItem="8wX-Pq-Wff" firstAttribute="centerX" secondItem="kJd-Lw-gHO" secondAttribute="centerX" id="omP-gu-nI2"/>
                                                 <constraint firstItem="8wX-Pq-Wff" firstAttribute="width" secondItem="kJd-Lw-gHO" secondAttribute="width" constant="-16" id="t8I-ld-Ww2"/>
-                                                <constraint firstItem="8wX-Pq-Wff" firstAttribute="top" secondItem="kJd-Lw-gHO" secondAttribute="top" constant="4" id="trj-q8-2VO"/>
+                                                <constraint firstItem="8wX-Pq-Wff" firstAttribute="top" secondItem="kJd-Lw-gHO" secondAttribute="top" constant="8" id="trj-q8-2VO"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>

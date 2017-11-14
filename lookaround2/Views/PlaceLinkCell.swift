@@ -28,10 +28,6 @@ class PlaceLinkCell: UITableViewCell {
     }
     
     internal func setupViews() {
-        if let categoryLabel = visitButton.titleLabel, var buttonText = categoryLabel.text, let idNum = idNum {
-            print("setting visit text")
-            buttonText = buttonText + " \(idNum)"
-        }
         setupThemeColors()
     }
     
