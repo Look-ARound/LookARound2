@@ -48,6 +48,7 @@ class AugmentedViewController: ARViewController {
     var showingFilters: Bool = false
     var placeArray: [Place]?
     var numResults = 10
+    static var useFacebookLocation = false
     //fileprivate var arViewController: ARViewController!
 
     var placeImageView: UIImageView!
@@ -77,8 +78,13 @@ class AugmentedViewController: ARViewController {
                 print("no location")
                 return CLLocation(latitude: -180.0, longitude: -180.0)
             }
-            return coreLocation // SETLOCATION(1/2) uncomment this line to use actual current location
-            //return CLLocation(latitude: 37.48443, longitude: -122.14819) // uncomment this line to use Facebook building 15
+            if AugmentedViewController.useFacebookLocation {
+                return CLLocation(latitude: 37.48443, longitude: -122.14819) // uncomment this line to use Facebook building 15
+            }
+            else {
+                return coreLocation // SETLOCATION(1/2) uncomment this line to use actual current location
+            }
+
             //return CLLocation(latitude: 37.7837851, longitude: -122.4334173) // uncomment this line to use SF location
             //return CLLocation(latitude: 35.6471564, longitude: 139.7075507) // uncomment this line to use Tokyo location
             //return CLLocation(latitude: 40.7408932, longitude: -74.0070035) // uncomment this line to use NYC location
@@ -162,8 +168,10 @@ class AugmentedViewController: ARViewController {
         mapView.userTrackingMode = .followWithHeading
         mapView.layer.cornerRadius = 10
 
-        // Uncomment this line to use Facebook location - building 15
-         //mapView.setCenter(CLLocationCoordinate2DMake(37.48443, -122.14819), zoomLevel: 15, animated: true)
+        if AugmentedViewController.useFacebookLocation {
+            // Uncomment this line to use Facebook location - building 15
+            mapView.setCenter(CLLocationCoordinate2DMake(37.48443, -122.14819), zoomLevel: 15, animated: true)
+        }
 
         // SETLOCATION(2/2) Comment all these lines out to use actual current location
         // Uncomment this line to use SF location
