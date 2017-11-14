@@ -116,7 +116,10 @@ class AugmentedViewController: ARViewController {
 
         // Set up the UI elements as per the app theme
         filterButton.setImage(#imageLiteral(resourceName: "hamburger-on"), for: .selected)
+        filterButton.contentVerticalAlignment = .fill
+        filterButton.contentHorizontalAlignment = .fill
         prepButtonsWithARTheme(buttons: [mapButton, clearDirectionsButton, refreshButton])
+        refreshButton.alpha = 0.4
 
         clearDirectionsButton.isHidden = true
 
