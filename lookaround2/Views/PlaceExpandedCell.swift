@@ -15,8 +15,15 @@ class PlaceExpandedCell: UITableViewCell {
     internal var place: Place? {
         didSet {
             print("expanded place set")
-            setupViews()
         }
+    }
+    
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
     
     override func awakeFromNib() {
@@ -30,7 +37,7 @@ class PlaceExpandedCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-    private func setupViews() {
+    internal func setupViews() {
         guard let place = place else {
             print("nil place ExpandedCell")
             return
@@ -38,6 +45,7 @@ class PlaceExpandedCell: UITableViewCell {
         addressLabel.text = place.address
         aboutLabel.text = place.about
         setupThemeColors()
+        self.layoutIfNeeded()
     }
     
     private func setupThemeColors() {

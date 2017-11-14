@@ -13,11 +13,7 @@ class PlaceLinkCell: UITableViewCell {
     @IBOutlet weak var detailButton: UIButton!
     @IBOutlet weak var visitButton: UIButton!
     
-    internal var idNum: String? {
-        didSet {
-            setupViews()
-        }
-    }
+    internal var idNum: String?
     internal var link: String?
     
     override func awakeFromNib() {
@@ -31,10 +27,12 @@ class PlaceLinkCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    private func setupViews() {
+    internal func setupViews() {
         if let categoryLabel = visitButton.titleLabel, var buttonText = categoryLabel.text, let idNum = idNum {
+            print("setting visit text")
             buttonText = buttonText + " \(idNum)"
         }
+        setupThemeColors()
     }
     
     private func setupThemeColors() {

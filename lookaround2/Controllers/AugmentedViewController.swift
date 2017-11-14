@@ -85,13 +85,13 @@ class AugmentedViewController: ARViewController {
                 print("no location")
                 return CLLocation(latitude: -180.0, longitude: -180.0)
             }
-            return coreLocation // SETLOCATION(1/2) uncomment this line to use actual current location
+            //return coreLocation // SETLOCATION(1/2) uncomment this line to use actual current location
             //return CLLocation(latitude: 37.48443, longitude: -122.14819) // uncomment this line to use Facebook building 15
             //return CLLocation(latitude: 37.7837851, longitude: -122.4334173) // uncomment this line to use SF location
             //return CLLocation(latitude: 35.6471564, longitude: 139.7075507) // uncomment this line to use Tokyo location
             //return CLLocation(latitude: 40.7408932, longitude: -74.0070035) // uncomment this line to use NYC location
             //return CLLocation(latitude: 36.1815789, longitude: -86.7348512) // uncomment this line to use Nashville location
-            //return CLLocation(latitude: 23.7909714, longitude: 90.4014137) // uncomment this line to use Dhaka location
+            return CLLocation(latitude: 23.7909714, longitude: 90.4014137) // uncomment this line to use Dhaka location
         }
     }
 
@@ -104,6 +104,7 @@ class AugmentedViewController: ARViewController {
     // MARK: - Lifecycles
     override func viewDidLoad() {
         super.viewDidLoad()
+        detailTop.isActive = false
         detailContainerView.isHidden = true
         
         // Configure and style the 2D map view
@@ -171,7 +172,7 @@ class AugmentedViewController: ARViewController {
         //mapView.setCenter(CLLocationCoordinate2DMake(36.1815789, -86.7348512), zoomLevel: 14, animated: true)
         
         // Uncomment this line to use Dhaka location
-        //mapView.setCenter(CLLocationCoordinate2DMake(23.7909714, 90.4014137), zoomLevel: 14, animated: true)
+        mapView.setCenter(CLLocationCoordinate2DMake(23.7909714, 90.4014137), zoomLevel: 14, animated: true)
     }
     
     func initMap()
@@ -180,12 +181,12 @@ class AugmentedViewController: ARViewController {
 
         controlsContainerView.translatesAutoresizingMaskIntoConstraints = false
         mapTop = controlsContainerView.topAnchor.constraint(equalTo: view.centerYAnchor)
-        mapTop.isActive = true
         containerTop.isActive = false
+        mapTop.isActive = true
         mapBottom = controlsContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        mapBottom.isActive = true
         containerBottom.isActive = false
-
+        mapBottom.isActive = true
+        
         // Move mapView offscreen (below view)
         self.view.layoutIfNeeded() // Do this, otherwise frame.height will be incorrect
         mapTop.constant = controlsContainerView.bounds.size.height
@@ -592,6 +593,9 @@ class AugmentedViewController: ARViewController {
         detailVCs.append(detailVC)
         
         detailContainerView.isHidden = false
+        detailTop = detailContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor, constant: 0)
+        detailTop.isActive = true
+        
 //        detailVC.delegate = self
 //        detailVCs.append(detailVC)
 //
@@ -942,7 +946,7 @@ extension AugmentedViewController: DetailViewControllerDelegate {
         detailTop = detailContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50)
         detailTop.isActive = true
         print(" detail top at \(detailContainerView.frame.origin.y)")
-        //detailVCs.last?.view.layoutIfNeeded()
+        detailVCs.last?.tableView.reloadData()
     }
     
     func hasCollapsed() {
@@ -950,7 +954,7 @@ extension AugmentedViewController: DetailViewControllerDelegate {
         detailTop = detailContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor, constant: 0)
         detailTop.isActive = true
         print(" detail top at \(detailContainerView.frame.origin.y)")
-        //detailVCs.last?.view.layoutIfNeeded()
+        detailVCs.last?.tableView.reloadData()
     }
 }
 

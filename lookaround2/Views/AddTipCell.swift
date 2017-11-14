@@ -31,7 +31,7 @@ class AddTipCell: UITableViewCell {
     
     private func setupEmptyState() {
         //init var
-        let emptyFrame = CGRect(x: 0, y: 0, width: contentView.frame.size.width, height: 300)
+        let emptyFrame = CGRect(x: 0, y: 0, width: contentView.frame.size.width, height: 200)
         let emptyStateView = AZEmptyStateView(frame: emptyFrame)
         
         //customize
@@ -41,7 +41,7 @@ class AddTipCell: UITableViewCell {
         emptyStateView.addTarget(self, action: #selector(onAddTip(_:)), for: .touchUpInside)
         
         //add subview
-        addButton.removeFromSuperview()
+        contentView.sendSubview(toBack: addButton)
         self.contentView.addSubview(emptyStateView)
         
         //add autolayout
@@ -49,7 +49,7 @@ class AddTipCell: UITableViewCell {
         emptyStateView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         emptyStateView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         emptyStateView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.6).isActive = true
-        emptyStateView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.55).isActive = true
+        emptyStateView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.8).isActive = true
     }
     
     private func setupView() {

@@ -26,7 +26,7 @@ class PlaceNameCell: UITableViewCell {
     internal var delegate: PlaceNameCellDelegate?
     internal var place: Place? {
         didSet {
-            setupViews()
+
         }
     }
     
@@ -51,7 +51,7 @@ class PlaceNameCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
     
-    private func setupViews() {
+    internal func setupViews() {
         guard let place = place else {
             print("nil place")
             return
@@ -62,7 +62,8 @@ class PlaceNameCell: UITableViewCell {
         imageURLString = place.picture
         setupThemeColors()
         setupFriendsCountLabel(contextCount: place.contextCount ?? 0)
-        self.contentView.layoutIfNeeded()
+        //self.contentView.layoutIfNeeded()
+        self.layoutIfNeeded()
     }
     
     private func setupThemeColors() {
@@ -118,7 +119,7 @@ class PlaceNameCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         print("nameCell awake")
-       // setupViews()
+       setupViews()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -178,10 +178,13 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             let placeNameCell = tableView.dequeueReusableCell(withIdentifier: "PlaceNameCell", for: indexPath) as! PlaceNameCell
             placeNameCell.delegate = self
             placeNameCell.place = place
+            placeNameCell.setupViews()
             return placeNameCell
         case 1:
             let placeExpandedCell = tableView.dequeueReusableCell(withIdentifier: "PlaceExpandedCell", for: indexPath) as! PlaceExpandedCell
+            //let placeExpandedCell = PlaceExpandedCell(style: .default, reuseIdentifier: "PlaceExpandedCell")
             placeExpandedCell.place = place
+            placeExpandedCell.setupViews()
             return placeExpandedCell
         case 2:
             let addTipCell = tableView.dequeueReusableCell(withIdentifier: "AddTipCell", for: indexPath) as! AddTipCell
@@ -200,6 +203,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 }
                 placeLinkCell.idNum = idNum
             }
+            placeLinkCell.setupViews()
             return placeLinkCell
         default:
             print("hit default switch")
