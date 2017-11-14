@@ -77,8 +77,10 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let loginButton = LoginButton(frame: nil, readPermissions: [ .publicProfile, .userFriends ])
         loginButton.delegate = self
         loginButtonView.addSubview(loginButton)
+        currentUserImageView.layer.masksToBounds = true
+        currentUserImageView.layer.cornerRadius = currentUserImageView.frame.size.height * 0.5
         updateLoginInfo()
-    imageTapGesture.numberOfTapsRequired = 3
+        imageTapGesture.numberOfTapsRequired = 3
         
         fetchPlacesLists()
     }
