@@ -86,12 +86,12 @@ class AugmentedViewController: ARViewController {
                 return CLLocation(latitude: -180.0, longitude: -180.0)
             }
             //return coreLocation // SETLOCATION(1/2) uncomment this line to use actual current location
-            //return CLLocation(latitude: 37.48443, longitude: -122.14819) // uncomment this line to use Facebook building 15
+            return CLLocation(latitude: 37.48443, longitude: -122.14819) // uncomment this line to use Facebook building 15
             //return CLLocation(latitude: 37.7837851, longitude: -122.4334173) // uncomment this line to use SF location
             //return CLLocation(latitude: 35.6471564, longitude: 139.7075507) // uncomment this line to use Tokyo location
             //return CLLocation(latitude: 40.7408932, longitude: -74.0070035) // uncomment this line to use NYC location
             //return CLLocation(latitude: 36.1815789, longitude: -86.7348512) // uncomment this line to use Nashville location
-            return CLLocation(latitude: 23.7909714, longitude: 90.4014137) // uncomment this line to use Dhaka location
+            //return CLLocation(latitude: 23.7909714, longitude: 90.4014137) // uncomment this line to use Dhaka location
         }
     }
 
@@ -157,7 +157,7 @@ class AugmentedViewController: ARViewController {
         //mapView.setCenter(currentCoordinates, zoomLevel: 14, animated: true)
         
         // Uncomment this line to use Facebook location - building 15
-        //mapView.setCenter(CLLocationCoordinate2DMake(37.48443, -122.14819), zoomLevel: 15, animated: true)
+        mapView.setCenter(CLLocationCoordinate2DMake(37.48443, -122.14819), zoomLevel: 15, animated: true)
         
         // Uncomment this line to use SF location
         //mapView.setCenter(CLLocationCoordinate2DMake(37.7837851, -122.4334173), zoomLevel: 12, animated: true)
@@ -172,7 +172,7 @@ class AugmentedViewController: ARViewController {
         //mapView.setCenter(CLLocationCoordinate2DMake(36.1815789, -86.7348512), zoomLevel: 14, animated: true)
         
         // Uncomment this line to use Dhaka location
-        mapView.setCenter(CLLocationCoordinate2DMake(23.7909714, 90.4014137), zoomLevel: 14, animated: true)
+        //mapView.setCenter(CLLocationCoordinate2DMake(23.7909714, 90.4014137), zoomLevel: 14, animated: true)
     }
     
     func initMap()
@@ -586,15 +586,15 @@ class AugmentedViewController: ARViewController {
         detailVC.delegate = self
         addChildViewController(detailVC)
         print("add child")
-        detailVC.view.frame = CGRect(x: 0, y: 0, width: detailContainerView.frame.size.width, height: detailContainerView.frame.size.height)
         detailContainerView.translatesAutoresizingMaskIntoConstraints = false
-        detailContainerView.addSubview(detailVC.view)
-        detailVC.didMove(toParentViewController: self)
-        detailVCs.append(detailVC)
-        
         detailContainerView.isHidden = false
         detailTop = detailContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor, constant: 0)
         detailTop.isActive = true
+        detailVC.view.frame = CGRect(x: 0, y: 0, width: detailContainerView.frame.size.width, height: detailContainerView.frame.size.height)
+
+        detailContainerView.addSubview(detailVC.view)
+        detailVC.didMove(toParentViewController: self)
+        detailVCs.append(detailVC)
         
 //        detailVC.delegate = self
 //        detailVCs.append(detailVC)
@@ -955,6 +955,10 @@ extension AugmentedViewController: DetailViewControllerDelegate {
         detailTop.isActive = true
         print(" detail top at \(detailContainerView.frame.origin.y)")
         detailVCs.last?.tableView.reloadData()
+    }
+    
+    func addTip(show: UIAlertController) {
+        present(show, animated: true, completion: nil)
     }
 }
 

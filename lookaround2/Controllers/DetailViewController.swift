@@ -12,6 +12,7 @@ import UIKit
     @objc optional func getDelDirections(for place: Place)
     @objc optional func hasExpanded()
     @objc optional func hasCollapsed()
+    @objc optional func addTip(show: UIAlertController)
 }
 
 class DetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -119,8 +120,6 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             delegate?.hasCollapsed?()
         }
         print("expanded = \(expanded)")
-        self.view.layoutIfNeeded()
-        self.view.layoutSubviews()
         tableView.reloadData()
     }
     
@@ -175,10 +174,17 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            //let placeNameCell = tableView.dequeueReusableCell(withIdentifier: "PlaceNameCell", for: indexPath) as! PlaceNameCell
-            let placeNameCell = PlaceNameCell(style: .default, reuseIdentifier: "PlaceNameCell")
+            let placeNameCell = tableView.dequeueReusableCell(withIdentifier: "PlaceNameCell", for: indexPath) as! PlaceNameCell
             placeNameCell.delegate = self
             placeNameCell.place = place
+            placeNameCell.setupViews()
+            placeNameCell.layoutSubviews()
+            let nameFrame = placeNameCell.frame
+            let tableFrame = tableView.frame
+            let viewFrame = view.frame
+            print("namecell frame x: \(nameFrame.minX), y: \(nameFrame.minY), width: \(nameFrame.width), height: \(nameFrame.height)")
+            print("tableview frame x: \(tableFrame.minX), y: \(tableFrame.minY), width: \(tableFrame.width), height: \(tableFrame.height)")
+            print("VCview frame x: \(viewFrame.minX), y: \(viewFrame.minY), width: \(viewFrame.width), height: \(viewFrame.height)")
             return placeNameCell
         case 1:
             let placeExpandedCell = tableView.dequeueReusableCell(withIdentifier: "PlaceExpandedCell", for: indexPath) as! PlaceExpandedCell
@@ -221,7 +227,7 @@ extension DetailViewController: PlaceNameCellDelegate {
 
 extension DetailViewController: AddTipCellDelegate {    
     func presentVC(viewController: UIAlertController) {
-        present(viewController, animated: true, completion: nil)
+        delegate?.addTip?(show: viewController)
     }
     
     func refreshTips() {

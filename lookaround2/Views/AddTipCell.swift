@@ -35,13 +35,14 @@ class AddTipCell: UITableViewCell {
         let emptyStateView = AZEmptyStateView(frame: emptyFrame)
         
         //customize
+        emptyStateView.backgroundColor = UIColor.black
         emptyStateView.image = #imageLiteral(resourceName: "arrived")
         emptyStateView.message = "Nobody has left a tip about this place yet"
         emptyStateView.buttonText = "Add an Insider Tip"
         emptyStateView.buttonTint = UIColor.white
         emptyStateView.button.titleLabel?.textColor = UIColor.black
         emptyStateView.button.backgroundColor = UIColor.LABrand.accent
-        emptyStateView.addTarget(self, action: #selector(onAddTip(_:)), for: .touchUpInside)
+        emptyStateView.addTarget(emptyStateView.button, action: #selector(onAddTip(_:)), for: .touchUpInside)
         
         //add subview
         if let add = addButton {

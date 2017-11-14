@@ -41,16 +41,6 @@ class PlaceNameCell: UITableViewCell {
         }
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        print("coder name init")
-        super.init(coder: aDecoder)
-    }
-    
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        print("style name init")
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
-    
     internal func setupViews() {
         guard let place = place else {
             print("nil place")
