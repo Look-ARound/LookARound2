@@ -83,13 +83,12 @@ class AugmentedViewController: ARViewController {
             }
             else {
                 return coreLocation // SETLOCATION(1/2) uncomment this line to use actual current location
+                //return CLLocation(latitude: 37.7837851, longitude: -122.4334173) // uncomment this line to use SF location
+                //return CLLocation(latitude: 35.6471564, longitude: 139.7075507) // uncomment this line to use Tokyo location
+                //return CLLocation(latitude: 40.7408932, longitude: -74.0070035) // uncomment this line to use NYC location
+                //return CLLocation(latitude: 36.1815789, longitude: -86.7348512) // uncomment this line to use Nashville location
+                //return CLLocation(latitude: 23.7909714, longitude: 90.4014137) // uncomment this line to use Dhaka location
             }
-
-            //return CLLocation(latitude: 37.7837851, longitude: -122.4334173) // uncomment this line to use SF location
-            //return CLLocation(latitude: 35.6471564, longitude: 139.7075507) // uncomment this line to use Tokyo location
-            //return CLLocation(latitude: 40.7408932, longitude: -74.0070035) // uncomment this line to use NYC location
-            //return CLLocation(latitude: 36.1815789, longitude: -86.7348512) // uncomment this line to use Nashville location
-            //return CLLocation(latitude: 23.7909714, longitude: 90.4014137) // uncomment this line to use Dhaka location
         }
     }
 
@@ -250,7 +249,7 @@ class AugmentedViewController: ARViewController {
     // MARK: - Manage Places and AR Pins
     func addPlaces( places: [Place] ) {
         print( "* places.count=\(places.count)")
-        var annotationsToAdd: [Annotation] = []
+        var annotationsToAdd: [HDAnnotation] = []
 
         for index in 0..<places.count {
             let place = places[index]
@@ -259,7 +258,7 @@ class AugmentedViewController: ARViewController {
             let annotation2d = LAAnnotation2D(location: location, nodeImage: #imageLiteral(resourceName: "pin"), calloutImage: nil, place: place)
             mapView.addAnnotation(annotation2d)
             
-            if let annotation = Annotation(location: location, nodeImage: #imageLiteral(resourceName: "pin"), calloutImage: nil, place: place) {
+            if let annotation = HDAnnotation(location: location, leftImage: #imageLiteral(resourceName: "pin"), place: place) {
                 annotationsToAdd.append(annotation)
                 guard let placename = annotation.place?.name else {
                     return
@@ -335,13 +334,15 @@ class AugmentedViewController: ARViewController {
         }
 
         // Remove existing pins from HDAR view
-        let noAnnotations: [Annotation] = []
+        let noAnnotations: [HDAnnotation] = []
         self.setAnnotations(noAnnotations)
     }
 
     func hidePlacesExcept(place: Place) {
         // Remove AR pins only, leave the 2D map pins
         annotationManager.removeAllAnnotations()
+        let noAnnotations: [HDAnnotation] = []
+        self.setAnnotations(noAnnotations)
 
         // Add back only the selected Place's AR pin
         addPlaces(places: [place])
@@ -580,7 +581,7 @@ extension AugmentedViewController: ARDataSource {
 extension AugmentedViewController: AnnotationViewDelegate {
     func didTouch(annotationView: AnnotationView) {
         print("Tapped view for POI: \(annotationView.titleLabel?.text)")
-        if let annotation = annotationView.annotation as? Annotation, let tappedPlace = annotation.place {
+        if let annotation = annotationView.annotation as? HDAnnotation, let tappedPlace = annotation.place {
             showDetailVC(forPlace: tappedPlace)
         }
     }
@@ -812,7 +813,7 @@ extension AugmentedViewController: FilterViewControllerDelegate {
     func filterViewController(_filterViewController: FilterViewController, didSelectCategories categories: [FilterCategory]) {
         delegate?.hideFilters(_augmentedViewController: self)
         showingFilters = false
-        print("no search query, performing default search")
+        print("performing filtered search with selected categories")
         refreshPins(withCategories: categories)
     }
 
