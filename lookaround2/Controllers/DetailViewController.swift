@@ -152,7 +152,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             return 1
         case 2:
             return tips.count + 1
-        case 4:
+        case 3:
             return 1
         default:
             return 1
@@ -203,19 +203,6 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             default:
                 return UITableViewCell()
             }
-            
-//            let placeNameCell = tableView.dequeueReusableCell(withIdentifier: "PlaceNameCell", for: indexPath) as! PlaceNameCell
-//            placeNameCell.delegate = self
-//            placeNameCell.place = place
-//            placeNameCell.setupViews()
-//            //placeNameCell.layoutSubviews()
-//            let nameFrame = placeNameCell.frame
-//            let tableFrame = tableView.frame
-//            let viewFrame = view.frame
-//            print("namecell frame x: \(nameFrame.minX), y: \(nameFrame.minY), width: \(nameFrame.width), height: \(nameFrame.height)")
-//            print("tableview frame x: \(tableFrame.minX), y: \(tableFrame.minY), width: \(tableFrame.width), height: \(tableFrame.height)")
-//            print("VCview frame x: \(viewFrame.minX), y: \(viewFrame.minY), width: \(viewFrame.width), height: \(viewFrame.height)")
-//            return placeNameCell
         case 3:
             let placeLinkCell = tableView.dequeueReusableCell(withIdentifier: "PlaceLinkCell", for: indexPath) as! PlaceLinkCell
             

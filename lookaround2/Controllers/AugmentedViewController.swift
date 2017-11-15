@@ -91,12 +91,14 @@ class AugmentedViewController: ARViewController {
                 return CLLocation(latitude: 37.48443, longitude: -122.14819) // uncomment this line to use Facebook building 15
             }
             else {
-                return coreLocation // SETLOCATION(1/2) uncomment this line to use actual current location
+                //return coreLocation // SETLOCATION(1/2) uncomment this line to use actual current location
+                return CLLocation(latitude: 37.48443, longitude: -122.14819) // uncomment this line to use Facebook building 15
                 //return CLLocation(latitude: 37.7837851, longitude: -122.4334173) // uncomment this line to use SF location
                 //return CLLocation(latitude: 35.6471564, longitude: 139.7075507) // uncomment this line to use Tokyo location
                 //return CLLocation(latitude: 40.7408932, longitude: -74.0070035) // uncomment this line to use NYC location
                 //return CLLocation(latitude: 36.1815789, longitude: -86.7348512) // uncomment this line to use Nashville location
                 //return CLLocation(latitude: 23.7909714, longitude: 90.4014137) // uncomment this line to use Dhaka location
+                //return CLLocation(latitude: 42.3594552, longitude: -71.0925492) // uncomment this line to use Boston location
             }
         }
     }
@@ -170,6 +172,10 @@ class AugmentedViewController: ARViewController {
         }
 
         // SETLOCATION(2/2) Comment all these lines out to use actual current location
+        
+        // Uncomment this line to use Facebook location - building 15
+        mapView.setCenter(CLLocationCoordinate2DMake(37.48443, -122.14819), zoomLevel: 15, animated: true)
+        
         // Uncomment this line to use SF location
         //mapView.setCenter(CLLocationCoordinate2DMake(37.7837851, -122.4334173), zoomLevel: 12, animated: true)
 
@@ -184,6 +190,9 @@ class AugmentedViewController: ARViewController {
 
         // Uncomment this line to use Dhaka location
         //mapView.setCenter(CLLocationCoordinate2DMake(23.7909714, 90.4014137), zoomLevel: 14, animated: true)
+        
+        // Uncomment this line to use Boston location
+        //mapView.setCenter(CLLocationCoordinate2DMake(42.3594552, -71.0925492), zoomLevel: 14, animated: true)
         
     }
 
@@ -1002,7 +1011,7 @@ extension AugmentedViewController: DetailViewControllerDelegate {
     }
     
     func addPlaceList(show: AddPlaceViewController) {
-        navigationController?.present(show, animated: true, completion: nil)
+        self.navigationController?.pushViewController(show, animated: true)
     }
 }
 

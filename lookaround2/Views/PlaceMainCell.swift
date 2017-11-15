@@ -105,6 +105,7 @@ class PlaceMainCell: UITableViewCell {
             return
         }
         addPlaceVC.place = place
+        delegate?.addPlace(on: addPlaceVC)
     }
     
     override func awakeFromNib() {

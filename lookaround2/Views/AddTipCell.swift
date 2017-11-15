@@ -61,9 +61,13 @@ class AddTipCell: UITableViewCell {
     
     private func setupView() {
         self.contentView.backgroundColor = UIColor.LABrand.detail
-        addButton.backgroundColor = UIColor.LABrand.primary
-        addButton.layer.cornerRadius = 5
-        addButton.clipsToBounds = true
+        if let add = addButton {
+            add.backgroundColor = UIColor.LABrand.primary
+            add.layer.cornerRadius = 5
+            add.clipsToBounds = true
+        } else {
+            print("nil button!")
+        }
     }
 
     override func awakeFromNib() {
