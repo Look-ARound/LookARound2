@@ -55,13 +55,11 @@
 		778949A01F9B626700910FD1 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 778949881F9B60EA00910FD1 /* Login.storyboard */; };
 		778949A31F9B629800910FD1 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 77972BB11F9B5A2500CAEB1F /* art.scnassets */; };
 		7791D8791FA2B0BB00DFD147 /* DirectionsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7791D8781FA2B0BB00DFD147 /* DirectionsButton.swift */; };
-		77AB831F1FB95FB9005A3733 /* PlaceNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AB831E1FB95FB9005A3733 /* PlaceNameCell.swift */; };
 		77BD47BD1FA1EB8200F485A8 /* DetailButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BD47BC1FA1EB8200F485A8 /* DetailButton.swift */; };
 		77D020E21FA86B90000FF270 /* HamburgerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D020E11FA86B90000FF270 /* HamburgerViewController.swift */; };
 		77D50F5A1FB2969B00FB859E /* Tip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D50F591FB2969B00FB859E /* Tip.swift */; };
 		77F2A5EF1FBCB44E00408A03 /* PlaceMainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F2A5ED1FBCB44E00408A03 /* PlaceMainCell.swift */; };
 		77F2A5F01FBCB44E00408A03 /* PlaceMainCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 77F2A5EE1FBCB44E00408A03 /* PlaceMainCell.xib */; };
-		77FA0FAD1FB942C40005EC4C /* DetailPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FA0FAC1FB942C40005EC4C /* DetailPageViewController.swift */; };
 		94C5D99B7D4A23F860998772 /* Pods_lookaround2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E5AFF4092DEDBCD196BF743 /* Pods_lookaround2.framework */; };
 /* End PBXBuildFile section */
 
@@ -139,13 +137,11 @@
 		77972BAF1F9B591800CAEB1F /* LookAnchor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookAnchor.swift; sourceTree = "<group>"; };
 		77972BB01F9B591800CAEB1F /* AnnotationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationManager.swift; sourceTree = "<group>"; };
 		77972BB11F9B5A2500CAEB1F /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
-		77AB831E1FB95FB9005A3733 /* PlaceNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceNameCell.swift; sourceTree = "<group>"; };
 		77BD47BC1FA1EB8200F485A8 /* DetailButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailButton.swift; sourceTree = "<group>"; };
 		77D020E11FA86B90000FF270 /* HamburgerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HamburgerViewController.swift; sourceTree = "<group>"; };
 		77D50F591FB2969B00FB859E /* Tip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tip.swift; sourceTree = "<group>"; };
 		77F2A5ED1FBCB44E00408A03 /* PlaceMainCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceMainCell.swift; sourceTree = "<group>"; };
 		77F2A5EE1FBCB44E00408A03 /* PlaceMainCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaceMainCell.xib; sourceTree = "<group>"; };
-		77FA0FAC1FB942C40005EC4C /* DetailPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPageViewController.swift; sourceTree = "<group>"; };
 		AE0506F8C58D1DD1A3AFC610 /* Pods-lookaround2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lookaround2.release.xcconfig"; path = "Pods/Target Support Files/Pods-lookaround2/Pods-lookaround2.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -297,7 +293,6 @@
 				49E1E2201F9D2E1D004F972C /* AddPlaceViewController.swift */,
 				77D020E11FA86B90000FF270 /* HamburgerViewController.swift */,
 				7089677C1FAA2C950082F0DE /* DebugViewController.swift */,
-				77FA0FAC1FB942C40005EC4C /* DetailPageViewController.swift */,
 				7770D6771FB96398008300E2 /* DetailViewController.swift */,
 			);
 			path = Controllers;
@@ -314,7 +309,6 @@
 				7791D8781FA2B0BB00DFD147 /* DirectionsButton.swift */,
 				771469F31FB7C1A600255D88 /* AugmentedCalloutView.swift */,
 				770769ED1FB517B000D1FAF4 /* AnnotationView.swift */,
-				77AB831E1FB95FB9005A3733 /* PlaceNameCell.swift */,
 				77F2A5ED1FBCB44E00408A03 /* PlaceMainCell.swift */,
 				77F2A5EE1FBCB44E00408A03 /* PlaceMainCell.xib */,
 				773068041FB96BC9005026BF /* PlaceExpandedCell.swift */,
@@ -627,7 +621,6 @@
 				778949981F9B624400910FD1 /* FilterUtilities.swift in Sources */,
 				416D9B3D1FB63FF500C5C001 /* PlaceTipsCell.swift in Sources */,
 				77D020E21FA86B90000FF270 /* HamburgerViewController.swift in Sources */,
-				77AB831F1FB95FB9005A3733 /* PlaceNameCell.swift in Sources */,
 				702F12D61FA0471F00E86482 /* HeaderCell.swift in Sources */,
 				778949931F9B623100910FD1 /* Place.swift in Sources */,
 				773068051FB96BC9005026BF /* PlaceExpandedCell.swift in Sources */,
@@ -647,7 +640,6 @@
 				7789499C1F9B625100910FD1 /* DefaultCell.swift in Sources */,
 				770769EE1FB517B000D1FAF4 /* AnnotationView.swift in Sources */,
 				778949951F9B623A00910FD1 /* LookAnchor.swift in Sources */,
-				77FA0FAD1FB942C40005EC4C /* DetailPageViewController.swift in Sources */,
 				77F2A5EF1FBCB44E00408A03 /* PlaceMainCell.swift in Sources */,
 				7089677D1FAA2C950082F0DE /* DebugViewController.swift in Sources */,
 				778949971F9B624100910FD1 /* Annotation.swift in Sources */,

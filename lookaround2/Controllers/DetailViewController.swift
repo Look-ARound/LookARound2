@@ -40,6 +40,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.estimatedRowHeight = 200
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.separatorStyle = .none
+        tableView.contentInsetAdjustmentBehavior = .never
 
         let mainNib = UINib(nibName: "PlaceMainCell", bundle: Bundle.main)
         tableView.register(mainNib, forCellReuseIdentifier: "PlaceMainCell")
