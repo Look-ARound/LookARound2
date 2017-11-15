@@ -23,10 +23,10 @@ class PlaceMainCell: UITableViewCell {
     @IBOutlet private var placeImageView: UIImageView!
     @IBOutlet weak var addListButton: UIButton!
     @IBOutlet private var directionsButton: UIButton!
-    
+
     internal var delegate: PlaceMainCellDelegate?
     internal var place: Place?
-    
+
     internal var imageURLString: String? {
         didSet {
             self.placeImageView.image = #imageLiteral(resourceName: "placeholder")
@@ -37,7 +37,7 @@ class PlaceMainCell: UITableViewCell {
             }
         }
     }
-    
+
     internal func setupViews() {
         guard let place = place else {
             print("nil place")
@@ -54,7 +54,7 @@ class PlaceMainCell: UITableViewCell {
         //self.layoutSubviews()
         //self.contentView.layoutSubviews()
     }
-    
+
     private func setupThemeColors() {
         nameLabel.textColor = UIColor.LABrand.standard
         categoryLabel.textColor = UIColor.LABrand.detail
@@ -67,7 +67,7 @@ class PlaceMainCell: UITableViewCell {
         directionsButton.setImage(tintedImage, for: .normal)
         directionsButton.tintColor = UIColor.LABrand.primary
     }
-    
+
     private func setupFriendsCountLabel(contextCount: Int) {
         switch contextCount {
         case 1:
@@ -86,7 +86,7 @@ class PlaceMainCell: UITableViewCell {
             likeImageView.isHidden = true
         }
     }
-    
+
     @IBAction func onDirectionsButton(_ sender: Any) {
         guard let place = place else {
             print("nil place")
@@ -94,9 +94,9 @@ class PlaceMainCell: UITableViewCell {
         }
         delegate?.getDirections?(for: place)
     }
-    
+
     // On "Add List" button
-    
+
     @IBAction func onAddLIst(_ sender: Any) {
         let dStoryboard = UIStoryboard(name: "Detail", bundle: nil)
         let addPlaceVC = dStoryboard.instantiateViewController(withIdentifier: "AddPlaceViewController") as! AddPlaceViewController
@@ -105,16 +105,16 @@ class PlaceMainCell: UITableViewCell {
             return
         }
         addPlaceVC.place = place
+        delegate?.addPlace(on: addPlaceVC)
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-    
+
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        
+
         // Configure the view for the selected state
     }
 }
-
