@@ -189,11 +189,14 @@ extension AnnotationManager: ARSCNViewDelegate {
         
         let calloutGeometry = SCNPlane(width: geoWidth, height: geoHeight)
         
-        //calloutGeometry.firstMaterial?.fillMode = .fill
+        calloutGeometry.firstMaterial?.fillMode = .fill
         calloutGeometry.firstMaterial?.diffuse.contents = callout
         calloutGeometry.firstMaterial?.transparency = 0.8
 
         let calloutNode = SCNNode(geometry: calloutGeometry)
+            
+        //let calloutNode = SCNNode(geometry: title)
+        
         var nodePosition = node.position
         let (cmin, cmax) = calloutNode.boundingBox
         let (min, max) = node.boundingBox

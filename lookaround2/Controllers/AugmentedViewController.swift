@@ -37,13 +37,13 @@ class AugmentedViewController: ARViewController {
     @IBOutlet weak var detailTop: NSLayoutConstraint!
     @IBOutlet weak var containerTop: NSLayoutConstraint!
     @IBOutlet weak var containerBottom: NSLayoutConstraint!
-    
+
     @IBOutlet weak var mapButton: UIButton!
     @IBOutlet weak var filterButton: UIButton!
     @IBOutlet weak var refreshButton: UIButton!
     @IBOutlet var clearDirectionsButton: UIButton!
     @IBOutlet weak var fxView: UIVisualEffectView!
-    
+
     // MARK: - Stored Properties
     var mapTop: NSLayoutConstraint!
     var mapBottom: NSLayoutConstraint!
@@ -53,6 +53,7 @@ class AugmentedViewController: ARViewController {
     var showingFilters: Bool = false
     var placeArray: [Place]?
     var numResults = 10
+    static var useFacebookLocation = false
     //fileprivate var arViewController: ARViewController!
 
     var placeImageView: UIImageView!
@@ -75,7 +76,7 @@ class AugmentedViewController: ARViewController {
     // Define a shape collection that will be used to hold the point geometries that define the
     // directions routeline
     var waypointShapeCollectionFeature: MGLShapeCollectionFeature?
-    
+
     var detailVCs: [DetailViewController] = []
     var currentIndex = 0
 
@@ -86,13 +87,17 @@ class AugmentedViewController: ARViewController {
                 print("no location")
                 return CLLocation(latitude: -180.0, longitude: -180.0)
             }
-            //return coreLocation // SETLOCATION(1/2) uncomment this line to use actual current location
-            return CLLocation(latitude: 37.48443, longitude: -122.14819) // uncomment this line to use Facebook building 15
-            //return CLLocation(latitude: 37.7837851, longitude: -122.4334173) // uncomment this line to use SF location
-            //return CLLocation(latitude: 35.6471564, longitude: 139.7075507) // uncomment this line to use Tokyo location
-            //return CLLocation(latitude: 40.7408932, longitude: -74.0070035) // uncomment this line to use NYC location
-            //return CLLocation(latitude: 36.1815789, longitude: -86.7348512) // uncomment this line to use Nashville location
-            //return CLLocation(latitude: 23.7909714, longitude: 90.4014137) // uncomment this line to use Dhaka location
+            if AugmentedViewController.useFacebookLocation {
+                return CLLocation(latitude: 37.48443, longitude: -122.14819) // uncomment this line to use Facebook building 15
+            }
+            else {
+                return coreLocation // SETLOCATION(1/2) uncomment this line to use actual current location
+                //return CLLocation(latitude: 37.7837851, longitude: -122.4334173) // uncomment this line to use SF location
+                //return CLLocation(latitude: 35.6471564, longitude: 139.7075507) // uncomment this line to use Tokyo location
+                //return CLLocation(latitude: 40.7408932, longitude: -74.0070035) // uncomment this line to use NYC location
+                //return CLLocation(latitude: 36.1815789, longitude: -86.7348512) // uncomment this line to use Nashville location
+                //return CLLocation(latitude: 23.7909714, longitude: 90.4014137) // uncomment this line to use Dhaka location
+            }
         }
     }
 
@@ -109,7 +114,7 @@ class AugmentedViewController: ARViewController {
         detailContainerView.isHidden = true
         fxView.isHidden = true
 
-        
+
         // Configure and style the 2D map view
         configureMapboxMapView()
 
@@ -123,7 +128,10 @@ class AugmentedViewController: ARViewController {
 
         // Set up the UI elements as per the app theme
         filterButton.setImage(#imageLiteral(resourceName: "hamburger-on"), for: .selected)
+        filterButton.contentVerticalAlignment = .fill
+        filterButton.contentHorizontalAlignment = .fill
         prepButtonsWithARTheme(buttons: [mapButton, clearDirectionsButton, refreshButton])
+        refreshButton.alpha = 0.4
 
         clearDirectionsButton.isHidden = true
 
@@ -147,37 +155,34 @@ class AugmentedViewController: ARViewController {
     }
 
     // MARK: - 2D Map setup
-    
+
     private func configureMapboxMapView() {
-        mapView = MGLMapView(frame: controlsContainerView.bounds, styleURL: MGLStyle.streetsStyleURL())
         mapView.delegate = self
+        mapView.styleURL = MGLStyle.streetsStyleURL()
         mapView.userTrackingMode = .followWithHeading
-        controlsContainerView.addSubview(mapView)
         mapView.layer.cornerRadius = 10
-        
-        
+
+        if AugmentedViewController.useFacebookLocation {
+            // Uncomment this line to use Facebook location - building 15
+            mapView.setCenter(CLLocationCoordinate2DMake(37.48443, -122.14819), zoomLevel: 15, animated: true)
+        }
+
         // SETLOCATION(2/2) Comment all these lines out to use actual current location
-        //mapView.setCenter(currentCoordinates, zoomLevel: 14, animated: true)
-        
-        // Uncomment this line to use Facebook location - building 15
-        mapView.setCenter(CLLocationCoordinate2DMake(37.48443, -122.14819), zoomLevel: 15, animated: true)
-        
         // Uncomment this line to use SF location
         //mapView.setCenter(CLLocationCoordinate2DMake(37.7837851, -122.4334173), zoomLevel: 12, animated: true)
-        
+
         // Uncomment this line to use Tokyo-Ebisu location
         //mapView.setCenter(CLLocationCoordinate2DMake(35.6471564, 139.7075507), zoomLevel: 15, animated: true)
-        
+
         // Uncomment this line to use NYC location
         //mapView.setCenter(CLLocationCoordinate2DMake(40.7408932, -74.0070035), zoomLevel: 14, animated: true)
-        
+
         // Uncomment this line to use Nashville location
         //mapView.setCenter(CLLocationCoordinate2DMake(36.1815789, -86.7348512), zoomLevel: 14, animated: true)
-        
+
         // Uncomment this line to use Dhaka location
         //mapView.setCenter(CLLocationCoordinate2DMake(23.7909714, 90.4014137), zoomLevel: 14, animated: true)
-    }
-    
+
     func initMap()
     {
         mapView.alpha = 0.9
@@ -189,7 +194,7 @@ class AugmentedViewController: ARViewController {
         mapBottom = controlsContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         containerBottom.isActive = false
         mapBottom.isActive = true
-        
+
         // Move mapView offscreen (below view)
         self.view.layoutIfNeeded() // Do this, otherwise frame.height will be incorrect
         mapTop.constant = controlsContainerView.bounds.size.height
@@ -202,14 +207,14 @@ class AugmentedViewController: ARViewController {
     func isMapHidden() -> Bool {
         return !(self.mapBottom?.constant == 0)
     }
-    
-    
+
+
     func slideMap() {
         // Slide map up/down from bottom
         let distance = self.mapBottom?.constant == 0 ? controlsContainerView.frame.height : 0
         self.mapBottom?.constant = distance
         self.mapTop?.constant = distance
-        
+
         UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseOut], animations: {
             self.view.layoutIfNeeded()
         }, completion: nil)
@@ -272,23 +277,24 @@ class AugmentedViewController: ARViewController {
     // MARK: - Manage Places and AR Pins
     func addPlaces( places: [Place] ) {
         print( "* places.count=\(places.count)")
-        var annotationsToAdd: [Annotation] = []
+        var annotationsToAdd: [HDAnnotation] = []
 
         for index in 0..<places.count {
             let place = places[index]
 
             let location = CLLocation(coordinate: place.coordinate, altitude: 50, horizontalAccuracy: 5, verticalAccuracy: 5, timestamp: Date())
-            let annotation2d = LAAnnotation2D(location: location, nodeImage: #imageLiteral(resourceName: "pin"), calloutImage: nil, place: place)
+            let annotation2d = Annotation(location: location, nodeImage: #imageLiteral(resourceName: "pin"), calloutImage: nil, place: place)
             mapView.addAnnotation(annotation2d)
-            
-            if let annotation = Annotation(location: location, nodeImage: #imageLiteral(resourceName: "pin"), calloutImage: nil, place: place) {
+            // do not add annotation2d to AnnotationManager since we are using HD AR for place annotations
+
+            if let annotation = HDAnnotation(location: location, leftImage: #imageLiteral(resourceName: "pin"), place: place) {
                 annotationsToAdd.append(annotation)
                 guard let placename = annotation.place?.name else {
                     return
                 }
                 print(placename)
             }
-            
+
             //let placeVC = PlaceDetailViewController()
             //detailVCs.append(placeVC)
         }
@@ -296,7 +302,7 @@ class AugmentedViewController: ARViewController {
         self.setAnnotations(annotationsToAdd)
         view.bringSubview(toFront: controlsContainerView)
         view.sendSubview(toBack: sceneView)
-        
+
 //        let pageVC = detailContainerView.subviews[0] as! DetailPageViewController
 //        pageVC.detailVCs = detailVCs
      }
@@ -363,9 +369,9 @@ class AugmentedViewController: ARViewController {
         }
 
         // Remove existing pins from HDAR view
-        let noAnnotations: [Annotation] = []
+        let noAnnotations: [HDAnnotation] = []
         self.setAnnotations(noAnnotations)
-        
+
         // Empty out placeDetailVCs
         detailVCs = []
     }
@@ -373,6 +379,8 @@ class AugmentedViewController: ARViewController {
     func hidePlacesExcept(place: Place) {
         // Remove AR pins only, leave the 2D map pins
         annotationManager.removeAllAnnotations()
+        let noAnnotations: [HDAnnotation] = []
+        self.setAnnotations(noAnnotations)
 
         // Add back only the selected Place's AR pin
         addPlaces(places: [place])
@@ -432,9 +440,8 @@ class AugmentedViewController: ARViewController {
                         self.updateShapeCollectionFeature(&self.waypointShapeCollectionFeature, with: stepLocation, typeKey: "waypoint-type", typeAttribute: "big")
 
                         // Add an AR node
-                        if let annotation = Annotation(location: stepLocation, calloutImage: self.calloutImage(for: step.description), place: nil) {
-                            self.directionsAnnotations.append(annotation)
-                        }
+                        let annotation = Annotation(location: stepLocation, calloutImage: self.calloutImage(for: step.description), place: nil)
+                        self.directionsAnnotations.append(annotation)
                     }
                 }
 
@@ -451,16 +458,15 @@ class AugmentedViewController: ARViewController {
                         self.updateShapeCollectionFeature(&self.waypointShapeCollectionFeature, with: interpolatedStepLocation, typeKey: "waypoint-type", typeAttribute: "small")
 
                         // Add an AR node
-                        if let annotation = Annotation(location: interpolatedStepLocation, calloutImage: nil, place: nil) {
+                        let annotation = Annotation(location: interpolatedStepLocation, calloutImage: nil, place: nil)
                             self.directionsAnnotations.append(annotation)
-                        }
                     }
                 }
 
                 // Update the source used for route line visualization with the latest waypoint shape collection
                 self.updateSource(identifer: "annotationSource", shape: self.waypointShapeCollectionFeature)
 
-                // Update the annotation manager with the latest AR annotations
+                // Update the annotation manager with all the AR directions annotations
                 self.annotationManager.addAnnotations(annotations: self.directionsAnnotations)
 
                 self.mapView.userTrackingMode = .followWithHeading
@@ -573,11 +579,11 @@ class AugmentedViewController: ARViewController {
 
         clearDirectionsButton.isHidden = true
     }
-    
+
     @IBAction func onBGTap(_ sender: Any) {
         hasCollapsed()
     }
-    
+
 
     // MARK: - Navigation
 
@@ -586,7 +592,7 @@ class AugmentedViewController: ARViewController {
             slideMap()
             print("sliding")
         }
-        
+
         guard let storyboard = self.storyboard else {
             print("nil storyboard")
             return
@@ -605,7 +611,7 @@ class AugmentedViewController: ARViewController {
         detailContainerView.addSubview(detailVC.view)
         detailVC.didMove(toParentViewController: self)
         detailVCs.append(detailVC)
-        
+
 //        detailVC.delegate = self
 //        detailVCs.append(detailVC)
 //
@@ -613,7 +619,7 @@ class AugmentedViewController: ARViewController {
 //        pageVC.detailVCs = detailVCs
 //        addPageVC(viewController: pageVC)
 //        detailContainerView.isHidden = false
-        
+
 //        let storyboard = UIStoryboard(name: "Detail", bundle: nil)
 //        let detailVC = storyboard.instantiateViewController(withIdentifier: "PlaceDetailVC") as! PlaceDetailViewController
 //        detailVC.place = place
@@ -622,18 +628,18 @@ class AugmentedViewController: ARViewController {
 //        detailVC.view.frame = CGRect(x: 0, y: 0, width: detailContainerView.bounds.size.width, height: detailContainerView.bounds.size.height)
 //        detailContainerView.addSubview(detailVC.view)
 //        detailVC.didMove(toParentViewController: self)
-        
+
         //changePlaceDetailForDetailModelView(place: place)
         //showDetailView()
     }
-    
+
     private func addPageVC(viewController: UIViewController) {
         self.addChildViewController(viewController)
         viewController.view.frame = CGRect(x: 0, y: 0, width: detailContainerView.frame.size.width, height: detailContainerView.frame.size.height)
         detailContainerView.addSubview(viewController.view)
         viewController.didMove(toParentViewController: self)
     }
-    
+
 }
 
 // MARK: - HD Augmented Data Source
@@ -642,7 +648,7 @@ extension AugmentedViewController: ARDataSource {
         let annotationView = AnnotationView()
         annotationView.annotation = viewForAnnotation
         annotationView.delegate = self
-        annotationView.frame = CGRect(x: 0, y: 0, width: 150, height: 60)
+        annotationView.frame = CGRect(x: 0, y: 0, width: 150+100, height: 60+25)
 
         return annotationView
     }
@@ -651,7 +657,7 @@ extension AugmentedViewController: ARDataSource {
 extension AugmentedViewController: AnnotationViewDelegate {
     func didTouch(annotationView: AnnotationView) {
         print("Tapped view for POI: \(annotationView.titleLabel?.text)")
-        if let annotation = annotationView.annotation as? Annotation, let tappedPlace = annotation.place {
+        if let annotation = annotationView.annotation as? HDAnnotation, let tappedPlace = annotation.place {
             showDetailVC(forPlace: tappedPlace)
         }
     }
@@ -796,7 +802,7 @@ extension AugmentedViewController: MGLMapViewDelegate {
     }
 
     func mapView(_ mapView: MGLMapView, leftCalloutAccessoryViewFor annotation: MGLAnnotation) -> UIView? {
-        guard let augmentedAnnotation = annotation as? LAAnnotation2D, let place = augmentedAnnotation.place else {
+        guard let augmentedAnnotation = annotation as? Annotation, let place = augmentedAnnotation.place else {
             return UIView()
         }
         let detailButton = DetailButton(type: .detailDisclosure)
@@ -807,7 +813,7 @@ extension AugmentedViewController: MGLMapViewDelegate {
     }
 
     func mapView(_ mapView: MGLMapView, rightCalloutAccessoryViewFor annotation: MGLAnnotation) -> UIView? {
-        guard let augmentedAnnotation = annotation as? LAAnnotation2D, let place = augmentedAnnotation.place else {
+        guard let augmentedAnnotation = annotation as? Annotation, let place = augmentedAnnotation.place else {
             return UIView()
         }
         let directionsButton = DirectionsButton(type: .detailDisclosure)
@@ -818,7 +824,7 @@ extension AugmentedViewController: MGLMapViewDelegate {
     }
 
     func mapView(_ mapView: MGLMapView, tapOnCalloutFor annotation: MGLAnnotation) {
-        guard let augmentedAnnotation = annotation as? LAAnnotation2D, let place = augmentedAnnotation.place else {
+        guard let augmentedAnnotation = annotation as? Annotation, let place = augmentedAnnotation.place else {
             return
         }
         showDetailVC(forPlace: place)
@@ -884,7 +890,7 @@ extension AugmentedViewController: FilterViewControllerDelegate {
     func filterViewController(_filterViewController: FilterViewController, didSelectCategories categories: [FilterCategory]) {
         delegate?.hideFilters(_augmentedViewController: self)
         showingFilters = false
-        print("no search query, performing default search")
+        print("performing filtered search with selected categories")
         refreshPins(withCategories: categories)
     }
 
@@ -956,11 +962,11 @@ extension AugmentedViewController: DetailViewControllerDelegate {
         detailContainerView.isHidden = true
         detailVCs = []
     }
-    
+
     func getDelDirections(for place: Place) {
         getDirections(for: place)
     }
-    
+
     func hasExpanded() {
         detailTop.isActive = false
         detailTop = detailContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50)
@@ -972,7 +978,7 @@ extension AugmentedViewController: DetailViewControllerDelegate {
         }
         self.fxView.isHidden = false
     }
-    
+
     func hasCollapsed() {
         detailTop.isActive = false
         detailTop = detailContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor, constant: 0)
@@ -985,7 +991,7 @@ extension AugmentedViewController: DetailViewControllerDelegate {
         }
         self.fxView.isHidden = true
     }
-    
+
     func addTip(show: UIAlertController) {
         present(show, animated: true, completion: nil)
     }
@@ -1025,8 +1031,8 @@ extension AugmentedViewController {
             print("no selected place")
             return
         }
-
-        //delegate?.showDetail(place: place)
+        print("delegating")
+        delegate?.showDetail(place: place)
 
     }
 

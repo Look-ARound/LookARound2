@@ -12,6 +12,7 @@ class DebugViewController: UIViewController {
 
     @IBOutlet var autoGenLikesSwitch: UISwitch!
     @IBOutlet weak var moreSwitch: UISwitch!
+    @IBOutlet var useFacebookLocationSwitch: UISwitch!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,6 +20,8 @@ class DebugViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         autoGenLikesSwitch.isOn = PlaceSearch.autoGenLikes
+        
+        useFacebookLocationSwitch.isOn = AugmentedViewController.useFacebookLocation
     }
 
     override func didReceiveMemoryWarning() {
@@ -36,6 +39,10 @@ class DebugViewController: UIViewController {
         } else {
             // do nothing
         }
+    }
+    
+    @IBAction func onUseFacebookLocationSwitch(_ sender: Any) {
+        AugmentedViewController.useFacebookLocation = useFacebookLocationSwitch.isOn
     }
     
     @IBAction func onCancel(_ sender: Any) {

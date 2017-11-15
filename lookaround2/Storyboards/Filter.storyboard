@@ -283,7 +283,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="MFo-Ms-mOI">
-                                <rect key="frame" x="10" y="84" width="355" height="72"/>
+                                <rect key="frame" x="10" y="84" width="355" height="113"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="8bg-YL-3Do">
                                         <rect key="frame" x="0.0" y="0.0" width="355" height="31"/>
@@ -314,8 +314,24 @@
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ll8-dW-rKH">
                                                 <rect key="frame" x="306" y="0.0" width="51" height="31"/>
                                                 <connections>
-                                                    <action selector="onAutoGenLikesSwitch:" destination="tfd-PA-zlV" eventType="valueChanged" id="yYr-Gp-QU6"/>
                                                     <action selector="onMorePlaces:" destination="tfd-PA-zlV" eventType="valueChanged" id="IOG-G0-DTc"/>
+                                                </connections>
+                                            </switch>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="DLU-ya-ky4">
+                                        <rect key="frame" x="0.0" y="82" width="355" height="31"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use Facebook Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w9G-Ly-rlP">
+                                                <rect key="frame" x="0.0" y="0.0" width="298" height="31"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jhX-8e-pEi">
+                                                <rect key="frame" x="306" y="0.0" width="51" height="31"/>
+                                                <connections>
+                                                    <action selector="onUseFacebookLocationSwitch:" destination="tfd-PA-zlV" eventType="valueChanged" id="cF7-HG-NFs"/>
                                                 </connections>
                                             </switch>
                                         </subviews>
@@ -331,6 +347,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="MFo-Ms-mOI" firstAttribute="centerX" secondItem="8L7-b0-xJl" secondAttribute="centerX" id="8qb-zQ-Djt"/>
+                            <constraint firstItem="DLU-ya-ky4" firstAttribute="width" secondItem="MFo-Ms-mOI" secondAttribute="width" id="Xqz-XC-G5R"/>
                             <constraint firstItem="MFo-Ms-mOI" firstAttribute="top" secondItem="CjN-Zy-y5q" secondAttribute="top" constant="20" id="aPi-8e-BB2"/>
                             <constraint firstItem="MFo-Ms-mOI" firstAttribute="width" secondItem="CjN-Zy-y5q" secondAttribute="width" constant="-20" id="sfe-Ms-foD"/>
                         </constraints>
@@ -351,6 +368,7 @@
                     <connections>
                         <outlet property="autoGenLikesSwitch" destination="JvC-He-kXG" id="KS2-SX-t6J"/>
                         <outlet property="moreSwitch" destination="Ll8-dW-rKH" id="63m-vk-bp2"/>
+                        <outlet property="useFacebookLocationSwitch" destination="jhX-8e-pEi" id="jtO-Dp-07q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="My2-03-ndQ" userLabel="First Responder" sceneMemberID="firstResponder"/>

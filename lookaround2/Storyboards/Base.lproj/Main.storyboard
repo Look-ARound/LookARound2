@@ -53,7 +53,7 @@
                                         <rect key="frame" x="147.5" y="0.0" width="64" height="40"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="CZF-0y-HgM"/>
+                                            <constraint firstAttribute="width" constant="65" id="3I1-yR-C80"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
@@ -66,8 +66,8 @@
                                         <rect key="frame" x="319" y="0.0" width="40" height="40"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="40" id="GE1-5i-HTM"/>
-                                            <constraint firstAttribute="height" constant="40" id="xu7-aU-XP3"/>
+                                            <constraint firstAttribute="width" constant="32" id="GE1-5i-HTM"/>
+                                            <constraint firstAttribute="height" constant="32" id="xu7-aU-XP3"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <state key="normal" title="2D"/>
@@ -108,7 +108,7 @@
                             <constraint firstItem="Zw9-D9-wCj" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="YfD-Qi-zLF"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Zw9-D9-wCj" secondAttribute="bottom" id="ZPe-rA-Zdh"/>
                             <constraint firstAttribute="bottom" secondItem="7Ma-8d-EH7" secondAttribute="bottom" id="a2U-fd-D7i"/>
-                            <constraint firstItem="Z9v-Wv-VBd" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="4" id="bOH-Iw-hJr"/>
+                            <constraint firstItem="Z9v-Wv-VBd" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="8" id="bOH-Iw-hJr"/>
                             <constraint firstItem="M78-Zw-ca0" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="ck4-7K-7yg"/>
                             <constraint firstItem="M78-Zw-ca0" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="iYe-6m-uv2"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Zw9-D9-wCj" secondAttribute="trailing" id="jiY-fK-xoU"/>

@@ -12,16 +12,18 @@ import CoreLocation
 import Mapbox
 import HDAugmentedReality
 
-public class Annotation: ARAnnotation, MGLAnnotation {
+// Used for AR Callouts
+public class HDAnnotation: ARAnnotation {
+    // MARK: - Inherited Properties
+    // title: String
+    // location: CLLocation
 
-    //public var location: CLLocation
-    public var nodeImage: UIImage?
-    public var calloutImage: UIImage?
+    // MARK: - Stored Properties
+    public var leftImage: UIImage?
     public var anchor: LookAnchor?
     var place: Place?
 
     public var coordinate: CLLocationCoordinate2D
-    //public var title: String?
     public var subtitle: String?
 
     // Custom properties that we will use to customize the annotation's image.
@@ -30,14 +32,12 @@ public class Annotation: ARAnnotation, MGLAnnotation {
 
     init?(coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?) {
         self.coordinate = coordinate
-        //self.title = title
         self.subtitle = subtitle
         let loc = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
         super.init(identifier: subtitle, title: title, location: loc)
     }
 
-    init?(location: CLLocation, calloutImage: UIImage?, place: Place?) {
-        //self.location = location
+    init?(location: CLLocation, leftImage: UIImage?, place: Place?) {
         var placeTitle = ""
         self.coordinate = location.coordinate
         if let myPlace = place {
@@ -58,46 +58,16 @@ public class Annotation: ARAnnotation, MGLAnnotation {
                 }
             }
         }
-        if let image = calloutImage {
-            self.calloutImage = image
+        if let leftImage = leftImage {
+            self.leftImage = leftImage
         }
         super.init(identifier: subtitle, title: placeTitle, location: location)
     }
-
-    init?(location: CLLocation, nodeImage: UIImage?, calloutImage: UIImage?, place: Place?) {
-        //self.location = location
-        var placeTitle = ""
-        self.coordinate = location.coordinate
-        if let myPlace = place {
-            self.place = myPlace
-            placeTitle = myPlace.name
-            if let checkinCount = myPlace.checkins {
-                if let friendCount = myPlace.contextCount {
-                    switch friendCount {
-                    case 1:
-                        self.subtitle = "\(friendCount) friend likes this"
-                    case _ where friendCount > 1:
-                        self.subtitle = "\(friendCount) friends like this"
-                    case 0:
-                        self.subtitle = "\(checkinCount) checkins here"
-                    default:
-                        self.subtitle = nil
-                    }
-                }
-            }
-        }
-        if let nodeImage = nodeImage {
-            self.nodeImage = nodeImage
-        }
-        if let calloutImage = calloutImage {
-            self.calloutImage = calloutImage
-        }
-        super.init(identifier: subtitle, title: placeTitle, location: location)
-    }
-
 }
 
-public class LAAnnotation2D: NSObject, MGLAnnotation {
+// MARK: - Annotation class
+// Used for 2D map annotations & callouts and for AR directions
+public class Annotation: NSObject, MGLAnnotation {
     
     public var location: CLLocation
     public var nodeImage: UIImage?
@@ -126,14 +96,18 @@ public class LAAnnotation2D: NSObject, MGLAnnotation {
         if let myPlace = place {
             self.place = myPlace
             self.title = myPlace.name
-            if let friendCount = myPlace.contextCount {
-                switch friendCount {
-                case 1:
-                    self.subtitle = "\(friendCount) friend likes this"
-                case _ where friendCount > 1:
-                    self.subtitle = "\(friendCount) friends like this"
-                default:
-                    self.subtitle = nil
+            if let checkinCount = myPlace.checkins {
+                if let friendCount = myPlace.contextCount {
+                    switch friendCount {
+                    case 1:
+                        self.subtitle = "\(friendCount) friend likes this"
+                    case _ where friendCount > 1:
+                        self.subtitle = "\(friendCount) friends like this"
+                    case 0:
+                        self.subtitle = "\(checkinCount) checkins here"
+                    default:
+                        self.subtitle = nil
+                    }
                 }
             }
         }
@@ -148,9 +122,18 @@ public class LAAnnotation2D: NSObject, MGLAnnotation {
         if let myPlace = place {
             self.place = myPlace
             self.title = myPlace.name
-            if let friendCount = myPlace.contextCount {
-                if friendCount > 0 {
-                    self.subtitle = "\(friendCount) friends like this"
+            if let checkinCount = myPlace.checkins {
+                if let friendCount = myPlace.contextCount {
+                    switch friendCount {
+                    case 1:
+                        self.subtitle = "\(friendCount) friend likes this"
+                    case _ where friendCount > 1:
+                        self.subtitle = "\(friendCount) friends like this"
+                    case 0:
+                        self.subtitle = "\(checkinCount) checkins here"
+                    default:
+                        self.subtitle = nil
+                    }
                 }
             }
         }
