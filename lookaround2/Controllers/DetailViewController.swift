@@ -39,8 +39,12 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.estimatedRowHeight = 200
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.separatorStyle = .none
+        
+        let mainNib = UINib(nibName: "PlaceMainCell", bundle: Bundle.main)
+        tableView.register(mainNib, forCellReuseIdentifier: "PlaceMainCell")
         let cellNib = UINib(nibName: "AddTipCell", bundle: Bundle.main)
         tableView.register(cellNib, forCellReuseIdentifier: "AddTipCell")
+        
         print("load finish")
     }
     
@@ -172,18 +176,11 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            let placeNameCell = tableView.dequeueReusableCell(withIdentifier: "PlaceNameCell", for: indexPath) as! PlaceNameCell
-            placeNameCell.delegate = self
-            placeNameCell.place = place
-            placeNameCell.setupViews()
-            //placeNameCell.layoutSubviews()
-            let nameFrame = placeNameCell.frame
-            let tableFrame = tableView.frame
-            let viewFrame = view.frame
-            print("namecell frame x: \(nameFrame.minX), y: \(nameFrame.minY), width: \(nameFrame.width), height: \(nameFrame.height)")
-            print("tableview frame x: \(tableFrame.minX), y: \(tableFrame.minY), width: \(tableFrame.width), height: \(tableFrame.height)")
-            print("VCview frame x: \(viewFrame.minX), y: \(viewFrame.minY), width: \(viewFrame.width), height: \(viewFrame.height)")
-            return placeNameCell
+            let placeMainCell = tableView.dequeueReusableCell(withIdentifier: "PlaceMainCell", for: indexPath) as! PlaceMainCell
+            placeMainCell.place = place
+            placeMainCell.delegate = self
+            placeMainCell.setupViews()
+            return placeMainCell
         case 1:
             let placeExpandedCell = tableView.dequeueReusableCell(withIdentifier: "PlaceExpandedCell", for: indexPath) as! PlaceExpandedCell
             placeExpandedCell.place = place
@@ -205,6 +202,19 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             default:
                 return UITableViewCell()
             }
+            
+//            let placeNameCell = tableView.dequeueReusableCell(withIdentifier: "PlaceNameCell", for: indexPath) as! PlaceNameCell
+//            placeNameCell.delegate = self
+//            placeNameCell.place = place
+//            placeNameCell.setupViews()
+//            //placeNameCell.layoutSubviews()
+//            let nameFrame = placeNameCell.frame
+//            let tableFrame = tableView.frame
+//            let viewFrame = view.frame
+//            print("namecell frame x: \(nameFrame.minX), y: \(nameFrame.minY), width: \(nameFrame.width), height: \(nameFrame.height)")
+//            print("tableview frame x: \(tableFrame.minX), y: \(tableFrame.minY), width: \(tableFrame.width), height: \(tableFrame.height)")
+//            print("VCview frame x: \(viewFrame.minX), y: \(viewFrame.minY), width: \(viewFrame.width), height: \(viewFrame.height)")
+//            return placeNameCell
         case 3:
             let placeLinkCell = tableView.dequeueReusableCell(withIdentifier: "PlaceLinkCell", for: indexPath) as! PlaceLinkCell
             
@@ -238,7 +248,13 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     }
 }
 
-extension DetailViewController: PlaceNameCellDelegate {
+//extension DetailViewController: PlaceNameCellDelegate {
+//    func getDirections(for place: Place) {
+//        delegate?.getDelDirections?(for: place)
+//    }
+//}
+
+extension DetailViewController: PlaceMainCellDelegate {
     func getDirections(for place: Place) {
         delegate?.getDelDirections?(for: place)
     }
