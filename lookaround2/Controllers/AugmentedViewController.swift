@@ -540,7 +540,7 @@ class AugmentedViewController: ARViewController {
 
     @IBAction func onMapButton(_ sender: Any) {
         slideMap()
-        if detailTop.isActive {
+        if detailTop != nil {
             closeDetails()
         }
     }
