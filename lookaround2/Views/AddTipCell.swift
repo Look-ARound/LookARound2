@@ -30,19 +30,20 @@ class AddTipCell: UITableViewCell {
     }
     
     private func setupEmptyState() {
+        self.contentView.backgroundColor = UIColor.LABrand.unselected
+        
         //init var
-        let emptyFrame = CGRect(x: 0, y: 0, width: contentView.frame.size.width, height: 200)
+        let emptyFrame = CGRect(x: 0, y: 0, width: contentView.frame.size.width, height: 100)
         let emptyStateView = AZEmptyStateView(frame: emptyFrame)
         
         //customize
-        emptyStateView.backgroundColor = UIColor.black
         emptyStateView.image = #imageLiteral(resourceName: "arrived")
+        emptyStateView.textLabel.textColor = UIColor.white
         emptyStateView.message = "Nobody has left a tip about this place yet"
         emptyStateView.buttonText = "Add an Insider Tip"
         emptyStateView.buttonTint = UIColor.white
-        emptyStateView.button.titleLabel?.textColor = UIColor.black
         emptyStateView.button.backgroundColor = UIColor.LABrand.accent
-        emptyStateView.addTarget(emptyStateView.button, action: #selector(onAddTip(_:)), for: .touchUpInside)
+        emptyStateView.addTarget(self, action: #selector(onAddTip(_:)), for: .touchUpInside)
         
         //add subview
         if let add = addButton {
@@ -59,6 +60,7 @@ class AddTipCell: UITableViewCell {
     }
     
     private func setupView() {
+        self.contentView.backgroundColor = UIColor.LABrand.detail
         addButton.backgroundColor = UIColor.LABrand.primary
         addButton.layer.cornerRadius = 5
         addButton.clipsToBounds = true
@@ -66,7 +68,6 @@ class AddTipCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        print("add awake")
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

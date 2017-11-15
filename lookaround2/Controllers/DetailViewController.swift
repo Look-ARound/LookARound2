@@ -9,6 +9,7 @@
 import UIKit
 
 @objc protocol DetailViewControllerDelegate {
+    func closeDetails()
     @objc optional func getDelDirections(for place: Place)
     @objc optional func hasExpanded()
     @objc optional func hasCollapsed()
@@ -17,6 +18,7 @@ import UIKit
 
 class DetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var closeButton: UIButton!
     
     // MARK: - Stored Properties
     
@@ -36,6 +38,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.delegate = self
         tableView.estimatedRowHeight = 200
         tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.separatorStyle = .none
         let cellNib = UINib(nibName: "AddTipCell", bundle: Bundle.main)
         tableView.register(cellNib, forCellReuseIdentifier: "AddTipCell")
         print("load finish")
@@ -45,12 +48,14 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         print("will appear")
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
-        tableView.reloadData()
+        //tableView.reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         print("did appear")
         super.viewDidAppear(animated)
+        let iPath = IndexPath(row: 0, section: 0)
+        tableView.reloadRows(at: [iPath], with: .automatic)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -74,6 +79,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         // Attach it to a view of your choice. If it's a UIImageView, remember to enable user interaction
         view.isUserInteractionEnabled = true
         view.addGestureRecognizer(tapGestureRecognizer)
+        closeButton.transform = CGAffineTransform(rotationAngle: CGFloat.pi/4)
     }
 
     // MARK: - Tip Functions
@@ -125,8 +131,8 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     
     func numberOfSections(in tableView: UITableView) -> Int {
         if expanded {
-            print("5 sections")
-            return 5
+            print("4 sections")
+            return 4
         } else {
             print("1 section")
             return 1
@@ -140,9 +146,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         case 1:
             return 1
         case 2:
-            return 1
-        case 3:
-            return tips.count
+            return tips.count + 1
         case 4:
             return 1
         default:
@@ -157,14 +161,8 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         case 1:
             return nil
         case 2:
-            return nil
+            return "Tips"
         case 3:
-            if tips.count > 0 {
-                return "Tips"
-            } else {
-                return nil
-            }
-        case 4:
             return nil
         default:
             return nil
@@ -178,7 +176,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             placeNameCell.delegate = self
             placeNameCell.place = place
             placeNameCell.setupViews()
-            placeNameCell.layoutSubviews()
+            //placeNameCell.layoutSubviews()
             let nameFrame = placeNameCell.frame
             let tableFrame = tableView.frame
             let viewFrame = view.frame
@@ -192,16 +190,22 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             placeExpandedCell.setupViews()
             return placeExpandedCell
         case 2:
-            let addTipCell = tableView.dequeueReusableCell(withIdentifier: "AddTipCell", for: indexPath) as! AddTipCell
-            addTipCell.place = place
-            addTipCell.delegate = self
-            addTipCell.initCell(for: tips.count)
-            return addTipCell
+            switch indexPath.row {
+            case 0:
+                let addTipCell = tableView.dequeueReusableCell(withIdentifier: "AddTipCell", for: indexPath) as! AddTipCell
+                addTipCell.place = place
+                addTipCell.delegate = self
+                addTipCell.initCell(for: tips.count)
+                return addTipCell
+            case _ where indexPath.row > 0:
+                let realRow = indexPath.row - 1
+                let tipsCell = tableView.dequeueReusableCell(withIdentifier: "PlaceTipsCell", for: indexPath) as! PlaceTipsCell
+                tipsCell.tip = tips[realRow]
+                return tipsCell
+            default:
+                return UITableViewCell()
+            }
         case 3:
-            let tipsCell = tableView.dequeueReusableCell(withIdentifier: "PlaceTipsCell", for: indexPath) as! PlaceTipsCell
-            tipsCell.tip = tips[indexPath.row]
-            return tipsCell
-        case 4:
             let placeLinkCell = tableView.dequeueReusableCell(withIdentifier: "PlaceLinkCell", for: indexPath) as! PlaceLinkCell
             
             if let idNum = place.id {
@@ -211,11 +215,26 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 placeLinkCell.idNum = idNum
             }
             placeLinkCell.setupViews()
+            
             return placeLinkCell
         default:
             print("hit default switch")
             return UITableViewCell()
         }
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch indexPath.section {
+        case 0:
+            return 400
+        default:
+            return 100
+        }
+    }
+    
+    // MARK: - Actions
+    @IBAction func onCloseButton(_ sender: Any) {
+        delegate?.closeDetails()
     }
 }
 
@@ -231,7 +250,7 @@ extension DetailViewController: AddTipCellDelegate {
     }
     
     func refreshTips() {
-        tableView.reloadSections([3], with: UITableViewRowAnimation.automatic)
+        fetchTips()
     }
 
 }

@@ -12,15 +12,10 @@ class PlaceExpandedCell: UITableViewCell {
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var aboutLabel: UILabel!
     
-    internal var place: Place? {
-        didSet {
-            print("expanded place set")
-        }
-    }
+    internal var place: Place?
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        print("expanded awake")
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

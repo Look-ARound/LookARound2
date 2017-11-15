@@ -24,11 +24,7 @@ class PlaceNameCell: UITableViewCell {
     @IBOutlet private var directionsButton: UIButton!
     
     internal var delegate: PlaceNameCellDelegate?
-    internal var place: Place? {
-        didSet {
-
-        }
-    }
+    internal var place: Place?
     
     internal var imageURLString: String? {
         didSet {
@@ -110,8 +106,6 @@ class PlaceNameCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        print("nameCell awake")
-        setupViews()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

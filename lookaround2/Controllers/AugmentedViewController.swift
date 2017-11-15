@@ -42,7 +42,8 @@ class AugmentedViewController: ARViewController {
     @IBOutlet weak var filterButton: UIButton!
     @IBOutlet weak var refreshButton: UIButton!
     @IBOutlet var clearDirectionsButton: UIButton!
-
+    @IBOutlet weak var fxView: UIVisualEffectView!
+    
     // MARK: - Stored Properties
     var mapTop: NSLayoutConstraint!
     var mapBottom: NSLayoutConstraint!
@@ -106,6 +107,8 @@ class AugmentedViewController: ARViewController {
         super.viewDidLoad()
         detailTop.isActive = false
         detailContainerView.isHidden = true
+        fxView.isHidden = true
+
         
         // Configure and style the 2D map view
         configureMapboxMapView()
@@ -499,7 +502,7 @@ class AugmentedViewController: ARViewController {
     @objc func onMapTap(recognizer: UITapGestureRecognizer) {
         print("tapped")
         let location = recognizer.location(in: sceneView)
-        dismissDetailView()
+        closeDetails()
         let hitResults = sceneView.hitTest(location, options: nil)
         if hitResults.count > 0 {
             print("hit")
@@ -537,7 +540,7 @@ class AugmentedViewController: ARViewController {
 
     @IBAction func onMapButton(_ sender: Any) {
         slideMap()
-        dismissDetailView()
+        closeDetails()
     }
 
     @IBAction func onRefreshButton(_ sender: Any) {
@@ -568,6 +571,11 @@ class AugmentedViewController: ARViewController {
 
         clearDirectionsButton.isHidden = true
     }
+    
+    @IBAction func onBGTap(_ sender: Any) {
+        hasCollapsed()
+    }
+    
 
     // MARK: - Navigation
 
@@ -934,9 +942,19 @@ extension AugmentedViewController {
     }
 }
 
-// MARK: - Place Detail presentation
+// MARK: - DetailViewController Delegate
 
 extension AugmentedViewController: DetailViewControllerDelegate {
+    func closeDetails() {
+        UIView.animate(withDuration: 0.7) {
+            self.fxView.effect = nil
+        }
+        self.fxView.isHidden = true
+        detailTop.isActive = false
+        detailContainerView.isHidden = true
+        detailVCs = []
+    }
+    
     func getDelDirections(for place: Place) {
         getDirections(for: place)
     }
@@ -947,6 +965,10 @@ extension AugmentedViewController: DetailViewControllerDelegate {
         detailTop.isActive = true
         print(" detail top at \(detailContainerView.frame.origin.y)")
         detailVCs.last?.tableView.reloadData()
+        UIView.animate(withDuration: 0.7) {
+            self.fxView.effect = UIBlurEffect(style: .light)
+        }
+        self.fxView.isHidden = false
     }
     
     func hasCollapsed() {
@@ -954,7 +976,12 @@ extension AugmentedViewController: DetailViewControllerDelegate {
         detailTop = detailContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor, constant: 0)
         detailTop.isActive = true
         print(" detail top at \(detailContainerView.frame.origin.y)")
+        detailVCs.last?.expanded = false
         detailVCs.last?.tableView.reloadData()
+        UIView.animate(withDuration: 0.7) {
+            self.fxView.effect = nil
+        }
+        self.fxView.isHidden = true
     }
     
     func addTip(show: UIAlertController) {

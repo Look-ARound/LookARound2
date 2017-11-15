@@ -22,7 +22,7 @@ class PlaceTipsCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        print ("tip awake")
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
