@@ -92,8 +92,8 @@ class AugmentedViewController: ARViewController {
                 return CLLocation(latitude: 37.48443, longitude: -122.14819) // uncomment this line to use Facebook building 15
             }
             else {
-                //return coreLocation // SETLOCATION(1/2) uncomment this line to use actual current location
-                return CLLocation(latitude: 37.48443, longitude: -122.14819) // uncomment this line to use Facebook building 15
+                return coreLocation // SETLOCATION(1/2) uncomment this line to use actual current location
+                //return CLLocation(latitude: 37.48443, longitude: -122.14819) // uncomment this line to use Facebook building 15
                 //return CLLocation(latitude: 37.7837851, longitude: -122.4334173) // uncomment this line to use SF location
                 //return CLLocation(latitude: 35.6471564, longitude: 139.7075507) // uncomment this line to use Tokyo location
                 //return CLLocation(latitude: 40.7408932, longitude: -74.0070035) // uncomment this line to use NYC location
@@ -177,7 +177,7 @@ class AugmentedViewController: ARViewController {
         // SETLOCATION(2/2) Comment all these lines out to use actual current location
 
         // Uncomment this line to use Facebook location - building 15
-        mapView.setCenter(CLLocationCoordinate2DMake(37.48443, -122.14819), zoomLevel: 15, animated: true)
+        //mapView.setCenter(CLLocationCoordinate2DMake(37.48443, -122.14819), zoomLevel: 15, animated: true)
 
         // Uncomment this line to use SF location
         //mapView.setCenter(CLLocationCoordinate2DMake(37.7837851, -122.4334173), zoomLevel: 12, animated: true)
