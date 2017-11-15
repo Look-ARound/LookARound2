@@ -45,12 +45,15 @@ internal class PlaceDetailViewController: UIViewController, UITableViewDelegate,
     // MARK: - Lifecycles
 
     override func viewDidLoad() {
+        print("load start")
         super.viewDidLoad()
         setupViews()
         fetchTips()
+        print("load finish")
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        print("will appear")
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
         fetchTips()

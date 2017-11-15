@@ -7,6 +7,7 @@ target 'lookaround2' do
 
   # Pods for lookaround2
   pod 'AFNetworking'
+  pod 'AZEmptyState'
   pod 'FirebaseCore'
   pod 'Firebase/Database'
   pod 'FacebookCore'

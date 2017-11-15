@@ -67,8 +67,8 @@ extension HamburgerViewController: AugmentedViewControllerDelegate {
         hideFilters()
     }
     
-    func showDetail(place: Place) {
+    /* func showDetail(place: Place) {
         detailViewController.place = place
         present(detailNavController, animated: true, completion: nil)
-    }
+    } */ 
 }
