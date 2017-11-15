@@ -10,6 +10,7 @@ import UIKit
 
 @objc protocol PlaceMainCellDelegate {
     @objc optional func getDirections(for place: Place)
+    func addPlace(on viewController: AddPlaceViewController)
 }
 
 class PlaceMainCell: UITableViewCell {
@@ -62,6 +63,8 @@ class PlaceMainCell: UITableViewCell {
         checkInImageView.tintColor = UIColor.LABrand.detail
         likeImageView.tintColor = UIColor.LABrand.detail
         addListButton.tintColor = UIColor.LABrand.primary
+        let tintedImage = #imageLiteral(resourceName: "walking").withRenderingMode(.alwaysTemplate)
+        directionsButton.setImage(tintedImage, for: .normal)
         directionsButton.tintColor = UIColor.LABrand.primary
     }
     
@@ -93,15 +96,15 @@ class PlaceMainCell: UITableViewCell {
     }
     
     // On "Add List" button
-    func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "addPlaceVC" {
-            let addPlaceVC = segue.destination as! AddPlaceViewController
-            guard let place = place else {
-                print ("nil place")
-                return
-            }
-            addPlaceVC.place = place
+    
+    @IBAction func onAddLIst(_ sender: Any) {
+        let dStoryboard = UIStoryboard(name: "Detail", bundle: nil)
+        let addPlaceVC = dStoryboard.instantiateViewController(withIdentifier: "AddPlaceViewController") as! AddPlaceViewController
+        guard let place = place else {
+            print ("nil place")
+            return
         }
+        addPlaceVC.place = place
     }
     
     override func awakeFromNib() {

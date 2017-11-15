@@ -35,7 +35,7 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Z9v-Wv-VBd">
-                                <rect key="frame" x="8" y="24" width="359" height="40"/>
+                                <rect key="frame" x="8" y="28" width="359" height="40"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AB3-rY-gO6">
                                         <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
@@ -50,10 +50,11 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q9O-aw-kh9">
-                                        <rect key="frame" x="147.5" y="0.0" width="64" height="40"/>
+                                        <rect key="frame" x="147" y="0.0" width="65" height="40"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="65" id="3I1-yR-C80"/>
+                                            <constraint firstAttribute="height" constant="40" id="7Lr-PX-7LP"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
@@ -66,8 +67,8 @@
                                         <rect key="frame" x="319" y="0.0" width="40" height="40"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="32" id="GE1-5i-HTM"/>
-                                            <constraint firstAttribute="height" constant="32" id="xu7-aU-XP3"/>
+                                            <constraint firstAttribute="width" constant="40" id="GE1-5i-HTM"/>
+                                            <constraint firstAttribute="height" constant="40" id="xu7-aU-XP3"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <state key="normal" title="2D"/>

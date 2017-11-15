@@ -137,7 +137,7 @@ class AugmentedViewController: ARViewController {
 
         initMap()
 
-        addModelDetailView()
+        //addModelDetailView()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -157,9 +157,11 @@ class AugmentedViewController: ARViewController {
     // MARK: - 2D Map setup
 
     private func configureMapboxMapView() {
+        mapView = MGLMapView(frame: controlsContainerView.bounds, styleURL: MGLStyle.streetsStyleURL())
         mapView.delegate = self
         mapView.styleURL = MGLStyle.streetsStyleURL()
         mapView.userTrackingMode = .followWithHeading
+        controlsContainerView.addSubview(mapView)
         mapView.layer.cornerRadius = 10
 
         if AugmentedViewController.useFacebookLocation {
@@ -182,6 +184,8 @@ class AugmentedViewController: ARViewController {
 
         // Uncomment this line to use Dhaka location
         //mapView.setCenter(CLLocationCoordinate2DMake(23.7909714, 90.4014137), zoomLevel: 14, animated: true)
+        
+    }
 
     func initMap()
     {
@@ -585,7 +589,7 @@ class AugmentedViewController: ARViewController {
     }
 
 
-    // MARK: - Navigation
+    // MARK: - Detail Card Presentation
 
     func showDetailVC(forPlace place: Place) {
         if !isMapHidden() {
@@ -654,6 +658,7 @@ extension AugmentedViewController: ARDataSource {
     }
 }
 
+// MARK: - AnnotationView Delegate
 extension AugmentedViewController: AnnotationViewDelegate {
     func didTouch(annotationView: AnnotationView) {
         print("Tapped view for POI: \(annotationView.titleLabel?.text)")
@@ -663,7 +668,7 @@ extension AugmentedViewController: AnnotationViewDelegate {
     }
 }
 
-// MARK: - AnnotationManagerDelegate
+// MARK: - AnnotationManager Delegate
 
 extension AugmentedViewController: AnnotationManagerDelegate {
 
@@ -969,7 +974,7 @@ extension AugmentedViewController: DetailViewControllerDelegate {
 
     func hasExpanded() {
         detailTop.isActive = false
-        detailTop = detailContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50)
+        detailTop = detailContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0)
         detailTop.isActive = true
         print(" detail top at \(detailContainerView.frame.origin.y)")
         detailVCs.last?.tableView.reloadData()
@@ -995,8 +1000,13 @@ extension AugmentedViewController: DetailViewControllerDelegate {
     func addTip(show: UIAlertController) {
         present(show, animated: true, completion: nil)
     }
+    
+    func addPlaceList(show: AddPlaceViewController) {
+        navigationController?.present(show, animated: true, completion: nil)
+    }
 }
 
+// MARK: - Old detail presentation
 extension AugmentedViewController {
     func changePlaceDetailForDetailModelView(place: Place) {
         placeImageView?.image = #imageLiteral(resourceName: "placeholder")
@@ -1031,8 +1041,8 @@ extension AugmentedViewController {
             print("no selected place")
             return
         }
-        print("delegating")
-        delegate?.showDetail(place: place)
+       // print("delegating")
+       // delegate?.showDetail(place: place)
 
     }
 

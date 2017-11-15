@@ -14,6 +14,7 @@ import UIKit
     @objc optional func hasExpanded()
     @objc optional func hasCollapsed()
     @objc optional func addTip(show: UIAlertController)
+    @objc optional func addPlaceList(show: AddPlaceViewController)
 }
 
 class DetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -255,9 +256,15 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
 //}
 
 extension DetailViewController: PlaceMainCellDelegate {
+    func addPlace(on viewController: AddPlaceViewController) {
+        delegate?.addPlaceList?(show: viewController)
+    }
+    
     func getDirections(for place: Place) {
         delegate?.getDelDirections?(for: place)
     }
+    
+    
 }
 
 extension DetailViewController: AddTipCellDelegate {    
