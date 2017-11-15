@@ -24,6 +24,7 @@ class Place: NSObject {
     var contextCount: Int?
     var context: String?
     var checkins: Int?
+    var link: String?
     var distance: CLLocationDistance?
     
     var coordinate: CLLocationCoordinate2D {
@@ -60,6 +61,7 @@ class Place: NSObject {
         contextCount = json["context"]["friends_who_like"]["summary"]["total_count"].intValue
         checkins = json["checkins"].intValue
         category = json["category_list"][0]["name"].stringValue
+        link = json["link"].stringValue
     }
     
     // MANUAL INIT for debugging and testing

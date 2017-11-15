@@ -25,7 +25,7 @@ import Turf
 protocol AugmentedViewControllerDelegate : NSObjectProtocol {
     func revealFilters(_augmentedViewController: AugmentedViewController)
     func hideFilters(_augmentedViewController: AugmentedViewController)
-    func showDetail(place: Place)
+    // func showDetail(place: Place)
 }
 
 class AugmentedViewController: ARViewController {
@@ -33,16 +33,21 @@ class AugmentedViewController: ARViewController {
     // MARK: - Outlets
     @IBOutlet weak var sceneView: ARSCNView!
     @IBOutlet weak var controlsContainerView: UIView!
-    @IBOutlet weak var mapView: MGLMapView!
-    var mapTop: NSLayoutConstraint!
-    var mapBottom: NSLayoutConstraint!
+    @IBOutlet weak var detailContainerView: UIView!
+    @IBOutlet weak var detailTop: NSLayoutConstraint!
+    @IBOutlet weak var containerTop: NSLayoutConstraint!
+    @IBOutlet weak var containerBottom: NSLayoutConstraint!
 
     @IBOutlet weak var mapButton: UIButton!
     @IBOutlet weak var filterButton: UIButton!
     @IBOutlet weak var refreshButton: UIButton!
     @IBOutlet var clearDirectionsButton: UIButton!
+    @IBOutlet weak var fxView: UIVisualEffectView!
 
     // MARK: - Stored Properties
+    var mapTop: NSLayoutConstraint!
+    var mapBottom: NSLayoutConstraint!
+    var mapView: MGLMapView = MGLMapView(frame: CGRect.zero)
     var delegate: AugmentedViewControllerDelegate?
     var filterVC: FilterViewController!
     var showingFilters: Bool = false
@@ -72,6 +77,10 @@ class AugmentedViewController: ARViewController {
     // directions routeline
     var waypointShapeCollectionFeature: MGLShapeCollectionFeature?
 
+    var detailVCs: [DetailViewController] = []
+    var currentIndex = 0
+
+    // MARK: - Computed Properties
     var currentLocation: CLLocation {
         get {
             guard let userLocation = mapView.userLocation, let coreLocation = userLocation.location else {
@@ -101,6 +110,10 @@ class AugmentedViewController: ARViewController {
     // MARK: - Lifecycles
     override func viewDidLoad() {
         super.viewDidLoad()
+        detailTop.isActive = false
+        detailContainerView.isHidden = true
+        fxView.isHidden = true
+
 
         // Configure and style the 2D map view
         configureMapboxMapView()
@@ -124,7 +137,7 @@ class AugmentedViewController: ARViewController {
 
         initMap()
 
-        addModelDetailView()
+        //addModelDetailView()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -142,32 +155,13 @@ class AugmentedViewController: ARViewController {
     }
 
     // MARK: - 2D Map setup
-    func initMap()
-    {
-        mapView.alpha = 0.9
-
-        controlsContainerView.translatesAutoresizingMaskIntoConstraints = false
-        mapTop = controlsContainerView.topAnchor.constraint(equalTo: view.centerYAnchor)
-        mapTop.isActive = true
-        mapBottom = controlsContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        mapBottom.isActive = true
-
-        // Move mapView offscreen (below view)
-        self.view.layoutIfNeeded() // Do this, otherwise frame.height will be incorrect
-        mapTop.constant = mapView.frame.height
-        mapBottom.constant = mapView.frame.height
-
-        view.bringSubview(toFront: controlsContainerView)
-    }
-
-    func isMapHidden() -> Bool {
-        return !(self.mapBottom?.constant == 0)
-    }
 
     private func configureMapboxMapView() {
+        mapView = MGLMapView(frame: controlsContainerView.bounds, styleURL: MGLStyle.streetsStyleURL())
         mapView.delegate = self
         mapView.styleURL = MGLStyle.streetsStyleURL()
         mapView.userTrackingMode = .followWithHeading
+        controlsContainerView.addSubview(mapView)
         mapView.layer.cornerRadius = 10
 
         if AugmentedViewController.useFacebookLocation {
@@ -190,6 +184,44 @@ class AugmentedViewController: ARViewController {
 
         // Uncomment this line to use Dhaka location
         //mapView.setCenter(CLLocationCoordinate2DMake(23.7909714, 90.4014137), zoomLevel: 14, animated: true)
+        
+    }
+
+    func initMap()
+    {
+        mapView.alpha = 0.9
+
+        controlsContainerView.translatesAutoresizingMaskIntoConstraints = false
+        mapTop = controlsContainerView.topAnchor.constraint(equalTo: view.centerYAnchor)
+        containerTop.isActive = false
+        mapTop.isActive = true
+        mapBottom = controlsContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        containerBottom.isActive = false
+        mapBottom.isActive = true
+
+        // Move mapView offscreen (below view)
+        self.view.layoutIfNeeded() // Do this, otherwise frame.height will be incorrect
+        mapTop.constant = controlsContainerView.bounds.size.height
+        mapBottom.constant = controlsContainerView.bounds.size.height
+        print ("\(mapBottom.constant)")
+
+        view.bringSubview(toFront: controlsContainerView)
+    }
+
+    func isMapHidden() -> Bool {
+        return !(self.mapBottom?.constant == 0)
+    }
+
+
+    func slideMap() {
+        // Slide map up/down from bottom
+        let distance = self.mapBottom?.constant == 0 ? controlsContainerView.frame.height : 0
+        self.mapBottom?.constant = distance
+        self.mapTop?.constant = distance
+
+        UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseOut], animations: {
+            self.view.layoutIfNeeded()
+        }, completion: nil)
     }
 
     // MARK: - AR scene setup
@@ -258,7 +290,7 @@ class AugmentedViewController: ARViewController {
             let annotation2d = Annotation(location: location, nodeImage: #imageLiteral(resourceName: "pin"), calloutImage: nil, place: place)
             mapView.addAnnotation(annotation2d)
             // do not add annotation2d to AnnotationManager since we are using HD AR for place annotations
-            
+
             if let annotation = HDAnnotation(location: location, leftImage: #imageLiteral(resourceName: "pin"), place: place) {
                 annotationsToAdd.append(annotation)
                 guard let placename = annotation.place?.name else {
@@ -266,11 +298,17 @@ class AugmentedViewController: ARViewController {
                 }
                 print(placename)
             }
+
+            //let placeVC = PlaceDetailViewController()
+            //detailVCs.append(placeVC)
         }
         print(annotationsToAdd.count)
         self.setAnnotations(annotationsToAdd)
         view.bringSubview(toFront: controlsContainerView)
         view.sendSubview(toBack: sceneView)
+
+//        let pageVC = detailContainerView.subviews[0] as! DetailPageViewController
+//        pageVC.detailVCs = detailVCs
      }
 
     func refreshPins(withList list: List) {
@@ -337,6 +375,9 @@ class AugmentedViewController: ARViewController {
         // Remove existing pins from HDAR view
         let noAnnotations: [HDAnnotation] = []
         self.setAnnotations(noAnnotations)
+
+        // Empty out placeDetailVCs
+        detailVCs = []
     }
 
     func hidePlacesExcept(place: Place) {
@@ -471,7 +512,7 @@ class AugmentedViewController: ARViewController {
     @objc func onMapTap(recognizer: UITapGestureRecognizer) {
         print("tapped")
         let location = recognizer.location(in: sceneView)
-        dismissDetailView()
+        closeDetails()
         let hitResults = sceneView.hitTest(location, options: nil)
         if hitResults.count > 0 {
             print("hit")
@@ -509,23 +550,14 @@ class AugmentedViewController: ARViewController {
 
     @IBAction func onMapButton(_ sender: Any) {
         slideMap()
-        dismissDetailView()
+        if detailTop != nil {
+            closeDetails()
+        }
     }
 
     @IBAction func onRefreshButton(_ sender: Any) {
         removeExistingPins()
         performFirstSearch()
-    }
-
-    func slideMap() {
-        // Slide map up/down from bottom
-        let distance = self.mapBottom?.constant == 0 ? mapView.frame.height : 0
-        self.mapBottom?.constant = distance
-        self.mapTop?.constant = distance
-
-        UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseOut], animations: {
-            self.view.layoutIfNeeded()
-        }, completion: nil)
     }
 
     @IBAction func onFilterButton(_ sender: Any) {
@@ -552,17 +584,66 @@ class AugmentedViewController: ARViewController {
         clearDirectionsButton.isHidden = true
     }
 
-    // MARK: - Navigation
+    @IBAction func onBGTap(_ sender: Any) {
+        hasCollapsed()
+    }
+
+
+    // MARK: - Detail Card Presentation
 
     func showDetailVC(forPlace place: Place) {
-        /*let storyboard = UIStoryboard(name: "Detail", bundle: nil)
-        let detailNavVC = storyboard.instantiateViewController(withIdentifier: "PlaceDetailNavVC") as! UINavigationController
-        let detailVC = detailNavVC.topViewController as! PlaceDetailViewController
+        if !isMapHidden() {
+            slideMap()
+            print("sliding")
+        }
+
+        guard let storyboard = self.storyboard else {
+            print("nil storyboard")
+            return
+        }
+        let detailVC = storyboard.instantiateViewController(withIdentifier: "DetailVC") as! DetailViewController
         detailVC.place = place
-        present(detailNavVC, animated: true, completion: nil)*/
-        changePlaceDetailForDetailModelView(place: place)
-        showDetailView()
+        detailVC.delegate = self
+        addChildViewController(detailVC)
+        print("add child")
+        detailContainerView.translatesAutoresizingMaskIntoConstraints = false
+        detailContainerView.isHidden = false
+        detailTop = detailContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor, constant: 0)
+        detailTop.isActive = true
+        detailVC.view.frame = CGRect(x: 0, y: 0, width: detailContainerView.frame.size.width, height: detailContainerView.frame.size.height)
+
+        detailContainerView.addSubview(detailVC.view)
+        detailVC.didMove(toParentViewController: self)
+        detailVCs.append(detailVC)
+
+//        detailVC.delegate = self
+//        detailVCs.append(detailVC)
+//
+//        let pageVC = DetailPageViewController()
+//        pageVC.detailVCs = detailVCs
+//        addPageVC(viewController: pageVC)
+//        detailContainerView.isHidden = false
+
+//        let storyboard = UIStoryboard(name: "Detail", bundle: nil)
+//        let detailVC = storyboard.instantiateViewController(withIdentifier: "PlaceDetailVC") as! PlaceDetailViewController
+//        detailVC.place = place
+//        addChildViewController(detailVC)
+//        print("add child")
+//        detailVC.view.frame = CGRect(x: 0, y: 0, width: detailContainerView.bounds.size.width, height: detailContainerView.bounds.size.height)
+//        detailContainerView.addSubview(detailVC.view)
+//        detailVC.didMove(toParentViewController: self)
+
+        //changePlaceDetailForDetailModelView(place: place)
+        //showDetailView()
     }
+
+    private func addPageVC(viewController: UIViewController) {
+        self.addChildViewController(viewController)
+        viewController.view.frame = CGRect(x: 0, y: 0, width: detailContainerView.frame.size.width, height: detailContainerView.frame.size.height)
+        detailContainerView.addSubview(viewController.view)
+        viewController.didMove(toParentViewController: self)
+    }
+
 }
 
 // MARK: - HD Augmented Data Source
@@ -577,6 +658,7 @@ extension AugmentedViewController: ARDataSource {
     }
 }
 
+// MARK: - AnnotationView Delegate
 extension AugmentedViewController: AnnotationViewDelegate {
     func didTouch(annotationView: AnnotationView) {
         print("Tapped view for POI: \(annotationView.titleLabel?.text)")
@@ -586,7 +668,7 @@ extension AugmentedViewController: AnnotationViewDelegate {
     }
 }
 
-// MARK: - AnnotationManagerDelegate
+// MARK: - AnnotationManager Delegate
 
 extension AugmentedViewController: AnnotationManagerDelegate {
 
@@ -675,6 +757,7 @@ extension AugmentedViewController: AnnotationManagerDelegate {
 extension AugmentedViewController: MGLMapViewDelegate {
 
     func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
+        mapView.setCenter(currentCoordinates, zoomLevel: 14, animated: true)
         annotationManager.originLocation = currentLocation
         performFirstSearch()
 
@@ -872,8 +955,58 @@ extension AugmentedViewController {
     }
 }
 
-// MARK: - Place Detail presentation
+// MARK: - DetailViewController Delegate
 
+extension AugmentedViewController: DetailViewControllerDelegate {
+    func closeDetails() {
+        UIView.animate(withDuration: 0.7) {
+            self.fxView.effect = nil
+        }
+        self.fxView.isHidden = true
+        detailTop.isActive = false
+        detailContainerView.isHidden = true
+        detailVCs = []
+    }
+
+    func getDelDirections(for place: Place) {
+        getDirections(for: place)
+    }
+
+    func hasExpanded() {
+        detailTop.isActive = false
+        detailTop = detailContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0)
+        detailTop.isActive = true
+        print(" detail top at \(detailContainerView.frame.origin.y)")
+        detailVCs.last?.tableView.reloadData()
+        UIView.animate(withDuration: 0.7) {
+            self.fxView.effect = UIBlurEffect(style: .light)
+        }
+        self.fxView.isHidden = false
+    }
+
+    func hasCollapsed() {
+        detailTop.isActive = false
+        detailTop = detailContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor, constant: 0)
+        detailTop.isActive = true
+        print(" detail top at \(detailContainerView.frame.origin.y)")
+        detailVCs.last?.expanded = false
+        detailVCs.last?.tableView.reloadData()
+        UIView.animate(withDuration: 0.7) {
+            self.fxView.effect = nil
+        }
+        self.fxView.isHidden = true
+    }
+
+    func addTip(show: UIAlertController) {
+        present(show, animated: true, completion: nil)
+    }
+    
+    func addPlaceList(show: AddPlaceViewController) {
+        navigationController?.present(show, animated: true, completion: nil)
+    }
+}
+
+// MARK: - Old detail presentation
 extension AugmentedViewController {
     func changePlaceDetailForDetailModelView(place: Place) {
         placeImageView?.image = #imageLiteral(resourceName: "placeholder")
@@ -885,9 +1018,9 @@ extension AugmentedViewController {
     }
 
     func showDetailView() {
-        let distance = mapView.frame.height
-        self.mapBottom?.constant = distance
-        self.mapTop?.constant = distance
+        if !isMapHidden() {
+            slideMap()
+        }
         UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseOut], animations: {
             self.view.layoutIfNeeded()
         }, completion: nil)
@@ -908,8 +1041,8 @@ extension AugmentedViewController {
             print("no selected place")
             return
         }
-        print("delegating")
-        delegate?.showDetail(place: place)
+       // print("delegating")
+       // delegate?.showDetail(place: place)
 
     }
 

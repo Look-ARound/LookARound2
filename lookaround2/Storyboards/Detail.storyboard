@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3jc-yf-5N6">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3jc-yf-5N6">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -232,7 +232,7 @@
         <!--Place Detail View Controller-->
         <scene sceneID="oxE-nh-MYq">
             <objects>
-                <viewController modalPresentationStyle="overCurrentContext" id="lsg-RI-Zg0" customClass="PlaceDetailViewController" customModule="lookaround2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PlaceDetailVC" modalPresentationStyle="overCurrentContext" id="lsg-RI-Zg0" customClass="PlaceDetailViewController" customModule="lookaround2" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Hv3-hC-FMX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -243,7 +243,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cH1-Nm-VsN">
+                                        <visualEffectView opaque="NO" alpha="0.20000000000000001" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cH1-Nm-VsN">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" id="Gmz-lH-cfU">
@@ -263,7 +263,7 @@
                                 </connections>
                             </visualEffectView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kHX-hx-nFi" userLabel="Modal View">
-                                <rect key="frame" x="30" y="124" width="315" height="483"/>
+                                <rect key="frame" x="30" y="80" width="315" height="527"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MUS-ed-P4y" userLabel="Header View">
                                         <rect key="frame" x="0.0" y="0.0" width="315" height="64"/>
@@ -315,7 +315,7 @@
                                         </constraints>
                                     </view>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NPl-xq-lSm">
-                                        <rect key="frame" x="0.0" y="64" width="315" height="419"/>
+                                        <rect key="frame" x="0.0" y="64" width="315" height="463"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <view key="tableFooterView" contentMode="scaleToFill" id="e1P-WK-x6T" userLabel="Hide Extra Rows View">
@@ -477,10 +477,6 @@
                                                     </constraints>
                                                 </tableViewCellContentView>
                                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                <connections>
-                                                    <outlet property="authorLabel" destination="jhS-TE-9yF" id="ehK-Wm-6Z4"/>
-                                                    <outlet property="tipTextLabel" destination="ytb-dl-fWA" id="utB-Vn-33m"/>
-                                                </connections>
                                             </tableViewCell>
                                         </prototypes>
                                         <connections>
@@ -502,14 +498,14 @@
                             </view>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="gkO-bX-PKM" firstAttribute="bottom" secondItem="kHX-hx-nFi" secondAttribute="bottom" constant="60" id="BvY-XD-HKs"/>
-                            <constraint firstItem="gkO-bX-PKM" firstAttribute="trailing" secondItem="kHX-hx-nFi" secondAttribute="trailing" constant="30" id="LDr-MZ-Nl4"/>
-                            <constraint firstItem="v1S-2f-4mi" firstAttribute="bottom" secondItem="gkO-bX-PKM" secondAttribute="bottom" id="R47-Sb-v8e"/>
-                            <constraint firstItem="v1S-2f-4mi" firstAttribute="leading" secondItem="gkO-bX-PKM" secondAttribute="leading" id="aIj-sj-dFz"/>
+                            <constraint firstItem="v1S-2f-4mi" firstAttribute="bottom" secondItem="kHX-hx-nFi" secondAttribute="bottom" constant="60" id="BvY-XD-HKs"/>
+                            <constraint firstItem="v1S-2f-4mi" firstAttribute="trailing" secondItem="kHX-hx-nFi" secondAttribute="trailing" constant="30" id="LDr-MZ-Nl4"/>
+                            <constraint firstItem="v1S-2f-4mi" firstAttribute="bottom" secondItem="Hv3-hC-FMX" secondAttribute="bottom" id="R47-Sb-v8e"/>
+                            <constraint firstItem="v1S-2f-4mi" firstAttribute="leading" secondItem="Hv3-hC-FMX" secondAttribute="leading" id="aIj-sj-dFz"/>
                             <constraint firstItem="v1S-2f-4mi" firstAttribute="top" secondItem="Hv3-hC-FMX" secondAttribute="top" id="bql-eb-Zjm"/>
-                            <constraint firstItem="kHX-hx-nFi" firstAttribute="top" secondItem="gkO-bX-PKM" secondAttribute="top" constant="60" id="jYS-XF-eEu"/>
-                            <constraint firstItem="v1S-2f-4mi" firstAttribute="trailing" secondItem="gkO-bX-PKM" secondAttribute="trailing" id="ma4-wh-JAr"/>
-                            <constraint firstItem="kHX-hx-nFi" firstAttribute="leading" secondItem="gkO-bX-PKM" secondAttribute="leading" constant="30" id="o0O-ci-o6Y"/>
+                            <constraint firstItem="kHX-hx-nFi" firstAttribute="top" secondItem="v1S-2f-4mi" secondAttribute="top" constant="80" id="jYS-XF-eEu"/>
+                            <constraint firstItem="v1S-2f-4mi" firstAttribute="trailing" secondItem="Hv3-hC-FMX" secondAttribute="trailing" id="ma4-wh-JAr"/>
+                            <constraint firstItem="kHX-hx-nFi" firstAttribute="leading" secondItem="v1S-2f-4mi" secondAttribute="leading" constant="30" id="o0O-ci-o6Y"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="gkO-bX-PKM"/>
                     </view>
@@ -534,7 +530,7 @@
         <!--Add Place-->
         <scene sceneID="veh-43-oLH">
             <objects>
-                <viewController title="Add Place" id="7TG-jw-AJm" customClass="AddPlaceViewController" customModule="lookaround2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddPlaceViewController" title="Add Place" id="7TG-jw-AJm" customClass="AddPlaceViewController" customModule="lookaround2" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="g6p-YR-QRq">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -623,24 +619,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="39C-KX-xgk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-118" y="755"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="1gA-1q-32M">
-            <objects>
-                <navigationController storyboardIdentifier="PlaceDetailNavVC" automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="overCurrentContext" useStoryboardIdentifierAsRestorationIdentifier="YES" id="zK1-Ke-vig" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="uUi-54-MmU">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="lsg-RI-Zg0" kind="relationship" relationship="rootViewController" id="1eu-eX-EQ9"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="QH0-d5-Ofl" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-65" y="1510"/>
         </scene>
     </scenes>
     <resources>
