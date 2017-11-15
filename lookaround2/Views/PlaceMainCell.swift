@@ -15,10 +15,10 @@ import UIKit
 class PlaceMainCell: UITableViewCell {
     @IBOutlet private var nameLabel: UILabel!
     @IBOutlet private var categoryLabel: UILabel!
-//    @IBOutlet private var checkinsCountLabel: UILabel!
-//    @IBOutlet private var friendsCountLabel: UILabel!
-//    @IBOutlet private var checkInImageView: UIImageView!
-//    @IBOutlet private var likeImageView: UIImageView!
+    @IBOutlet private var checkinsCountLabel: UILabel!
+    @IBOutlet private var friendsCountLabel: UILabel!
+    @IBOutlet private var checkInImageView: UIImageView!
+    @IBOutlet private var likeImageView: UIImageView!
     @IBOutlet private var placeImageView: UIImageView!
     @IBOutlet weak var addListButton: UIButton!
     @IBOutlet private var directionsButton: UIButton!
@@ -43,11 +43,11 @@ class PlaceMainCell: UITableViewCell {
             return
         }
         nameLabel.text = place.name
-        //checkinsCountLabel.text = "\(place.checkins ?? 0) checkins"
+        checkinsCountLabel.text = "\(place.checkins ?? 0) checkins"
         categoryLabel.text = place.category
         imageURLString = place.picture
         setupThemeColors()
-        //setupFriendsCountLabel(contextCount: place.contextCount ?? 0)
+        setupFriendsCountLabel(contextCount: place.contextCount ?? 0)
         //self.contentView.layoutIfNeeded()
         //self.layoutIfNeeded()
         //self.layoutSubviews()
@@ -57,32 +57,32 @@ class PlaceMainCell: UITableViewCell {
     private func setupThemeColors() {
         nameLabel.textColor = UIColor.LABrand.standard
         categoryLabel.textColor = UIColor.LABrand.detail
-//        checkinsCountLabel.textColor = UIColor.LABrand.detail
-//        friendsCountLabel.textColor = UIColor.LABrand.standard
-//        checkInImageView.tintColor = UIColor.LABrand.detail
-//        likeImageView.tintColor = UIColor.LABrand.detail
-//        addListButton.tintColor = UIColor.LABrand.primary
-//        directionsButton.tintColor = UIColor.LABrand.primary
+        checkinsCountLabel.textColor = UIColor.LABrand.detail
+        friendsCountLabel.textColor = UIColor.LABrand.accent
+        checkInImageView.tintColor = UIColor.LABrand.detail
+        likeImageView.tintColor = UIColor.LABrand.detail
+        addListButton.tintColor = UIColor.LABrand.primary
+        directionsButton.tintColor = UIColor.LABrand.primary
     }
     
-//    private func setupFriendsCountLabel(contextCount: Int) {
-//        switch contextCount {
-//        case 1:
-//            friendsCountLabel.text = "\(contextCount) friend likes this"
-//            friendsCountLabel.isHidden = false
-//            likeImageView.isHidden = false
-//        case _ where contextCount > 1:
-//            friendsCountLabel.text = "\(contextCount) friends like this"
-//            friendsCountLabel.isHidden = false
-//            likeImageView.isHidden = false
-//        case 0:
-//            friendsCountLabel.isHidden = true
-//            likeImageView.isHidden = true
-//        default:
-//            friendsCountLabel.isHidden = true
-//            likeImageView.isHidden = true
-//        }
-//    }
+    private func setupFriendsCountLabel(contextCount: Int) {
+        switch contextCount {
+        case 1:
+            friendsCountLabel.text = "\(contextCount) friend likes this"
+            friendsCountLabel.isHidden = false
+            likeImageView.isHidden = false
+        case _ where contextCount > 1:
+            friendsCountLabel.text = "\(contextCount) friends like this"
+            friendsCountLabel.isHidden = false
+            likeImageView.isHidden = false
+        case 0:
+            friendsCountLabel.isHidden = true
+            likeImageView.isHidden = true
+        default:
+            friendsCountLabel.isHidden = true
+            likeImageView.isHidden = true
+        }
+    }
     
     @IBAction func onDirectionsButton(_ sender: Any) {
         guard let place = place else {
