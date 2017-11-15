@@ -970,7 +970,6 @@ extension AugmentedViewController: DetailViewControllerDelegate {
         self.fxView.isHidden = true
         detailTop.isActive = false
         detailContainerView.isHidden = true
-        detailVCs = []
     }
 
     func getDelDirections(for place: Place) {

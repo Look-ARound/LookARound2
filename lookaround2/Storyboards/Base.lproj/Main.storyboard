@@ -209,7 +209,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="751" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="N7R-nz-VEM">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="751" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" contentViewInsetsToSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N7R-nz-VEM">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="LLy-DN-9Vc">
@@ -297,11 +297,11 @@
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PlaceLinkCell" id="59u-ku-RqI" customClass="PlaceLinkCell" customModule="lookaround2" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="145" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="59u-ku-RqI" id="PIV-gg-K8s">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="59u-ku-RqI" id="PIV-gg-K8s">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="detailDisclosure" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oB3-pL-q9a">
+                                                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="detailDisclosure" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oB3-pL-q9a">
                                                     <rect key="frame" x="8" y="8" width="45" height="45.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="45" id="Vi9-Fa-eo0"/>
@@ -311,7 +311,7 @@
                                                         <action selector="onVisitPageButton:" destination="59u-ku-RqI" eventType="touchUpInside" id="um2-jY-X9H"/>
                                                     </connections>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cQn-0K-laa">
+                                                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cQn-0K-laa">
                                                     <rect key="frame" x="57" y="8" width="139" height="45.5"/>
                                                     <state key="normal" title="Visit Facebook Page"/>
                                                     <connections>
@@ -320,11 +320,11 @@
                                                 </button>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="cQn-0K-laa" firstAttribute="top" secondItem="PIV-gg-K8s" secondAttribute="top" constant="8" id="1Q3-Z7-Mfy"/>
+                                                <constraint firstItem="cQn-0K-laa" firstAttribute="top" relation="greaterThanOrEqual" secondItem="PIV-gg-K8s" secondAttribute="top" constant="8" id="1Q3-Z7-Mfy"/>
                                                 <constraint firstItem="cQn-0K-laa" firstAttribute="centerY" secondItem="oB3-pL-q9a" secondAttribute="centerY" id="5eQ-ml-a3a"/>
                                                 <constraint firstItem="oB3-pL-q9a" firstAttribute="top" secondItem="PIV-gg-K8s" secondAttribute="top" constant="8" id="7C9-Kh-Uk7"/>
                                                 <constraint firstAttribute="bottom" secondItem="oB3-pL-q9a" secondAttribute="bottom" constant="8" id="FeW-6V-0id"/>
-                                                <constraint firstAttribute="bottom" secondItem="cQn-0K-laa" secondAttribute="bottom" constant="8" id="QJi-qH-JzU"/>
+                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="cQn-0K-laa" secondAttribute="bottom" constant="8" id="QJi-qH-JzU"/>
                                                 <constraint firstItem="oB3-pL-q9a" firstAttribute="leading" secondItem="PIV-gg-K8s" secondAttribute="leading" constant="8" id="UOd-EH-yG5"/>
                                                 <constraint firstItem="cQn-0K-laa" firstAttribute="leading" secondItem="oB3-pL-q9a" secondAttribute="trailing" constant="4" id="XCU-uD-J5O"/>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="cQn-0K-laa" secondAttribute="trailing" constant="12" id="bEY-0V-muQ"/>
@@ -353,10 +353,10 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="t0w-og-sle" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="iRz-Ih-OYC" secondAttribute="leading" constant="12" id="0MM-xw-r6I"/>
+                            <constraint firstItem="t0w-og-sle" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="N7R-nz-VEM" secondAttribute="leading" constant="12" id="0MM-xw-r6I"/>
                             <constraint firstItem="N7R-nz-VEM" firstAttribute="trailing" secondItem="iRz-Ih-OYC" secondAttribute="trailing" id="3SS-Sp-fOG"/>
                             <constraint firstItem="N7R-nz-VEM" firstAttribute="leading" secondItem="iRz-Ih-OYC" secondAttribute="leading" id="Dl8-5y-z3m"/>
-                            <constraint firstItem="iRz-Ih-OYC" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="t0w-og-sle" secondAttribute="bottom" constant="12" id="El0-M0-vMi"/>
+                            <constraint firstItem="N7R-nz-VEM" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="t0w-og-sle" secondAttribute="bottom" constant="12" id="El0-M0-vMi"/>
                             <constraint firstItem="iRz-Ih-OYC" firstAttribute="bottom" secondItem="N7R-nz-VEM" secondAttribute="bottom" id="UhZ-zK-z3V"/>
                             <constraint firstItem="N7R-nz-VEM" firstAttribute="top" secondItem="iRz-Ih-OYC" secondAttribute="top" id="aD6-DE-NmL"/>
                             <constraint firstItem="N7R-nz-VEM" firstAttribute="trailing" secondItem="t0w-og-sle" secondAttribute="trailing" constant="12" id="iCK-no-IF1"/>
@@ -373,16 +373,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VeB-wY-ljU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="745.5" y="36.5"/>
-        </scene>
-        <!--AddPlaceViewController-->
-        <scene sceneID="IdZ-cS-Jk1">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Detail" referencedIdentifier="AddPlaceViewController" id="lWz-ZO-wxH" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="rtq-Le-3gB"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="fVz-R8-jZ9" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1224" y="36"/>
         </scene>
     </scenes>
     <resources>
