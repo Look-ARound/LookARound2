@@ -77,6 +77,7 @@ class AugmentedViewController: ARViewController {
     // directions routeline
     var waypointShapeCollectionFeature: MGLShapeCollectionFeature?
 
+    var pageVC: UIPageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
     var detailVCs: [DetailViewController] = []
     var currentIndex = 0
 
@@ -115,8 +116,10 @@ class AugmentedViewController: ARViewController {
         detailTop.isActive = false
         detailContainerView.isHidden = true
         fxView.isHidden = true
-
-
+        pageVC.dataSource = self
+        let scrollView = pageVC.view.subviews.filter { $0 is UIScrollView }.first as! UIScrollView
+        scrollView.contentInsetAdjustmentBehavior = .never
+        
         // Configure and style the 2D map view
         configureMapboxMapView()
 
@@ -308,16 +311,12 @@ class AugmentedViewController: ARViewController {
                 print(placename)
             }
 
-            //let placeVC = PlaceDetailViewController()
-            //detailVCs.append(placeVC)
+            addDetailVC(for: place)
         }
         print(annotationsToAdd.count)
         self.setAnnotations(annotationsToAdd)
         view.bringSubview(toFront: controlsContainerView)
         view.sendSubview(toBack: sceneView)
-
-//        let pageVC = detailContainerView.subviews[0] as! DetailPageViewController
-//        pageVC.detailVCs = detailVCs
      }
 
     func refreshPins(withList list: List) {
@@ -599,13 +598,8 @@ class AugmentedViewController: ARViewController {
 
 
     // MARK: - Detail Card Presentation
-
-    func showDetailVC(forPlace place: Place) {
-        if !isMapHidden() {
-            slideMap()
-            print("sliding")
-        }
-
+    
+    func addDetailVC(for place: Place) {
         guard let storyboard = self.storyboard else {
             print("nil storyboard")
             return
@@ -613,44 +607,46 @@ class AugmentedViewController: ARViewController {
         let detailVC = storyboard.instantiateViewController(withIdentifier: "DetailVC") as! DetailViewController
         detailVC.place = place
         detailVC.delegate = self
+        detailVC.view.frame = CGRect(x: 0, y: 0, width: detailContainerView.frame.size.width, height: detailContainerView.frame.size.height)
         addChildViewController(detailVC)
         print("add child")
+        
+        detailVCs.append(detailVC)
+    }
+    
+    func showDetailPageContainer() {
         detailContainerView.translatesAutoresizingMaskIntoConstraints = false
         detailContainerView.isHidden = false
         detailTop = detailContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor, constant: 0)
         detailTop.isActive = true
-        detailVC.view.frame = CGRect(x: 0, y: 0, width: detailContainerView.frame.size.width, height: detailContainerView.frame.size.height)
 
-        detailContainerView.addSubview(detailVC.view)
-        detailVC.didMove(toParentViewController: self)
-        detailVCs.append(detailVC)
-
-//        detailVC.delegate = self
-//        detailVCs.append(detailVC)
-//
-//        let pageVC = DetailPageViewController()
-//        pageVC.detailVCs = detailVCs
-//        addPageVC(viewController: pageVC)
-//        detailContainerView.isHidden = false
-
-//        let storyboard = UIStoryboard(name: "Detail", bundle: nil)
-//        let detailVC = storyboard.instantiateViewController(withIdentifier: "PlaceDetailVC") as! PlaceDetailViewController
-//        detailVC.place = place
-//        addChildViewController(detailVC)
-//        print("add child")
-//        detailVC.view.frame = CGRect(x: 0, y: 0, width: detailContainerView.bounds.size.width, height: detailContainerView.bounds.size.height)
-//        detailContainerView.addSubview(detailVC.view)
-//        detailVC.didMove(toParentViewController: self)
-
-        //changePlaceDetailForDetailModelView(place: place)
-        //showDetailView()
+    }
+    
+    func getIndexByPlace(place: Place) -> Int?{
+        let cardIndex = detailVCs.index(where: { $0.place == place })
+        return cardIndex
     }
 
-    private func addPageVC(viewController: UIViewController) {
-        self.addChildViewController(viewController)
-        viewController.view.frame = CGRect(x: 0, y: 0, width: detailContainerView.frame.size.width, height: detailContainerView.frame.size.height)
-        detailContainerView.addSubview(viewController.view)
-        viewController.didMove(toParentViewController: self)
+    func showDetailVC(forPlace place: Place) {
+        if !isMapHidden() {
+            slideMap()
+            print("sliding")
+        }
+        
+        if let cardIndex = getIndexByPlace(place: place) {
+            print("\(cardIndex)")
+            pageVC.setViewControllers([detailVCs[cardIndex]], direction: .forward, animated: true, completion: nil)
+            self.addChildViewController(pageVC)
+            
+            pageVC.view.frame = CGRect(x: 0, y: 0, width: detailContainerView.frame.size.width, height: detailContainerView.frame.size.height)
+            
+            detailContainerView.addSubview(pageVC.view)
+            pageVC.didMove(toParentViewController: self)
+        } else {
+            print("card not found!")
+        }
+        showDetailPageContainer()
+        
     }
 
 }
@@ -974,7 +970,6 @@ extension AugmentedViewController: DetailViewControllerDelegate {
         self.fxView.isHidden = true
         detailTop.isActive = false
         detailContainerView.isHidden = true
-        detailVCs = []
     }
 
     func getDelDirections(for place: Place) {
@@ -1015,69 +1010,49 @@ extension AugmentedViewController: DetailViewControllerDelegate {
     }
 }
 
-// MARK: - Old detail presentation
-extension AugmentedViewController {
-    func changePlaceDetailForDetailModelView(place: Place) {
-        placeImageView?.image = #imageLiteral(resourceName: "placeholder")
-        placeNameLabel?.text = place.name
-        if let url = URL(string: place.picture ?? "") {
-            placeImageView?.setImageWith(url, placeholderImage: #imageLiteral(resourceName: "placeholder"))
-        }
-        currSelectedPlace = place
+// MARK: PageViewController Data Srouce
+extension AugmentedViewController: UIPageViewControllerDataSource {
+    func presentationCount(for pageViewController: UIPageViewController) -> Int {
+        return detailVCs.count
     }
-
-    func showDetailView() {
-        if !isMapHidden() {
-            slideMap()
+    
+    func presentationIndex(for pageViewController: UIPageViewController) -> Int {
+        guard let firstViewController = pageViewController.viewControllers?[0], let firstViewControllerIndex = detailVCs.index(of: firstViewController as! DetailViewController) else {
+            return 0
         }
-        UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseOut], animations: {
-            self.view.layoutIfNeeded()
-        }, completion: nil)
-        UIView.animate(withDuration: 0.3) {
-            self.modelDetailView.frame.origin.y = self.view.frame.height - 230
+        return firstViewControllerIndex
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        guard let currentPage = viewController as? DetailViewController else {
+            return nil
+        }
+        guard let currentIndex = detailVCs.index(of: currentPage) else {
+            return nil
+        }
+        if currentIndex > 0 {
+            let previousIndex = currentIndex - 1
+            let prevPage = detailVCs[previousIndex]
+            return prevPage
+        } else {
+            return detailVCs.last
         }
     }
-
-    func dismissDetailView() {
-        UIView.animate(withDuration: 0.3) {
-            self.modelDetailView.frame.origin.y = self.view.frame.height
+    
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        guard let currentPage = viewController as? DetailViewController else {
+            return nil
         }
-    }
-
-    @objc func onShowMoreDetailTap() {
-        dismissDetailView()
-        guard let place = currSelectedPlace else {
-            print("no selected place")
-            return
+        guard let currentIndex = detailVCs.index(of: currentPage) else {
+            return nil
         }
-       // print("delegating")
-       // delegate?.showDetail(place: place)
-
-    }
-
-    func addModelDetailView() {
-        modelDetailView = UIView(frame: CGRect(x: 20, y: self.view.frame.height, width: self.view.frame.width - 40, height: 200))
-        modelDetailView.backgroundColor = .white
-        modelDetailView.layer.masksToBounds = true
-        modelDetailView.layer.cornerRadius = 20
-//        let path = UIBezierPath(roundedRect:modelDetailView.bounds,
-//                                byRoundingCorners:[.topRight, .topLeft],
-//                                cornerRadii: CGSize(width: 20, height:  20))
-//        let maskLayer = CAShapeLayer()
-//        maskLayer.path = path.cgPath
-//        modelDetailView.layer.mask = maskLayer
-        modelDetailView.isUserInteractionEnabled = true
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(onShowMoreDetailTap))
-        modelDetailView.addGestureRecognizer(tapGestureRecognizer)
-        placeImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: modelDetailView.frame.width, height: modelDetailView.frame.height / 2))
-        placeImageView.contentMode = .scaleAspectFill
-        placeImageView.clipsToBounds = true
-        placeNameLabel = UILabel(frame: CGRect(x: 8, y: modelDetailView.frame.height / 2 + 8, width: modelDetailView.frame.width - 16, height: modelDetailView.frame.height / 2 - 16))
-        placeNameLabel.numberOfLines = 0
-        placeNameLabel.textAlignment = .center
-        placeNameLabel.font = UIFont.systemFont(ofSize: 20, weight: .light)
-        modelDetailView.addSubview(placeImageView)
-        modelDetailView.addSubview(placeNameLabel)
-        self.view.addSubview(modelDetailView)
+        let nextIndex = currentIndex + 1
+        if nextIndex < presentationCount(for: pageViewController) {
+            let nextPage = detailVCs[nextIndex]
+            return nextPage
+        } else {
+            return detailVCs.first
+        }
     }
 }
+
