@@ -16,26 +16,26 @@ import AZEmptyState
 
 class AddTipCell: UITableViewCell {
     @IBOutlet weak var addButton: UIButton!
-    
+
     internal var place: Place!
     internal var delegate: AddTipCellDelegate?
-    
+
     internal func initCell(for numTips: Int) {
         if numTips == 0 {
             setupEmptyState()
         } else {
             setupView()
         }
-        
+
     }
-    
+
     private func setupEmptyState() {
         self.contentView.backgroundColor = UIColor.LABrand.unselected
-        
+
         //init var
         let emptyFrame = CGRect(x: 0, y: 0, width: contentView.frame.size.width, height: 100)
         let emptyStateView = AZEmptyStateView(frame: emptyFrame)
-        
+
         //customize
         emptyStateView.image = #imageLiteral(resourceName: "arrived")
         emptyStateView.textLabel.textColor = UIColor.white
@@ -44,13 +44,13 @@ class AddTipCell: UITableViewCell {
         emptyStateView.buttonTint = UIColor.white
         emptyStateView.button.backgroundColor = UIColor.LABrand.accent
         emptyStateView.addTarget(self, action: #selector(onAddTip(_:)), for: .touchUpInside)
-        
+
         //add subview
         if let add = addButton {
             add.removeFromSuperview()
         }
         self.contentView.addSubview(emptyStateView)
-        
+
         //add autolayout
         emptyStateView.translatesAutoresizingMaskIntoConstraints = false
         emptyStateView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
@@ -58,12 +58,16 @@ class AddTipCell: UITableViewCell {
         emptyStateView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.6).isActive = true
         emptyStateView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.8).isActive = true
     }
-    
+
     private func setupView() {
         self.contentView.backgroundColor = UIColor.LABrand.detail
-        addButton.backgroundColor = UIColor.LABrand.primary
-        addButton.layer.cornerRadius = 5
-        addButton.clipsToBounds = true
+        if let add = addButton {
+            add.backgroundColor = UIColor.LABrand.primary
+            add.layer.cornerRadius = 5
+            add.clipsToBounds = true
+        } else {
+            print("nil button!")
+        }
     }
 
     override func awakeFromNib() {
@@ -75,7 +79,7 @@ class AddTipCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
+
     @IBAction private func onAddTip(_ sender: Any) {
         let alertVC = UIAlertController(title: "Add a tip", message: nil, preferredStyle: .alert)
         alertVC.addTextField {
@@ -92,7 +96,7 @@ class AddTipCell: UITableViewCell {
         alertVC.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         delegate?.presentVC(viewController: alertVC)
     }
-    
+
     private func addTip(text: String) {
         Tip.CreateTip(for: place.id, text: text) {
             tip, error in
