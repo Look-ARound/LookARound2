@@ -65,9 +65,9 @@ public class HDAnnotation: ARAnnotation {
     }
 }
 
-// MARK: - Annotation2D
+// MARK: - Annotation class
 // Used for 2D map annotations & callouts and for AR directions
-public class LAAnnotation2D: NSObject, MGLAnnotation {
+public class Annotation: NSObject, MGLAnnotation {
     
     public var location: CLLocation
     public var nodeImage: UIImage?

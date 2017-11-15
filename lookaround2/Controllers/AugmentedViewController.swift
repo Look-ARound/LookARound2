@@ -255,8 +255,9 @@ class AugmentedViewController: ARViewController {
             let place = places[index]
 
             let location = CLLocation(coordinate: place.coordinate, altitude: 50, horizontalAccuracy: 5, verticalAccuracy: 5, timestamp: Date())
-            let annotation2d = LAAnnotation2D(location: location, nodeImage: #imageLiteral(resourceName: "pin"), calloutImage: nil, place: place)
+            let annotation2d = Annotation(location: location, nodeImage: #imageLiteral(resourceName: "pin"), calloutImage: nil, place: place)
             mapView.addAnnotation(annotation2d)
+            // do not add annotation2d to AnnotationManager since we are using HD AR for place annotations
             
             if let annotation = HDAnnotation(location: location, leftImage: #imageLiteral(resourceName: "pin"), place: place) {
                 annotationsToAdd.append(annotation)
@@ -402,9 +403,8 @@ class AugmentedViewController: ARViewController {
                         self.updateShapeCollectionFeature(&self.waypointShapeCollectionFeature, with: stepLocation, typeKey: "waypoint-type", typeAttribute: "big")
 
                         // Add an AR node
-                        if let annotation = Annotation(location: stepLocation, calloutImage: self.calloutImage(for: step.description), place: nil) {
-                            self.directionsAnnotations.append(annotation)
-                        }
+                        let annotation = Annotation(location: stepLocation, calloutImage: self.calloutImage(for: step.description), place: nil)
+                        self.directionsAnnotations.append(annotation)
                     }
                 }
 
@@ -421,16 +421,15 @@ class AugmentedViewController: ARViewController {
                         self.updateShapeCollectionFeature(&self.waypointShapeCollectionFeature, with: interpolatedStepLocation, typeKey: "waypoint-type", typeAttribute: "small")
 
                         // Add an AR node
-                        if let annotation = Annotation(location: interpolatedStepLocation, calloutImage: nil, place: nil) {
+                        let annotation = Annotation(location: interpolatedStepLocation, calloutImage: nil, place: nil)
                             self.directionsAnnotations.append(annotation)
-                        }
                     }
                 }
 
                 // Update the source used for route line visualization with the latest waypoint shape collection
                 self.updateSource(identifer: "annotationSource", shape: self.waypointShapeCollectionFeature)
 
-                // Update the annotation manager with the latest AR annotations
+                // Update the annotation manager with all the AR directions annotations
                 self.annotationManager.addAnnotations(annotations: self.directionsAnnotations)
 
                 self.mapView.userTrackingMode = .followWithHeading
@@ -725,7 +724,7 @@ extension AugmentedViewController: MGLMapViewDelegate {
     }
 
     func mapView(_ mapView: MGLMapView, leftCalloutAccessoryViewFor annotation: MGLAnnotation) -> UIView? {
-        guard let augmentedAnnotation = annotation as? LAAnnotation2D, let place = augmentedAnnotation.place else {
+        guard let augmentedAnnotation = annotation as? Annotation, let place = augmentedAnnotation.place else {
             return UIView()
         }
         let detailButton = DetailButton(type: .detailDisclosure)
@@ -736,7 +735,7 @@ extension AugmentedViewController: MGLMapViewDelegate {
     }
 
     func mapView(_ mapView: MGLMapView, rightCalloutAccessoryViewFor annotation: MGLAnnotation) -> UIView? {
-        guard let augmentedAnnotation = annotation as? LAAnnotation2D, let place = augmentedAnnotation.place else {
+        guard let augmentedAnnotation = annotation as? Annotation, let place = augmentedAnnotation.place else {
             return UIView()
         }
         let directionsButton = DirectionsButton(type: .detailDisclosure)
@@ -747,7 +746,7 @@ extension AugmentedViewController: MGLMapViewDelegate {
     }
 
     func mapView(_ mapView: MGLMapView, tapOnCalloutFor annotation: MGLAnnotation) {
-        guard let augmentedAnnotation = annotation as? LAAnnotation2D, let place = augmentedAnnotation.place else {
+        guard let augmentedAnnotation = annotation as? Annotation, let place = augmentedAnnotation.place else {
             return
         }
         showDetailVC(forPlace: place)
@@ -909,7 +908,7 @@ extension AugmentedViewController {
             print("no selected place")
             return
         }
-
+        print("delegating")
         delegate?.showDetail(place: place)
 
     }

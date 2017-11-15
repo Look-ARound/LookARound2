@@ -8,6 +8,8 @@
 
 import UIKit
 
+// Used for ARKit annotation callouts to prep a custom callout view for a SCNPlane on a SCNNode
+// Not used when HD Augmented Reality is used for callouts
 class AugmentedCalloutView: UIView {
     var annotation: Annotation? {
         didSet {
